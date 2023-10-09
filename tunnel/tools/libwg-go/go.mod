@@ -3,7 +3,7 @@ module golang.zx2c4.com/wireguard/android
 go 1.20
 
 require (
-	github.com/amnezia-vpn/amnezia-wg v0.1.4
+	github.com/amnezia-vpn/amnezia-wg v0.1.5
 	golang.org/x/sys v0.13.0
 )
 
