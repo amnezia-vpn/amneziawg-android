@@ -11,15 +11,11 @@ plugins {
 }
 
 android {
-    compileSdk = 34
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
     namespace = "${pkg}.tunnel"
-    defaultConfig {
-        minSdk = 21
-    }
     externalNativeBuild {
         cmake {
             path("tools/CMakeLists.txt")
