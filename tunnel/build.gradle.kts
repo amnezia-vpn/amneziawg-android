@@ -2,7 +2,7 @@
 
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
-val pkg: String = providers.gradleProperty("wireguardPackageName").get()
+val pkg: String = providers.gradleProperty("amneziawgPackageName").get()
 
 plugins {
     alias(libs.plugins.android.library)
@@ -72,7 +72,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = pkg
             artifactId = "tunnel"
-            version = providers.gradleProperty("wireguardVersionName").get()
+            version = providers.gradleProperty("amneziawgVersionName").get()
             afterEvaluate {
                 from(components["release"])
             }
