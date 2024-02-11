@@ -1,6 +1,6 @@
-[submodule "tunnel/tools/wireguard-tools"]
-	path = tunnel/tools/wireguard-tools
-	url = https://github.com/amnezia-vpn/amnezia-wg-tools
+[submodule "tunnel/tools/amneziawg-tools"]
+	path = tunnel/tools/amneziawg-tools
+	url = https://github.com/amnezia-vpn/amneziawg-tools
 [submodule "tunnel/tools/elf-cleaner"]
 	path = tunnel/tools/elf-cleaner
 	url = https://github.com/termux/termux-elf-cleaner
