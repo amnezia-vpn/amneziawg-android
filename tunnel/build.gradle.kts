@@ -2,7 +2,7 @@
 
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
-val pkg: String = providers.gradleProperty("wireguardPackageName").get()
+val pkg: String = providers.gradleProperty("amneziawgPackageName").get()
 
 plugins {
     alias(libs.plugins.android.library)
@@ -11,15 +11,11 @@ plugins {
 }
 
 android {
-    compileSdk = 34
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
     namespace = "${pkg}.tunnel"
-    defaultConfig {
-        minSdk = 21
-    }
     externalNativeBuild {
         cmake {
             path("tools/CMakeLists.txt")
@@ -76,7 +72,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = pkg
             artifactId = "tunnel"
-            version = providers.gradleProperty("wireguardVersionName").get()
+            version = providers.gradleProperty("amneziawgVersionName").get()
             afterEvaluate {
                 from(components["release"])
             }

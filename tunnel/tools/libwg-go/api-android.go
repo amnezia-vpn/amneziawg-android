@@ -20,11 +20,11 @@ import (
 	"strings"
 	"unsafe"
 
+	"github.com/amnezia-vpn/amneziawg-go/conn"
+	"github.com/amnezia-vpn/amneziawg-go/device"
+	"github.com/amnezia-vpn/amneziawg-go/ipc"
+	"github.com/amnezia-vpn/amneziawg-go/tun"
 	"golang.org/x/sys/unix"
-	"github.com/amnezia-vpn/amnezia-wg/conn"
-	"github.com/amnezia-vpn/amnezia-wg/device"
-	"github.com/amnezia-vpn/amnezia-wg/ipc"
-	"github.com/amnezia-vpn/amnezia-wg/tun"
 )
 
 type AndroidLogger struct {
@@ -66,7 +66,7 @@ func init() {
 					n--
 				}
 				buf[n] = 0
-				C.__android_log_write(C.ANDROID_LOG_ERROR, cstring("WireGuard/GoBackend/Stacktrace"), (*C.char)(unsafe.Pointer(&buf[0])))
+				C.__android_log_write(C.ANDROID_LOG_ERROR, cstring("AmneziaWG/Stacktrace"), (*C.char)(unsafe.Pointer(&buf[0])))
 			}
 		}
 	}()
@@ -74,7 +74,7 @@ func init() {
 
 //export wgTurnOn
 func wgTurnOn(interfaceName string, tunFd int32, settings string) int32 {
-	tag := cstring("WireGuard/GoBackend/" + interfaceName)
+	tag := cstring("AmneziaWG/" + interfaceName)
 	logger := &device.Logger{
 		Verbosef: AndroidLogger{level: C.ANDROID_LOG_DEBUG, tag: tag}.Printf,
 		Errorf:   AndroidLogger{level: C.ANDROID_LOG_ERROR, tag: tag}.Printf,
@@ -213,7 +213,7 @@ func wgVersion() *C.char {
 		return C.CString("unknown")
 	}
 	for _, dep := range info.Deps {
-		if dep.Path == "github.com/amnezia-vpn/amnezia-wg" {
+		if dep.Path == "github.com/amnezia-vpn/amneziawg-go" {
 			parts := strings.Split(dep.Version, "-")
 			if len(parts) == 3 && len(parts[2]) == 12 {
 				return C.CString(parts[2][:7])
