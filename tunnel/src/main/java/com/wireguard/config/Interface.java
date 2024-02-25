@@ -414,7 +414,7 @@ public final class Interface {
 
         public Builder setMtu(final int mtu) throws BadConfigException {
             if (mtu < 0)
-                throw new BadConfigException(Section.INTERFACE, Location.LISTEN_PORT,
+                throw new BadConfigException(Section.INTERFACE, Location.MTU,
                         Reason.INVALID_VALUE, String.valueOf(mtu));
             this.mtu = mtu == 0 ? Optional.empty() : Optional.of(mtu);
             return this;
