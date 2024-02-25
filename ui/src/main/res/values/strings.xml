@@ -163,6 +163,15 @@
     <string name="module_installer_working">Downloading and installing…</string>
     <string name="module_version_error">Unable to determine kernel module version</string>
     <string name="mtu">MTU</string>
+    <string name="junk_packet_count">Jc</string>
+    <string name="junk_packet_min_size">Jmin</string>
+    <string name="junk_packet_max_size">Jmax</string>
+    <string name="init_packet_junk_size">S1</string>
+    <string name="response_packet_junk_size">S2</string>
+    <string name="init_packet_magic_header">H1</string>
+    <string name="response_packet_magic_header">H2</string>
+    <string name="underload_packet_magic_header">H3</string>
+    <string name="transport_packet_magic_header">H4</string>
     <string name="multiple_tunnels_summary_off">Turning on one tunnel will turn off others</string>
     <string name="multiple_tunnels_summary_on">Multiple tunnels may be turned on simultaneously</string>
     <string name="multiple_tunnels_title">Allow multiple simultaneous tunnels</string>

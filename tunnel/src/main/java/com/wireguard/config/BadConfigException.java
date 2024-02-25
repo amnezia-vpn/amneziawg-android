@@ -78,7 +78,16 @@ public class BadConfigException extends Exception {
         PERSISTENT_KEEPALIVE("PersistentKeepalive"),
         PRE_SHARED_KEY("PresharedKey"),
         PRIVATE_KEY("PrivateKey"),
-        PUBLIC_KEY("PublicKey");
+        PUBLIC_KEY("PublicKey"),
+        JUNK_PACKET_COUNT("JunkPacketCount"),
+        JUNK_PACKET_MIN_SIZE("JunkPacketMinSize"),
+        JUNK_PACKET_MAX_SIZE("JunkPacketMaxSize"),
+        INIT_PACKET_JUNK_SIZE("InitPacketJunkSize"),
+        RESPONSE_PACKET_JUNK_SIZE("ResponsePacketJunkSize"),
+        INIT_PACKET_MAGIC_HEADER("InitPacketMagicHeader"),
+        RESPONSE_PACKET_MAGIC_HEADER("ResponsePacketMagicHeader"),
+        UNDERLOAD_PACKET_MAGIC_HEADER("UnderloadPacketMagicHeader"),
+        TRANSPORT_PACKET_MAGIC_HEADER("TransportPacketMagicHeader");
 
         private final String name;
 

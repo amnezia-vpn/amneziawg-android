@@ -54,6 +54,69 @@ class InterfaceProxy : BaseObservable, Parcelable {
         }
 
     @get:Bindable
+    var junkPacketCount: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.junkPacketCount)
+        }
+
+    @get:Bindable
+    var junkPacketMinSize: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.junkPacketMinSize)
+        }
+
+    @get:Bindable
+    var junkPacketMaxSize: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.junkPacketMaxSize)
+        }
+
+    @get:Bindable
+    var initPacketJunkSize: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.initPacketJunkSize)
+        }
+
+    @get:Bindable
+    var responsePacketJunkSize: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.responsePacketJunkSize)
+        }
+
+    @get:Bindable
+    var initPacketMagicHeader: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.initPacketMagicHeader)
+        }
+
+    @get:Bindable
+    var responsePacketMagicHeader: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.responsePacketMagicHeader)
+        }
+
+    @get:Bindable
+    var underloadPacketMagicHeader: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.underloadPacketMagicHeader)
+        }
+
+    @get:Bindable
+    var transportPacketMagicHeader: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.transportPacketMagicHeader)
+        }
+
+    @get:Bindable
     var privateKey: String = ""
         set(value) {
             field = value
@@ -76,6 +139,15 @@ class InterfaceProxy : BaseObservable, Parcelable {
         parcel.readStringList(includedApplications)
         listenPort = parcel.readString() ?: ""
         mtu = parcel.readString() ?: ""
+        junkPacketCount = parcel.readString() ?: ""
+        junkPacketMinSize = parcel.readString() ?: ""
+        junkPacketMaxSize = parcel.readString() ?: ""
+        initPacketJunkSize = parcel.readString() ?: ""
+        responsePacketJunkSize = parcel.readString() ?: ""
+        initPacketMagicHeader = parcel.readString() ?: ""
+        responsePacketMagicHeader = parcel.readString() ?: ""
+        underloadPacketMagicHeader = parcel.readString() ?: ""
+        transportPacketMagicHeader = parcel.readString() ?: ""
         privateKey = parcel.readString() ?: ""
     }
 
@@ -87,6 +159,15 @@ class InterfaceProxy : BaseObservable, Parcelable {
         includedApplications.addAll(other.includedApplications)
         listenPort = other.listenPort.map { it.toString() }.orElse("")
         mtu = other.mtu.map { it.toString() }.orElse("")
+        junkPacketCount = other.junkPacketCount.map { it.toString() }.orElse("")
+        junkPacketMinSize = other.junkPacketMinSize.map { it.toString() }.orElse("")
+        junkPacketMaxSize = other.junkPacketMaxSize.map { it.toString() }.orElse("")
+        initPacketJunkSize = other.initPacketJunkSize.map { it.toString() }.orElse("")
+        responsePacketJunkSize = other.responsePacketJunkSize.map { it.toString() }.orElse("")
+        initPacketMagicHeader = other.initPacketMagicHeader.map { it.toString() }.orElse("")
+        responsePacketMagicHeader = other.responsePacketMagicHeader.map { it.toString() }.orElse("")
+        underloadPacketMagicHeader = other.underloadPacketMagicHeader.map { it.toString() }.orElse("")
+        transportPacketMagicHeader = other.transportPacketMagicHeader.map { it.toString() }.orElse("")
         val keyPair = other.keyPair
         privateKey = keyPair.privateKey.toBase64()
     }
@@ -111,6 +192,15 @@ class InterfaceProxy : BaseObservable, Parcelable {
         if (includedApplications.isNotEmpty()) builder.includeApplications(includedApplications)
         if (listenPort.isNotEmpty()) builder.parseListenPort(listenPort)
         if (mtu.isNotEmpty()) builder.parseMtu(mtu)
+        if (junkPacketCount.isNotEmpty()) builder.parseJunkPacketCount(junkPacketCount)
+        if (junkPacketMinSize.isNotEmpty()) builder.parseJunkPacketMinSize(junkPacketMinSize)
+        if (junkPacketMaxSize.isNotEmpty()) builder.parseJunkPacketMaxSize(junkPacketMaxSize)
+        if (initPacketJunkSize.isNotEmpty()) builder.parseInitPacketJunkSize(initPacketJunkSize)
+        if (responsePacketJunkSize.isNotEmpty()) builder.parseResponsePacketJunkSize(responsePacketJunkSize)
+        if (initPacketMagicHeader.isNotEmpty()) builder.parseInitPacketMagicHeader(initPacketMagicHeader)
+        if (responsePacketMagicHeader.isNotEmpty()) builder.parseResponsePacketMagicHeader(responsePacketMagicHeader)
+        if (underloadPacketMagicHeader.isNotEmpty()) builder.parseUnderloadPacketMagicHeader(underloadPacketMagicHeader)
+        if (transportPacketMagicHeader.isNotEmpty()) builder.parseTransportPacketMagicHeader(transportPacketMagicHeader)
         if (privateKey.isNotEmpty()) builder.parsePrivateKey(privateKey)
         return builder.build()
     }
@@ -122,6 +212,15 @@ class InterfaceProxy : BaseObservable, Parcelable {
         dest.writeStringList(includedApplications)
         dest.writeString(listenPort)
         dest.writeString(mtu)
+        dest.writeString(junkPacketCount)
+        dest.writeString(junkPacketMinSize)
+        dest.writeString(junkPacketMaxSize)
+        dest.writeString(initPacketJunkSize)
+        dest.writeString(responsePacketJunkSize)
+        dest.writeString(initPacketMagicHeader)
+        dest.writeString(responsePacketMagicHeader)
+        dest.writeString(underloadPacketMagicHeader)
+        dest.writeString(transportPacketMagicHeader)
         dest.writeString(privateKey)
     }
 
