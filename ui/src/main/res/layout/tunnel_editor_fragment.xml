@@ -5,19 +5,19 @@
 
     <data>
 
-        <import type="com.wireguard.android.util.ClipboardUtils" />
+        <import type="org.amnezia.vpn.util.ClipboardUtils" />
 
-        <import type="com.wireguard.android.widget.KeyInputFilter" />
+        <import type="org.amnezia.vpn.widget.KeyInputFilter" />
 
-        <import type="com.wireguard.android.widget.NameInputFilter" />
+        <import type="org.amnezia.vpn.widget.NameInputFilter" />
 
         <variable
             name="fragment"
-            type="com.wireguard.android.fragment.TunnelEditorFragment" />
+            type="org.amnezia.vpn.fragment.TunnelEditorFragment" />
 
         <variable
             name="config"
-            type="com.wireguard.android.viewmodel.ConfigProxy" />
+            type="org.amnezia.vpn.viewmodel.ConfigProxy" />
 
         <variable
             name="name"

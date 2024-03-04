@@ -127,9 +127,9 @@
             android:exported="true"
             android:permission="${applicationId}.permission.CONTROL_TUNNELS">
             <intent-filter>
-                <action android:name="com.wireguard.android.action.REFRESH_TUNNEL_STATES" />
-                <action android:name="com.wireguard.android.action.SET_TUNNEL_UP" />
-                <action android:name="com.wireguard.android.action.SET_TUNNEL_DOWN" />
+                <action android:name="org.amnezia.vpn.action.REFRESH_TUNNEL_STATES" />
+                <action android:name="org.amnezia.vpn.action.SET_TUNNEL_UP" />
+                <action android:name="org.amnezia.vpn.action.SET_TUNNEL_DOWN" />
             </intent-filter>
         </receiver>
 
