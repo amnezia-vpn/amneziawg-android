@@ -36,6 +36,8 @@ import java.util.concurrent.TimeoutException;
 import androidx.annotation.Nullable;
 import androidx.collection.ArraySet;
 
+import static org.amnezia.vpn.protocol.wireguard.GoBackend.*;
+
 /**
  * Implementation of {@link Backend} that uses the wireguard-go userspace implementation to provide
  * WireGuard tunnels.
@@ -71,17 +73,7 @@ public final class GoBackend implements Backend {
         alwaysOnCallback = cb;
     }
 
-    @Nullable private static native String wgGetConfig(int handle);
 
-    private static native int wgGetSocketV4(int handle);
-
-    private static native int wgGetSocketV6(int handle);
-
-    private static native void wgTurnOff(int handle);
-
-    private static native int wgTurnOn(String ifName, int tunFd, String settings);
-
-    private static native String wgVersion();
 
     /**
      * Method to get the names of running tunnels.
