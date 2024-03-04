@@ -247,6 +247,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
                             android:hint="@string/junk_packet_count"
+                            app:expandedHintEnabled="false"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/dns_servers_label_layout">
@@ -271,7 +272,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:hint="@string/junk_packet_min_size"
-                            app:layout_constraintEnd_toStartOf="@id/junk_packet_max_size_layout"
+                            app:expandedHintEnabled="false"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/junk_packet_count_layout"
                             android:layout_margin="4dp">
@@ -296,9 +298,10 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
                             android:hint="@string/junk_packet_max_size"
+                            app:expandedHintEnabled="false"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/junk_packet_min_size_layout"
-                            app:layout_constraintTop_toBottomOf="@+id/junk_packet_count_layout">
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/junk_packet_min_size_layout">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/junk_packet_max_size_text"
@@ -319,9 +322,10 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:hint="@string/init_packet_junk_size"
-                            app:layout_constraintEnd_toStartOf="@id/response_packet_junk_size_layout"
+                            app:expandedHintEnabled="false"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/junk_packet_min_size_layout"
+                            app:layout_constraintTop_toBottomOf="@+id/junk_packet_max_size_layout"
                             android:layout_margin="4dp">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -344,9 +348,10 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
                             android:hint="@string/response_packet_junk_size"
+                            app:expandedHintEnabled="false"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/init_packet_junk_size_layout"
-                            app:layout_constraintTop_toBottomOf="@+id/junk_packet_min_size_layout">
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/init_packet_junk_size_layout">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/response_packet_junk_size_text"
@@ -367,9 +372,10 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:hint="@string/init_packet_magic_header"
-                            app:layout_constraintEnd_toStartOf="@id/response_packet_magic_header_layout"
+                            app:expandedHintEnabled="false"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/init_packet_junk_size_layout"
+                            app:layout_constraintTop_toBottomOf="@+id/response_packet_junk_size_layout"
                             android:layout_margin="4dp">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -392,9 +398,10 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
                             android:hint="@string/response_packet_magic_header"
+                            app:expandedHintEnabled="false"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/init_packet_magic_header_layout"
-                            app:layout_constraintTop_toBottomOf="@+id/init_packet_junk_size_layout">
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/init_packet_magic_header_layout">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/response_packet_magic_header_text"
@@ -415,9 +422,10 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:hint="@string/underload_packet_magic_header"
-                            app:layout_constraintEnd_toStartOf="@id/transport_packet_magic_header_layout"
+                            app:expandedHintEnabled="false"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/init_packet_magic_header_layout"
+                            app:layout_constraintTop_toBottomOf="@+id/response_packet_magic_header_layout"
                             android:layout_margin="4dp">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -440,9 +448,10 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
                             android:hint="@string/transport_packet_magic_header"
+                            app:expandedHintEnabled="false"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/underload_packet_magic_header_layout"
-                            app:layout_constraintTop_toBottomOf="@+id/init_packet_magic_header_layout">
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/underload_packet_magic_header_layout">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/transport_packet_magic_header_text"
@@ -473,7 +482,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/underload_packet_magic_header_layout"
+                            app:layout_constraintTop_toBottomOf="@id/transport_packet_magic_header_layout"
                             app:rippleColor="?attr/colorSecondary"
                             tools:text="4 excluded applications" />
                     </androidx.constraintlayout.widget.ConstraintLayout>

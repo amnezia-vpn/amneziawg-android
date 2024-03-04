@@ -306,7 +306,6 @@
                         android:labelFor="@+id/junk_packet_min_size_text"
                         android:text="@string/junk_packet_min_size"
                         android:visibility="@{!config.interface.junkPacketMinSize.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
-                        app:layout_constraintEnd_toStartOf="@+id/junk_packet_max_size_label"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/junk_packet_count_text" />
 
@@ -318,7 +317,6 @@
                         android:text="@{config.interface.junkPacketMinSize}"
                         android:textAppearance="?attr/textAppearanceBodyLarge"
                         android:visibility="@{!config.interface.junkPacketMinSize.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
-                        app:layout_constraintEnd_toStartOf="@+id/junk_packet_max_size_text"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/junk_packet_min_size_label"
                         tools:text="10" />
@@ -331,9 +329,8 @@
                         android:labelFor="@+id/junk_packet_max_size_text"
                         android:text="@string/junk_packet_max_size"
                         android:visibility="@{!config.interface.junkPacketMaxSize.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/junk_packet_min_size_label"
-                        app:layout_constraintTop_toBottomOf="@+id/junk_packet_count_text" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/junk_packet_min_size_text" />
 
                     <TextView
                         android:id="@+id/junk_packet_max_size_text"
@@ -343,9 +340,8 @@
                         android:text="@{config.interface.junkPacketMaxSize}"
                         android:textAppearance="?attr/textAppearanceBodyLarge"
                         android:visibility="@{!config.interface.junkPacketMaxSize.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/junk_packet_min_size_text"
-                        app:layout_constraintTop_toBottomOf="@+id/junk_packet_min_size_label"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/junk_packet_max_size_label"
                         tools:text="30" />
 
                     <TextView
@@ -356,9 +352,8 @@
                         android:labelFor="@+id/init_packet_junk_size_text"
                         android:text="@string/init_packet_junk_size"
                         android:visibility="@{!config.interface.initPacketJunkSize.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
-                        app:layout_constraintEnd_toStartOf="@+id/response_packet_junk_size_label"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/junk_packet_min_size_text" />
+                        app:layout_constraintTop_toBottomOf="@+id/junk_packet_max_size_text" />
 
                     <TextView
                         android:id="@+id/init_packet_junk_size_text"
@@ -368,7 +363,6 @@
                         android:text="@{config.interface.initPacketJunkSize}"
                         android:textAppearance="?attr/textAppearanceBodyLarge"
                         android:visibility="@{!config.interface.initPacketJunkSize.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
-                        app:layout_constraintEnd_toStartOf="@+id/response_packet_junk_size_text"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/init_packet_junk_size_label"
                         tools:text="15" />
@@ -381,9 +375,8 @@
                         android:labelFor="@+id/response_packet_junk_size_text"
                         android:text="@string/response_packet_junk_size"
                         android:visibility="@{!config.interface.responsePacketJunkSize.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/init_packet_junk_size_label"
-                        app:layout_constraintTop_toBottomOf="@+id/junk_packet_min_size_text" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/init_packet_junk_size_text" />
 
                     <TextView
                         android:id="@+id/response_packet_junk_size_text"
@@ -393,9 +386,8 @@
                         android:text="@{config.interface.responsePacketJunkSize}"
                         android:textAppearance="?attr/textAppearanceBodyLarge"
                         android:visibility="@{!config.interface.responsePacketJunkSize.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/init_packet_junk_size_text"
-                        app:layout_constraintTop_toBottomOf="@+id/init_packet_junk_size_label"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/response_packet_junk_size_label"
                         tools:text="18" />
 
                     <TextView
@@ -406,9 +398,8 @@
                         android:labelFor="@+id/init_packet_magic_header_text"
                         android:text="@string/init_packet_magic_header"
                         android:visibility="@{!config.interface.initPacketMagicHeader.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
-                        app:layout_constraintEnd_toStartOf="@+id/response_packet_magic_header_label"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/init_packet_junk_size_text" />
+                        app:layout_constraintTop_toBottomOf="@+id/response_packet_junk_size_text" />
 
                     <TextView
                         android:id="@+id/init_packet_magic_header_text"
@@ -418,7 +409,6 @@
                         android:text="@{config.interface.initPacketMagicHeader}"
                         android:textAppearance="?attr/textAppearanceBodyLarge"
                         android:visibility="@{!config.interface.initPacketMagicHeader.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
-                        app:layout_constraintEnd_toStartOf="@+id/response_packet_magic_header_text"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/init_packet_magic_header_label"
                         tools:text="1020325451" />
@@ -431,9 +421,8 @@
                         android:labelFor="@+id/response_packet_magic_header_text"
                         android:text="@string/response_packet_magic_header"
                         android:visibility="@{!config.interface.responsePacketMagicHeader.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/init_packet_magic_header_label"
-                        app:layout_constraintTop_toBottomOf="@+id/init_packet_junk_size_text" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/init_packet_magic_header_text" />
 
                     <TextView
                         android:id="@+id/response_packet_magic_header_text"
@@ -443,9 +432,8 @@
                         android:text="@{config.interface.responsePacketMagicHeader}"
                         android:textAppearance="?attr/textAppearanceBodyLarge"
                         android:visibility="@{!config.interface.responsePacketMagicHeader.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/init_packet_magic_header_text"
-                        app:layout_constraintTop_toBottomOf="@+id/init_packet_magic_header_label"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/response_packet_magic_header_label"
                         tools:text="3288052141" />
 
                     <TextView
@@ -456,9 +444,8 @@
                         android:labelFor="@+id/underload_packet_magic_header_text"
                         android:text="@string/underload_packet_magic_header"
                         android:visibility="@{!config.interface.underloadPacketMagicHeader.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
-                        app:layout_constraintEnd_toStartOf="@+id/transport_packet_magic_header_label"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/init_packet_magic_header_text" />
+                        app:layout_constraintTop_toBottomOf="@+id/response_packet_magic_header_text" />
 
                     <TextView
                         android:id="@+id/underload_packet_magic_header_text"
@@ -468,7 +455,6 @@
                         android:text="@{config.interface.underloadPacketMagicHeader}"
                         android:textAppearance="?attr/textAppearanceBodyLarge"
                         android:visibility="@{!config.interface.underloadPacketMagicHeader.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
-                        app:layout_constraintEnd_toStartOf="@+id/transport_packet_magic_header_text"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/underload_packet_magic_header_label"
                         tools:text="2528465083" />
@@ -481,9 +467,8 @@
                         android:labelFor="@+id/transport_packet_magic_header_text"
                         android:text="@string/transport_packet_magic_header"
                         android:visibility="@{!config.interface.transportPacketMagicHeader.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/underload_packet_magic_header_label"
-                        app:layout_constraintTop_toBottomOf="@+id/init_packet_magic_header_text" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/underload_packet_magic_header_text" />
 
                     <TextView
                         android:id="@+id/transport_packet_magic_header_text"
@@ -493,9 +478,8 @@
                         android:text="@{config.interface.transportPacketMagicHeader}"
                         android:visibility="@{!config.interface.transportPacketMagicHeader.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
                         android:textAppearance="?attr/textAppearanceBodyLarge"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/underload_packet_magic_header_text"
-                        app:layout_constraintTop_toBottomOf="@+id/underload_packet_magic_header_label"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/transport_packet_magic_header_label"
                         tools:text="1766607858" />
 
                     <androidx.constraintlayout.widget.Barrier
@@ -503,7 +487,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:barrierDirection="bottom"
-                        app:constraint_referenced_ids="underload_packet_magic_header_text,transport_packet_magic_header_text" />
+                        app:constraint_referenced_ids="transport_packet_magic_header_text" />
 
                     <TextView
                         android:id="@+id/applications_label"
