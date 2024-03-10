@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="WireGuardTheme.Toolbar" parent="Widget.Material3.Toolbar">
+    <style name="AmneziaWgTheme.Toolbar" parent="Widget.Material3.Toolbar">
         <item name="android:background">?attr/colorSurface</item>
     </style>
 
-    <style name="AppThemeBase" parent="WireGuardTheme">
-        <item name="materialCardViewStyle">@style/WireGuardTheme.MaterialCardView</item>
-        <item name="toolbarStyle">@style/WireGuardTheme.Toolbar</item>
-        <item name="bottomSheetDialogTheme">@style/WireGuardTheme.BottomSheetDialog</item>
+    <style name="AppThemeBase" parent="AmneziaWgTheme">
+        <item name="materialCardViewStyle">@style/AmneziaWgTheme.MaterialCardView</item>
+        <item name="toolbarStyle">@style/AmneziaWgTheme.Toolbar</item>
+        <item name="bottomSheetDialogTheme">@style/AmneziaWgTheme.BottomSheetDialog</item>
         <item name="android:statusBarColor">@null</item>
     </style>
 
     <!-- Various additional API-specific features in values-v*/styles.xml -->
     <style name="AppTheme" parent="AppThemeBase" />
 
-    <style name="WireGuardTheme.MaterialCardView" parent="Widget.Material3.CardView.Elevated">
+    <style name="AmneziaWgTheme.MaterialCardView" parent="Widget.Material3.CardView.Elevated">
         <item name="cornerRadius">4dp</item>
         <item name="contentPadding">8dp</item>
     </style>
 
-    <style name="WireGuardTheme.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
+    <style name="AmneziaWgTheme.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
         <item name="android:windowIsFloating">false</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>

@@ -5,19 +5,19 @@
 
     <data>
 
-        <import type="org.amnezia.vpn.util.ClipboardUtils" />
+        <import type="org.amnezia.awg.util.ClipboardUtils" />
 
-        <import type="org.amnezia.vpn.widget.KeyInputFilter" />
+        <import type="org.amnezia.awg.widget.KeyInputFilter" />
 
-        <import type="org.amnezia.vpn.widget.NameInputFilter" />
+        <import type="org.amnezia.awg.widget.NameInputFilter" />
 
         <variable
             name="fragment"
-            type="org.amnezia.vpn.fragment.TunnelEditorFragment" />
+            type="org.amnezia.awg.fragment.TunnelEditorFragment" />
 
         <variable
             name="config"
-            type="org.amnezia.vpn.viewmodel.ConfigProxy" />
+            type="org.amnezia.awg.viewmodel.ConfigProxy" />
 
         <variable
             name="name"

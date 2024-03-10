@@ -94,7 +94,7 @@
     <string name="hint_optional">(προαιρετικό)</string>
     <string name="key_contents_error">Μη έγκυροι χαρακτήρες στο κλειδί</string>
     <string name="key_length_error">Εσφαλμένο μήκος κλειδιού</string>
-    <string name="key_length_explanation_binary">: Τα κλειδιά του WireGuard πρέπει να είναι 32 bytes</string>
+    <string name="key_length_explanation_binary">: Τα κλειδιά του AmneziaWG πρέπει να είναι 32 bytes</string>
     <string name="log_export_title">Εξαγωγή αρχείου καταγραφής</string>
     <string name="log_saver_activity_label">Αποθήκευση αρχείου καταγραφής</string>
     <string name="log_viewer_title">Αρχείο καταγραφής</string>
@@ -120,7 +120,7 @@
     <string name="tunnel_error_invalid_name">Μη έγκυρο όνομα</string>
     <string name="unknown_error">Άγνωστο σφάλμα</string>
     <string name="version_summary_unknown">Άγνωστη έκδοση %s</string>
-    <string name="version_title">WireGuard για Android v%s</string>
+    <string name="version_title">AmneziaWG για Android v%s</string>
     <string name="biometric_auth_error">Αποτυχία ελέγχου ταυτότητας</string>
     <string name="biometric_auth_error_reason">Αποτυχία ελέγχου ταυτότητας: %s</string>
 </resources>

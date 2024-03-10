@@ -27,7 +27,7 @@
     <string name="add_peer">पीयर जोड़ें</string>
     <string name="addresses">एड्रेससैस</string>
     <string name="allowed_ips">अनुमत आईपी</string>
-    <string name="app_name">WireGuard</string>
+    <string name="app_name">AmneziaWG</string>
     <string name="bad_config_context">%1$s\'s %2$s</string>
     <string name="bad_config_context_top_level">%s</string>
     <string name="bad_config_error">%1$s in %2$s</string>
@@ -131,15 +131,15 @@
     <string name="shell_marker_count_error">शेल ने 4 मार्करों की अपेक्षा की, %d प्राप्त किया</string>
     <string name="shell_start_error">शेल शुरू करने में विफल: %d</string>
     <string name="toggle_error">वायरगार्ड टनल टॉगल करने में त्रुटि: %s</string>
-    <string name="tools_installer_already">wg और wg-quick पहले से इंस्टॉल हैं</string>
+    <string name="tools_installer_already">awg और awg-quick पहले से इंस्टॉल हैं</string>
     <string name="tools_installer_failure">कमांड-लाइन टूल स्थापित करने में असमर्थ (कोई रूट नहीं)</string>
     <string name="tools_installer_initial">स्क्रिप्टिंग के लिए वैकल्पिक उपकरण स्थापित करें</string>
     <string name="tools_installer_initial_magisk">Magisk मॉड्यूल के रूप में स्क्रिप्टिंग के लिए वैकल्पिक उपकरण स्थापित करें</string>
     <string name="tools_installer_initial_system">सिस्टम विभाजन में स्क्रिप्टिंग के लिए वैकल्पिक उपकरण स्थापित करें</string>
-    <string name="tools_installer_success_magisk">wg और wg-quick को मैजिक मॉड्यूल के रूप में स्थापित किया गया है (रिबूट आवश्यक)</string>
-    <string name="tools_installer_success_system">wg और wg-quick सिस्टम विभाजन में स्थापित है</string>
+    <string name="tools_installer_success_magisk">awg और awg-quick को मैजिक मॉड्यूल के रूप में स्थापित किया गया है (रिबूट आवश्यक)</string>
+    <string name="tools_installer_success_system">awg और awg-quick सिस्टम विभाजन में स्थापित है</string>
     <string name="tools_installer_title">कमांड लाइन उपकरण स्थापित करें</string>
-    <string name="tools_installer_working">Wg और wg-quick इंस्टॉल करना</string>
+    <string name="tools_installer_working">awg और awg-quick इंस्टॉल करना</string>
     <string name="tools_unavailable_error">आवश्यक उपकरण अनुपलब्ध हैं</string>
     <string name="transfer">स्थानांतरण</string>
     <string name="transfer_rx_tx">rx: %1$s, tx: %2$s</string>
@@ -149,7 +149,7 @@
     <string name="transfer_gibibytes">%.2f GiB</string>
     <string name="transfer_tibibytes">%.2f TiB</string>
     <string name="tun_create_error">ट्यून डिवाइस बनाने में असमर्थ</string>
-    <string name="tunnel_config_error">टनल को कॉन्फ़िगर करने में असमर्थ (wg-quick लौटा %d)</string>
+    <string name="tunnel_config_error">टनल को कॉन्फ़िगर करने में असमर्थ (awg-quick लौटा %d)</string>
     <string name="tunnel_create_error">टनल बनाने में असमर्थ: %s</string>
     <string name="tunnel_create_success">सफलतापूर्वक बनाया गया टनल “%s”</string>
     <string name="tunnel_error_already_exists">टनल “%s” पहले से मौजूद है</string>
@@ -164,7 +164,7 @@
     <string name="version_summary">%1$s बैकएंड %2$s</string>
     <string name="version_summary_checking">%s बैकएंड संस्करण की जाँच कर रहा है</string>
     <string name="version_summary_unknown">अज्ञात %s संस्करण</string>
-    <string name="version_title">WireGuard for Android v%s</string>
+    <string name="version_title">AmneziaWG for Android v%s</string>
     <string name="vpn_not_authorized_error">वीपीएन सेवा उपयोगकर्ता द्वारा अधिकृत नहीं है</string>
     <string name="vpn_start_error">एंड्रॉयड वीपीएन सेवा प्रारंभ करने में असमर्थ</string>
     <string name="zip_export_error">टनल का निर्यात करने में असमर्थ: %s</string>

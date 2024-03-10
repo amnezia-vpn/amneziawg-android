@@ -6,21 +6,21 @@
 
         <import type="android.view.View" />
 
-        <import type="org.amnezia.vpn.widget.KeyInputFilter" />
+        <import type="org.amnezia.awg.widget.KeyInputFilter" />
 
-        <import type="org.amnezia.vpn.databinding.BindingAdapters" />
+        <import type="org.amnezia.awg.databinding.BindingAdapters" />
 
         <variable
             name="collection"
-            type="androidx.databinding.ObservableList&lt;org.amnezia.vpn.viewmodel.PeerProxy&gt;" />
+            type="androidx.databinding.ObservableList&lt;org.amnezia.awg.viewmodel.PeerProxy&gt;" />
 
         <variable
             name="item"
-            type="org.amnezia.vpn.viewmodel.PeerProxy" />
+            type="org.amnezia.awg.viewmodel.PeerProxy" />
 
         <variable
             name="fragment"
-            type="org.amnezia.vpn.fragment.TunnelEditorFragment" />
+            type="org.amnezia.awg.fragment.TunnelEditorFragment" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

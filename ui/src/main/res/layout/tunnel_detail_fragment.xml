@@ -5,21 +5,21 @@
 
     <data>
 
-        <import type="org.amnezia.vpn.backend.Tunnel.State" />
+        <import type="org.amnezia.awg.backend.Tunnel.State" />
 
-        <import type="org.amnezia.vpn.util.ClipboardUtils" />
+        <import type="org.amnezia.awg.util.ClipboardUtils" />
 
         <variable
             name="fragment"
-            type="org.amnezia.vpn.fragment.TunnelDetailFragment" />
+            type="org.amnezia.awg.fragment.TunnelDetailFragment" />
 
         <variable
             name="tunnel"
-            type="org.amnezia.vpn.model.ObservableTunnel" />
+            type="org.amnezia.awg.model.ObservableTunnel" />
 
         <variable
             name="config"
-            type="org.amnezia.config.Config" />
+            type="org.amnezia.awg.config.Config" />
     </data>
 
     <ScrollView
@@ -57,7 +57,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <org.amnezia.vpn.widget.ToggleSwitch
+                    <org.amnezia.awg.widget.ToggleSwitch
                         android:id="@+id/tunnel_switch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
                         android:textAppearance="?attr/textAppearanceBodyLarge"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/interface_name_label"
-                        tools:text="wg0" />
+                        tools:text="awg0" />
 
                     <TextView
                         android:id="@+id/public_key_label"

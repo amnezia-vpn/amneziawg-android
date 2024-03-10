@@ -4,11 +4,11 @@
 
     <data>
 
-        <import type="org.amnezia.vpn.model.ApplicationData" />
+        <import type="org.amnezia.awg.model.ApplicationData" />
 
         <variable
             name="collection"
-            type="org.amnezia.vpn.databinding.ObservableKeyedArrayList&lt;String, org.amnezia.vpn.model.ApplicationData&gt;" />
+            type="org.amnezia.awg.databinding.ObservableKeyedArrayList&lt;String, org.amnezia.awg.model.ApplicationData&gt;" />
 
         <variable
             name="key"
@@ -16,7 +16,7 @@
 
         <variable
             name="item"
-            type="org.amnezia.vpn.model.ApplicationData" />
+            type="org.amnezia.awg.model.ApplicationData" />
     </data>
 
     <LinearLayout

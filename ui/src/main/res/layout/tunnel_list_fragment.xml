@@ -5,19 +5,19 @@
 
     <data>
 
-        <import type="org.amnezia.vpn.model.ObservableTunnel" />
+        <import type="org.amnezia.awg.model.ObservableTunnel" />
 
         <variable
             name="fragment"
-            type="org.amnezia.vpn.fragment.TunnelListFragment" />
+            type="org.amnezia.awg.fragment.TunnelListFragment" />
 
         <variable
             name="rowConfigurationHandler"
-            type="org.amnezia.vpn.databinding.ObservableKeyedRecyclerViewAdapter.RowConfigurationHandler" />
+            type="org.amnezia.awg.databinding.ObservableKeyedRecyclerViewAdapter.RowConfigurationHandler" />
 
         <variable
             name="tunnels"
-            type="org.amnezia.vpn.databinding.ObservableKeyedArrayList&lt;String, ObservableTunnel&gt;" />
+            type="org.amnezia.awg.databinding.ObservableKeyedArrayList&lt;String, ObservableTunnel&gt;" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
