@@ -2,7 +2,7 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="settings">
     <org.amnezia.awg.preference.VersionPreference
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_icon"
         android:key="version" />
     <CheckBoxPreference
         android:defaultValue="false"

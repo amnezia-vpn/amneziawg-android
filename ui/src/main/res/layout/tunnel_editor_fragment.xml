@@ -247,7 +247,6 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
                             android:hint="@string/junk_packet_count"
-                            app:expandedHintEnabled="false"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/dns_servers_label_layout">
@@ -256,14 +255,12 @@
                                 android:id="@+id/junk_packet_count_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/hint_automatic"
                                 android:imeOptions="actionNext"
                                 android:inputType="number"
                                 android:nextFocusUp="@id/mtu_text"
                                 android:nextFocusDown="@id/junk_packet_min_size_text"
                                 android:nextFocusForward="@id/junk_packet_min_size_text"
-                                android:text="@={config.interface.junkPacketCount}"
-                                android:textAlignment="center" />
+                                android:text="@={config.interface.junkPacketCount}" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -272,7 +269,6 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:hint="@string/junk_packet_min_size"
-                            app:expandedHintEnabled="false"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/junk_packet_count_layout"
@@ -282,14 +278,12 @@
                                 android:id="@+id/junk_packet_min_size_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/hint_automatic"
                                 android:imeOptions="actionNext"
                                 android:inputType="number"
                                 android:nextFocusUp="@id/junk_packet_count_text"
                                 android:nextFocusDown="@id/init_packet_junk_size_text"
                                 android:nextFocusForward="@id/junk_packet_max_size_text"
-                                android:text="@={config.interface.junkPacketMinSize}"
-                                android:textAlignment="center" />
+                                android:text="@={config.interface.junkPacketMinSize}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -298,7 +292,6 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
                             android:hint="@string/junk_packet_max_size"
-                            app:expandedHintEnabled="false"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/junk_packet_min_size_layout">
@@ -307,14 +300,12 @@
                                 android:id="@+id/junk_packet_max_size_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/hint_automatic"
                                 android:imeOptions="actionNext"
                                 android:inputType="number"
                                 android:nextFocusUp="@id/mtu_text"
                                 android:nextFocusDown="@id/response_packet_junk_size_text"
                                 android:nextFocusForward="@id/init_packet_junk_size_text"
-                                android:text="@={config.interface.junkPacketMaxSize}"
-                                android:textAlignment="center" />
+                                android:text="@={config.interface.junkPacketMaxSize}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -322,7 +313,6 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:hint="@string/init_packet_junk_size"
-                            app:expandedHintEnabled="false"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/junk_packet_max_size_layout"
@@ -332,14 +322,12 @@
                                 android:id="@+id/init_packet_junk_size_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/hint_automatic"
                                 android:imeOptions="actionNext"
                                 android:inputType="number"
                                 android:nextFocusUp="@id/junk_packet_min_size_text"
                                 android:nextFocusDown="@id/init_packet_magic_header_text"
                                 android:nextFocusForward="@id/response_packet_junk_size_text"
-                                android:text="@={config.interface.initPacketJunkSize}"
-                                android:textAlignment="center" />
+                                android:text="@={config.interface.initPacketJunkSize}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -348,7 +336,6 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
                             android:hint="@string/response_packet_junk_size"
-                            app:expandedHintEnabled="false"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/init_packet_junk_size_layout">
@@ -357,14 +344,12 @@
                                 android:id="@+id/response_packet_junk_size_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/hint_automatic"
                                 android:imeOptions="actionNext"
                                 android:inputType="number"
                                 android:nextFocusUp="@id/junk_packet_max_size_text"
                                 android:nextFocusDown="@id/response_packet_magic_header_text"
                                 android:nextFocusForward="@id/init_packet_magic_header_text"
-                                android:text="@={config.interface.responsePacketJunkSize}"
-                                android:textAlignment="center" />
+                                android:text="@={config.interface.responsePacketJunkSize}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -372,7 +357,6 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:hint="@string/init_packet_magic_header"
-                            app:expandedHintEnabled="false"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/response_packet_junk_size_layout"
@@ -382,14 +366,12 @@
                                 android:id="@+id/init_packet_magic_header_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/hint_automatic"
                                 android:imeOptions="actionNext"
                                 android:inputType="number"
                                 android:nextFocusUp="@id/init_packet_junk_size_text"
                                 android:nextFocusDown="@id/underload_packet_magic_header_text"
                                 android:nextFocusForward="@id/response_packet_magic_header_text"
-                                android:text="@={config.interface.initPacketMagicHeader}"
-                                android:textAlignment="center" />
+                                android:text="@={config.interface.initPacketMagicHeader}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -398,7 +380,6 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
                             android:hint="@string/response_packet_magic_header"
-                            app:expandedHintEnabled="false"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/init_packet_magic_header_layout">
@@ -407,14 +388,12 @@
                                 android:id="@+id/response_packet_magic_header_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/hint_automatic"
                                 android:imeOptions="actionNext"
                                 android:inputType="number"
                                 android:nextFocusUp="@id/response_packet_junk_size_text"
                                 android:nextFocusDown="@id/transport_packet_magic_header_text"
                                 android:nextFocusForward="@id/underload_packet_magic_header_text"
-                                android:text="@={config.interface.responsePacketMagicHeader}"
-                                android:textAlignment="center" />
+                                android:text="@={config.interface.responsePacketMagicHeader}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -422,7 +401,6 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:hint="@string/underload_packet_magic_header"
-                            app:expandedHintEnabled="false"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/response_packet_magic_header_layout"
@@ -432,14 +410,12 @@
                                 android:id="@+id/underload_packet_magic_header_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/hint_automatic"
                                 android:imeOptions="actionNext"
                                 android:inputType="number"
                                 android:nextFocusUp="@id/init_packet_magic_header_text"
                                 android:nextFocusDown="@id/set_excluded_applications"
                                 android:nextFocusForward="@id/transport_packet_magic_header_text"
-                                android:text="@={config.interface.underloadPacketMagicHeader}"
-                                android:textAlignment="center" />
+                                android:text="@={config.interface.underloadPacketMagicHeader}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -448,7 +424,6 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
                             android:hint="@string/transport_packet_magic_header"
-                            app:expandedHintEnabled="false"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/underload_packet_magic_header_layout">
@@ -457,14 +432,12 @@
                                 android:id="@+id/transport_packet_magic_header_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/hint_automatic"
                                 android:imeOptions="actionDone"
                                 android:inputType="number"
                                 android:nextFocusUp="@id/response_packet_magic_header_text"
                                 android:nextFocusDown="@id/set_excluded_applications"
                                 android:nextFocusForward="@id/set_excluded_applications"
-                                android:text="@={config.interface.transportPacketMagicHeader}"
-                                android:textAlignment="center" />
+                                android:text="@={config.interface.transportPacketMagicHeader}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.button.MaterialButton
