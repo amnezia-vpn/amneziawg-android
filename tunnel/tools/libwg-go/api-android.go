@@ -88,7 +88,7 @@ func awgTurnOn(interfaceName string, tunFd int32, settings string) int32 {
 	}
 
 	logger.Verbosef("Attaching to interface %v", name)
-	device := device.NewDevice(tun, conn.NewStdNetBind(), logger)
+	device := device.NewDevice(tun, conn.NewStdNetBind(), logger, false)
 
 	err = device.IpcSet(settings)
 	if err != nil {
