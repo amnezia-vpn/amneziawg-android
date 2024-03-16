@@ -6,7 +6,9 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission
+        android:name="android.permission.SYSTEM_ALERT_WINDOW"
+        android:minSdkVersion="34" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28"
@@ -112,21 +114,13 @@
         </receiver>
 
         <receiver
-            android:name=".updater.Updater$AppUpdatedReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
             android:name=".model.TunnelManager$IntentReceiver"
             android:exported="true"
             android:permission="${applicationId}.permission.CONTROL_TUNNELS">
             <intent-filter>
-                <action android:name="com.wireguard.android.action.REFRESH_TUNNEL_STATES" />
-                <action android:name="com.wireguard.android.action.SET_TUNNEL_UP" />
-                <action android:name="com.wireguard.android.action.SET_TUNNEL_DOWN" />
+                <action android:name="org.amnezia.awg.action.REFRESH_TUNNEL_STATES" />
+                <action android:name="org.amnezia.awg.action.SET_TUNNEL_UP" />
+                <action android:name="org.amnezia.awg.action.SET_TUNNEL_DOWN" />
             </intent-filter>
         </receiver>
 

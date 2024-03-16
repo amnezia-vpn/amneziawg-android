@@ -7,9 +7,9 @@
 
         <import type="android.view.View" />
 
-        <import type="com.wireguard.android.model.ObservableTunnel" />
+        <import type="org.amnezia.awg.model.ObservableTunnel" />
 
-        <import type="com.wireguard.android.backend.Tunnel.State" />
+        <import type="org.amnezia.awg.backend.Tunnel.State" />
 
         <variable
             name="isDeleting"
@@ -25,10 +25,10 @@
 
         <variable
             name="item"
-            type="com.wireguard.android.model.ObservableTunnel" />
+            type="org.amnezia.awg.model.ObservableTunnel" />
     </data>
 
-    <com.wireguard.android.widget.TvCardView
+    <org.amnezia.awg.widget.TvCardView
         android:layout_width="225dp"
         android:layout_height="110dp"
         android:layout_margin="8dp"
@@ -77,6 +77,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </com.wireguard.android.widget.TvCardView>
+    </org.amnezia.awg.widget.TvCardView>
 
 </layout>

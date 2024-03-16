@@ -3,18 +3,18 @@
   "names": [
     {
       "names": [
-        { "name": "wg0" },
-        { "name": "wg1" },
-        { "name": "wg2" },
-        { "name": "wg3" },
-        { "name": "wg4" },
-        { "name": "wg5" },
-        { "name": "wg6" },
-        { "name": "wg7" },
-        { "name": "wg8" },
-        { "name": "wg9" },
-        { "name": "wg10" },
-        { "name": "wg11" }
+        { "name": "awg0" },
+        { "name": "awg1" },
+        { "name": "awg2" },
+        { "name": "awg3" },
+        { "name": "awg4" },
+        { "name": "awg5" },
+        { "name": "awg6" },
+        { "name": "awg7" },
+        { "name": "awg8" },
+        { "name": "awg9" },
+        { "name": "awg10" },
+        { "name": "awg11" }
       ],
       "checked": [
         { "checked":  true },

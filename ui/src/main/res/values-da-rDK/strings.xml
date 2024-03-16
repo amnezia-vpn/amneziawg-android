@@ -20,6 +20,14 @@
         <item quantity="one">Importeret %d tunnel</item>
         <item quantity="other">Importeret %d tunneler</item>
     </plurals>
+    <plurals name="set_excluded_applications">
+        <item quantity="one">%d Ekskluderet Applikation</item>
+        <item quantity="other">%d Ekskluderet Applikationer</item>
+    </plurals>
+    <plurals name="set_included_applications">
+        <item quantity="one">%d Inkluderet Applikation</item>
+        <item quantity="other">%d Inkluderet Applikationer</item>
+    </plurals>
     <plurals name="n_excluded_applications">
         <item quantity="one">%d ekskluderet</item>
         <item quantity="other">%d ekskluderet</item>
@@ -77,18 +85,19 @@
     <string name="config_rename_error">Kan ikke omdøbe konfigurationsfilen \"%s\"</string>
     <string name="config_save_error">Kan ikke gemme konfigurationen for \"%1$s\": %2$s</string>
     <string name="config_save_success">Konfiguration for \"%s\" blev gemt</string>
-    <string name="create_activity_title">Opret WireGuard tunnel</string>
+    <string name="create_activity_title">Opret AmneziaWG tunnel</string>
     <string name="create_empty">Opret fra ny</string>
     <string name="create_from_file">Importér fra fil eller arkiv</string>
     <string name="create_from_qr_code">Scan fra QR-kode</string>
     <string name="create_tunnel">Opret Tunnel</string>
     <string name="copied_to_clipboard">%s kopieret til udklipsholder</string>
+    <string name="dark_theme_summary_off">Bruger lige nu lyst (dag) tema</string>
+    <string name="dark_theme_summary_on">Bruger lige nu mørkt (nat) tema</string>
     <string name="dark_theme_title">Brug mørkt tema</string>
     <string name="delete">Slet</string>
     <string name="tv_delete">Vælg tunnel du vil slette</string>
     <string name="tv_select_a_storage_drive">Vælg et lagerdrev</string>
     <string name="tv_add_tunnel_get_started">Tilføj en tunnel for at komme i gang</string>
-    <string name="donate_title">♥ Donér til WireGuard projektet</string>
     <string name="disable_config_export_title">Deaktivér eksportering af konfiguration</string>
     <string name="dns_servers">DNS-servere</string>
     <string name="dns_search_domains">DNS-søgedomæner</string>
@@ -111,9 +120,10 @@
     <string name="interface_title">Grænseflade</string>
     <string name="key_contents_error">Ugyldige tegn i nøgle</string>
     <string name="key_length_error">Forkert længde på nøgle</string>
+    <string name="latest_handshake_ago">%s siden</string>
     <string name="listen_port">Lytteport</string>
     <string name="log_export_error">Kunne ikke eksportere log: %s</string>
-    <string name="log_export_subject">WireGuard Android Log-fil</string>
+    <string name="log_export_subject">AmneziaWG Android Log-fil</string>
     <string name="log_export_success">Gemt til \"%s\"</string>
     <string name="log_export_title">Eksportér log-fil</string>
     <string name="log_saver_activity_label">Gem log</string>
@@ -144,8 +154,8 @@
     <string name="select_all">Vælg alle</string>
     <string name="settings">Indstillinger</string>
     <string name="toggle_all">Vælg/Fravælg Alle</string>
-    <string name="tools_installer_already">wg og wg-quick er allerede installeret</string>
-    <string name="tools_installer_working">Installerer wg og wg-quick</string>
+    <string name="tools_installer_already">awg og awg-quick er allerede installeret</string>
+    <string name="tools_installer_working">Installerer awg og awg-quick</string>
     <string name="transfer">Overførsel</string>
     <string name="transfer_bytes">%d B</string>
     <string name="transfer_gibibytes">%.2f GiB</string>
@@ -154,7 +164,7 @@
     <string name="transfer_rx_tx">rx: %1$s, tx: %2$s</string>
     <string name="transfer_tibibytes">%.2f TiB</string>
     <string name="tun_create_error">Kunne ikke oprette tun enhed</string>
-    <string name="tunnel_config_error">Kunne ikke konfigurere tunnel (wg-quick returnerede %d)</string>
+    <string name="tunnel_config_error">Kunne ikke konfigurere tunnel (awg-quick returnerede %d)</string>
     <string name="tunnel_create_error">Ikke i stand til at oprette tunnel: %s</string>
     <string name="tunnel_create_success">Tunnelen blev succesfuldt oprettet \"%s\"</string>
     <string name="tunnel_error_already_exists">Tunnel \"%s\" eksisterer allerede</string>
@@ -167,7 +177,7 @@
     <string name="type_name_kernel_module">Kerne modul</string>
     <string name="unknown_error">Ukendt fejl</string>
     <string name="version_summary_unknown">Ukendt %s version</string>
-    <string name="version_title">WireGuard for Android v%s</string>
+    <string name="version_title">AmneziaWG for Android v%s</string>
     <string name="zip_export_error">Ikke i stand til at eksportere tunneler: %s</string>
     <string name="zip_export_success">Gemt til \"%s\"</string>
     <string name="zip_export_title">Eksportér tunneler til zip-fil</string>

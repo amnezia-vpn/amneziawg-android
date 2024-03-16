@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="settings">
-    <com.wireguard.android.preference.VersionPreference
-        android:icon="@mipmap/ic_launcher"
+    <org.amnezia.awg.preference.VersionPreference
+        android:icon="@drawable/ic_icon"
         android:key="version" />
     <CheckBoxPreference
         android:defaultValue="false"
@@ -11,8 +11,8 @@
         android:summaryOff="@string/restore_on_boot_summary_off"
         android:summaryOn="@string/restore_on_boot_summary_on"
         android:title="@string/restore_on_boot_title" />
-    <com.wireguard.android.preference.ZipExporterPreference android:key="zip_exporter" />
-    <com.wireguard.android.preference.QuickTilePreference android:key="quick_tile" />
+    <org.amnezia.awg.preference.ZipExporterPreference android:key="zip_exporter" />
+    <org.amnezia.awg.preference.QuickTilePreference android:key="quick_tile" />
     <Preference
         android:key="log_viewer"
         android:singleLineTitle="false"
@@ -32,8 +32,8 @@
         android:summaryOff="@string/multiple_tunnels_summary_off"
         android:summaryOn="@string/multiple_tunnels_summary_on"
         android:title="@string/multiple_tunnels_title" />
-    <com.wireguard.android.preference.ToolsInstallerPreference android:key="tools_installer" />
-    <com.wireguard.android.preference.KernelModuleEnablerPreference android:key="kernel_module_enabler" />
+    <org.amnezia.awg.preference.ToolsInstallerPreference android:key="tools_installer" />
+    <org.amnezia.awg.preference.KernelModuleEnablerPreference android:key="kernel_module_enabler" />
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="allow_remote_control_intents"
@@ -41,5 +41,4 @@
         android:summaryOff="@string/allow_remote_control_intents_summary_off"
         android:summaryOn="@string/allow_remote_control_intents_summary_on"
         android:title="@string/allow_remote_control_intents_title" />
-    <com.wireguard.android.preference.DonatePreference android:singleLineTitle="false" />
 </androidx.preference.PreferenceScreen>

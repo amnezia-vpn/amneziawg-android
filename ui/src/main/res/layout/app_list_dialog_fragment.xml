@@ -7,15 +7,15 @@
 
         <import type="android.view.View" />
 
-        <import type="com.wireguard.android.model.ApplicationData" />
+        <import type="org.amnezia.awg.model.ApplicationData" />
 
         <variable
             name="fragment"
-            type="com.wireguard.android.fragment.AppListDialogFragment" />
+            type="org.amnezia.awg.fragment.AppListDialogFragment" />
 
         <variable
             name="appData"
-            type="com.wireguard.android.databinding.ObservableKeyedArrayList&lt;String, ApplicationData&gt;" />
+            type="org.amnezia.awg.databinding.ObservableKeyedArrayList&lt;String, ApplicationData&gt;" />
     </data>
 
     <LinearLayout

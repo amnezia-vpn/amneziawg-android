@@ -3,11 +3,10 @@
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 val pkg: String = providers.gradleProperty("amneziawgPackageName").get()
+val cmakeAndroidPackageName: String = providers.environmentVariable("ANDROID_PACKAGE_NAME").getOrElse(pkg)
 
 plugins {
     alias(libs.plugins.android.library)
-    `maven-publish`
-    signing
 }
 
 android {
@@ -36,14 +35,14 @@ android {
         release {
             externalNativeBuild {
                 cmake {
-                    arguments("-DANDROID_PACKAGE_NAME=${pkg}")
+                    arguments("-DANDROID_PACKAGE_NAME=${cmakeAndroidPackageName}")
                 }
             }
         }
         debug {
             externalNativeBuild {
                 cmake {
-                    arguments("-DANDROID_PACKAGE_NAME=${pkg}.debug")
+                    arguments("-DANDROID_PACKAGE_NAME=${cmakeAndroidPackageName}.debug")
                 }
             }
         }
@@ -52,12 +51,6 @@ android {
         disable += "LongLogTag"
         disable += "NewApi"
     }
-    publishing {
-        singleVariant("release") {
-            withJavadocJar()
-            withSourcesJar()
-        }
-    }
 }
 
 dependencies {
@@ -65,60 +58,4 @@ dependencies {
     implementation(libs.androidx.collection)
     compileOnly(libs.jsr305)
     testImplementation(libs.junit)
-}
-
-publishing {
-    publications {
-        register<MavenPublication>("release") {
-            groupId = pkg
-            artifactId = "tunnel"
-            version = providers.gradleProperty("amneziawgVersionName").get()
-            afterEvaluate {
-                from(components["release"])
-            }
-            pom {
-                name.set("WireGuard Tunnel Library")
-                description.set("Embeddable tunnel library for WireGuard for Android")
-                url.set("https://www.wireguard.com/")
-
-                licenses {
-                    license {
-                        name.set("The Apache Software License, Version 2.0")
-                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                        distribution.set("repo")
-                    }
-                }
-                scm {
-                    connection.set("scm:git:https://git.zx2c4.com/wireguard-android")
-                    developerConnection.set("scm:git:https://git.zx2c4.com/wireguard-android")
-                    url.set("https://git.zx2c4.com/wireguard-android")
-                }
-                developers {
-                    organization {
-                        name.set("WireGuard")
-                        url.set("https://www.wireguard.com/")
-                    }
-                    developer {
-                        name.set("WireGuard")
-                        email.set("team@wireguard.com")
-                    }
-                }
-            }
-        }
-    }
-    repositories {
-        maven {
-            name = "sonatype"
-            url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
-            credentials {
-                username = providers.environmentVariable("SONATYPE_USER").orNull
-                password = providers.environmentVariable("SONATYPE_PASSWORD").orNull
-            }
-        }
-    }
-}
-
-signing {
-    useGpgCmd()
-    sign(publishing.publications)
 }
