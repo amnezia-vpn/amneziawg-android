@@ -72,8 +72,8 @@ func init() {
 	}()
 }
 
-//export wgTurnOn
-func wgTurnOn(interfaceName string, tunFd int32, settings string) int32 {
+//export awgTurnOn
+func awgTurnOn(interfaceName string, tunFd int32, settings string) int32 {
 	tag := cstring("AmneziaWG/" + interfaceName)
 	logger := &device.Logger{
 		Verbosef: AndroidLogger{level: C.ANDROID_LOG_DEBUG, tag: tag}.Printf,
@@ -146,8 +146,8 @@ func wgTurnOn(interfaceName string, tunFd int32, settings string) int32 {
 	return i
 }
 
-//export wgTurnOff
-func wgTurnOff(tunnelHandle int32) {
+//export awgTurnOff
+func awgTurnOff(tunnelHandle int32) {
 	handle, ok := tunnelHandles[tunnelHandle]
 	if !ok {
 		return
@@ -159,8 +159,8 @@ func wgTurnOff(tunnelHandle int32) {
 	handle.device.Close()
 }
 
-//export wgGetSocketV4
-func wgGetSocketV4(tunnelHandle int32) int32 {
+//export awgGetSocketV4
+func awgGetSocketV4(tunnelHandle int32) int32 {
 	handle, ok := tunnelHandles[tunnelHandle]
 	if !ok {
 		return -1
@@ -176,8 +176,8 @@ func wgGetSocketV4(tunnelHandle int32) int32 {
 	return int32(fd)
 }
 
-//export wgGetSocketV6
-func wgGetSocketV6(tunnelHandle int32) int32 {
+//export awgGetSocketV6
+func awgGetSocketV6(tunnelHandle int32) int32 {
 	handle, ok := tunnelHandles[tunnelHandle]
 	if !ok {
 		return -1
@@ -193,8 +193,8 @@ func wgGetSocketV6(tunnelHandle int32) int32 {
 	return int32(fd)
 }
 
-//export wgGetConfig
-func wgGetConfig(tunnelHandle int32) *C.char {
+//export awgGetConfig
+func awgGetConfig(tunnelHandle int32) *C.char {
 	handle, ok := tunnelHandles[tunnelHandle]
 	if !ok {
 		return nil
@@ -206,8 +206,8 @@ func wgGetConfig(tunnelHandle int32) *C.char {
 	return C.CString(settings)
 }
 
-//export wgVersion
-func wgVersion() *C.char {
+//export awgVersion
+func awgVersion() *C.char {
 	info, ok := debug.ReadBuildInfo()
 	if !ok {
 		return C.CString("unknown")

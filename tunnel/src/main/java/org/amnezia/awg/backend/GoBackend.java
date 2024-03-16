@@ -35,7 +35,7 @@ import java.util.concurrent.TimeoutException;
 import androidx.annotation.Nullable;
 import androidx.collection.ArraySet;
 
-import static org.amnezia.vpn.protocol.wireguard.GoBackend.*;
+import static org.amnezia.awg.GoBackend.*;
 
 /**
  * Implementation of {@link Backend} that uses the amneziawg-go userspace implementation to provide
@@ -111,7 +111,7 @@ public final class GoBackend implements Backend {
         final Statistics stats = new Statistics();
         if (tunnel != currentTunnel || currentTunnelHandle == -1)
             return stats;
-        final String config = wgGetConfig(currentTunnelHandle);
+        final String config = awgGetConfig(currentTunnelHandle);
         if (config == null)
             return stats;
         Key key = null;
@@ -176,7 +176,7 @@ public final class GoBackend implements Backend {
      */
     @Override
     public String getVersion() {
-        return wgVersion();
+        return awgVersion();
     }
 
     /**
@@ -313,8 +313,8 @@ public final class GoBackend implements Backend {
             try (final ParcelFileDescriptor tun = builder.establish()) {
                 if (tun == null)
                     throw new BackendException(Reason.TUN_CREATION_ERROR);
-                Log.d(TAG, "Go backend " + wgVersion());
-                currentTunnelHandle = wgTurnOn(tunnel.getName(), tun.detachFd(), goConfig);
+                Log.d(TAG, "Go backend " + awgVersion());
+                currentTunnelHandle = awgTurnOn(tunnel.getName(), tun.detachFd(), goConfig);
             }
             if (currentTunnelHandle < 0)
                 throw new BackendException(Reason.GO_ACTIVATION_ERROR_CODE, currentTunnelHandle);
@@ -322,8 +322,8 @@ public final class GoBackend implements Backend {
             currentTunnel = tunnel;
             currentConfig = config;
 
-            service.protect(wgGetSocketV4(currentTunnelHandle));
-            service.protect(wgGetSocketV6(currentTunnelHandle));
+            service.protect(awgGetSocketV4(currentTunnelHandle));
+            service.protect(awgGetSocketV6(currentTunnelHandle));
         } else {
             if (currentTunnelHandle == -1) {
                 Log.w(TAG, "Tunnel already down");
@@ -333,7 +333,7 @@ public final class GoBackend implements Backend {
             currentTunnel = null;
             currentTunnelHandle = -1;
             currentConfig = null;
-            wgTurnOff(handleToClose);
+            awgTurnOff(handleToClose);
             try {
                 vpnService.get(0, TimeUnit.NANOSECONDS).stopSelf();
             } catch (final TimeoutException ignored) { }
@@ -401,7 +401,7 @@ public final class GoBackend implements Backend {
                 final Tunnel tunnel = owner.currentTunnel;
                 if (tunnel != null) {
                     if (owner.currentTunnelHandle != -1)
-                        wgTurnOff(owner.currentTunnelHandle);
+                        awgTurnOff(owner.currentTunnelHandle);
                     owner.currentTunnel = null;
                     owner.currentTunnelHandle = -1;
                     owner.currentConfig = null;

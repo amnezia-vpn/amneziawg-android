@@ -8,20 +8,20 @@
 #include <string.h>
 
 struct go_string { const char *str; long n; };
-extern int wgTurnOn(struct go_string ifname, int tun_fd, struct go_string settings);
-extern void wgTurnOff(int handle);
-extern int wgGetSocketV4(int handle);
-extern int wgGetSocketV6(int handle);
-extern char *wgGetConfig(int handle);
-extern char *wgVersion();
+extern int awgTurnOn(struct go_string ifname, int tun_fd, struct go_string settings);
+extern void awgTurnOff(int handle);
+extern int awgGetSocketV4(int handle);
+extern int awgGetSocketV6(int handle);
+extern char *awgGetConfig(int handle);
+extern char *awgVersion();
 
-JNIEXPORT jint JNICALL Java_org_amnezia_vpn_protocol_wireguard_GoBackend_wgTurnOn(JNIEnv *env, jclass c, jstring ifname, jint tun_fd, jstring settings)
+JNIEXPORT jint JNICALL Java_org_amnezia_awg_GoBackend_awgTurnOn(JNIEnv *env, jclass c, jstring ifname, jint tun_fd, jstring settings)
 {
 	const char *ifname_str = (*env)->GetStringUTFChars(env, ifname, 0);
 	size_t ifname_len = (*env)->GetStringUTFLength(env, ifname);
 	const char *settings_str = (*env)->GetStringUTFChars(env, settings, 0);
 	size_t settings_len = (*env)->GetStringUTFLength(env, settings);
-	int ret = wgTurnOn((struct go_string){
+	int ret = awgTurnOn((struct go_string){
 		.str = ifname_str,
 		.n = ifname_len
 	}, tun_fd, (struct go_string){
@@ -33,25 +33,25 @@ JNIEXPORT jint JNICALL Java_org_amnezia_vpn_protocol_wireguard_GoBackend_wgTurnO
 	return ret;
 }
 
-JNIEXPORT void JNICALL Java_org_amnezia_vpn_protocol_wireguard_GoBackend_wgTurnOff(JNIEnv *env, jclass c, jint handle)
+JNIEXPORT void JNICALL Java_org_amnezia_awg_GoBackend_awgTurnOff(JNIEnv *env, jclass c, jint handle)
 {
-	wgTurnOff(handle);
+	awgTurnOff(handle);
 }
 
-JNIEXPORT jint JNICALL Java_org_amnezia_vpn_protocol_wireguard_GoBackend_wgGetSocketV4(JNIEnv *env, jclass c, jint handle)
+JNIEXPORT jint JNICALL Java_org_amnezia_awg_GoBackend_awgGetSocketV4(JNIEnv *env, jclass c, jint handle)
 {
-	return wgGetSocketV4(handle);
+	return awgGetSocketV4(handle);
 }
 
-JNIEXPORT jint JNICALL Java_org_amnezia_vpn_protocol_wireguard_GoBackend_wgGetSocketV6(JNIEnv *env, jclass c, jint handle)
+JNIEXPORT jint JNICALL Java_org_amnezia_awg_GoBackend_awgGetSocketV6(JNIEnv *env, jclass c, jint handle)
 {
-	return wgGetSocketV6(handle);
+	return awgGetSocketV6(handle);
 }
 
-JNIEXPORT jstring JNICALL Java_org_amnezia_vpn_protocol_wireguard_GoBackend_wgGetConfig(JNIEnv *env, jclass c, jint handle)
+JNIEXPORT jstring JNICALL Java_org_amnezia_awg_GoBackend_awgGetConfig(JNIEnv *env, jclass c, jint handle)
 {
 	jstring ret;
-	char *config = wgGetConfig(handle);
+	char *config = awgGetConfig(handle);
 	if (!config)
 		return NULL;
 	ret = (*env)->NewStringUTF(env, config);
@@ -59,10 +59,10 @@ JNIEXPORT jstring JNICALL Java_org_amnezia_vpn_protocol_wireguard_GoBackend_wgGe
 	return ret;
 }
 
-JNIEXPORT jstring JNICALL Java_org_amnezia_vpn_protocol_wireguard_GoBackend_wgVersion(JNIEnv *env, jclass c)
+JNIEXPORT jstring JNICALL Java_org_amnezia_awg_GoBackend_awgVersion(JNIEnv *env, jclass c)
 {
 	jstring ret;
-	char *version = wgVersion();
+	char *version = awgVersion();
 	if (!version)
 		return NULL;
 	ret = (*env)->NewStringUTF(env, version);
