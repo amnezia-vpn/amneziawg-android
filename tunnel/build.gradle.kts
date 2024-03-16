@@ -3,6 +3,7 @@
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 val pkg: String = providers.gradleProperty("amneziawgPackageName").get()
+val cmakeAndroidPackageName: String = providers.environmentVariable("ANDROID_PACKAGE_NAME").getOrElse(pkg)
 
 plugins {
     alias(libs.plugins.android.library)
@@ -34,14 +35,14 @@ android {
         release {
             externalNativeBuild {
                 cmake {
-                    arguments("-DANDROID_PACKAGE_NAME=${pkg}")
+                    arguments("-DANDROID_PACKAGE_NAME=${cmakeAndroidPackageName}")
                 }
             }
         }
         debug {
             externalNativeBuild {
                 cmake {
-                    arguments("-DANDROID_PACKAGE_NAME=${pkg}.debug")
+                    arguments("-DANDROID_PACKAGE_NAME=${cmakeAndroidPackageName}.debug")
                 }
             }
         }
