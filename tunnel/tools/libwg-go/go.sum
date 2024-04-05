@@ -1,5 +1,5 @@
-github.com/amnezia-vpn/amneziawg-go v0.2.5 h1:V5uvzWhxyPLuhWeh52VPG4sAOU7TpUMwQbkofADtJdI=
-github.com/amnezia-vpn/amneziawg-go v0.2.5/go.mod h1:12g0XRbFeGbpXvuCmBOV21YxLWSFnUFJnwgrzyHBUyk=
+github.com/amnezia-vpn/amneziawg-go v0.2.8 h1:J8PPx+hylx5nNZ5U1+ECFj9noGkcm2ThmSV9rBNDgy8=
+github.com/amnezia-vpn/amneziawg-go v0.2.8/go.mod h1:12g0XRbFeGbpXvuCmBOV21YxLWSFnUFJnwgrzyHBUyk=
 github.com/google/btree v1.0.1 h1:gK4Kx5IaGY9CD5sPJ36FHiBJ6ZXl0kilRiiCj+jdYp4=
 github.com/google/btree v1.0.1/go.mod h1:xXMiIv4Fb/0kKde4SpL7qlzvu5cMJDRkFDxJfI9uaxA=
 github.com/tevino/abool/v2 v2.1.0 h1:7w+Vf9f/5gmKT4m4qkayb33/92M+Um45F2BkHOR+L/c=
