@@ -167,8 +167,8 @@
     <string name="response_packet_junk_size">Response packet junk size</string>
     <string name="init_packet_magic_header">Init packet magic header</string>
     <string name="response_packet_magic_header">Response packet magic header</string>
-    <string name="underload_packet_magic_header">Transport packet magic header</string>
-    <string name="transport_packet_magic_header">Underload packet magic header</string>
+    <string name="underload_packet_magic_header">Underload packet magic header</string>
+    <string name="transport_packet_magic_header">Transport packet magic header</string>
     <string name="multiple_tunnels_summary_off">Turning on one tunnel will turn off others</string>
     <string name="multiple_tunnels_summary_on">Multiple tunnels may be turned on simultaneously</string>
     <string name="multiple_tunnels_title">Allow multiple simultaneous tunnels</string>
