@@ -1,0 +1,54 @@
+name: Android Build
+
+on:
+  push:
+    branches:
+      - main
+      - develop  # добавьте дополнительные ветки, если нужно
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+
+      - name: Install Android SDK
+        run: |
+          sudo apt update
+          sudo apt install -y wget unzip
+          wget https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip
+          mkdir -p $HOME/android-sdk/cmdline-tools
+          unzip commandlinetools-linux-6858069_latest.zip -d $HOME/android-sdk/cmdline-tools
+          rm commandlinetools-linux-6858069_latest.zip
+          yes | $HOME/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=$HOME/android-sdk --install "platform-tools" "platforms;android-33" "build-tools;33.0.0"
+
+      - name: Install CMake
+        run: |
+          sudo apt install -y cmake
+          cmake --version
+
+      - name: Build with CMake
+        run: |
+          cd path/to/your/project
+          mkdir build && cd build
+          cmake .. -DCMAKE_TOOLCHAIN_FILE=$HOME/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-33
+          cmake --build .
+
+      - name: Archive APK
+        if: success()
+        run: |
+          mkdir -p $HOME/apk
+          cp path/to/your/project/build/*.apk $HOME/apk/
+          echo "APK is available at $HOME/apk/"
+          
