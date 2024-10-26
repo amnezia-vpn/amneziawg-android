@@ -1,0 +1,105 @@
+name: APK Build
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Update Dependencies
+        run: ./gradlew --no-daemon :tunnel:dependencies
+
+      - name: Build APK
+        run: ./gradlew --no-daemon assembleRelease --debug
+
+      - name: Print APK path
+        run: |
+          APK_PATH=$(find . -type f -name "*.apk")
+          echo "APK saved to: $APK_PATH"
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-release-unsigned.apk
+          path: ./ui/build/outputs/apk/release/ui-release-unsigned.apk
+          if-no-files-found: warn
+          include-hidden-files: false
+
+  create_release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository for tagging
+        uses: actions/checkout@v4
+
+      - name: Get current time
+        id: time
+        run: echo "datetime=$(date -u '+%Y%m%d-%H%M')" >> $GITHUB_ENV
+
+      - name: Create tag
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git tag -a "v${{ env.datetime }}" -m "Release on ${{ env.datetime }}"
+          git push origin "v${{ env.datetime }}"
+
+      - name: Download APK artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ui-release-unsigned.apk
+          path: ./artifacts
+
+      - name: Rename APK artifact
+        run: |
+          mv ./artifacts/ui-release-unsigned.apk ./artifacts/amneziawg.apk
+
+      - name: Calculate SHA256 for APK artifact
+        id: sha256_apk
+        run: |
+          sha256=$(sha256sum ./artifacts/amneziawg.apk | awk '{print $1}')
+          echo "sha256_apk=$sha256" >> $GITHUB_ENV
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v2.0.7
+        with:
+          tag_name: "v${{ env.datetime }}"
+          name: "Release ${{ env.datetime }}"
+          body: |
+            Automated release from actions.
+            SHA256: ${{ env.sha256_apk }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload APK to release
+        uses: softprops/action-gh-release@v2.0.7
+        with:
+          tag_name: "v${{ env.datetime }}"
+          files: ./artifacts/amneziawg.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
