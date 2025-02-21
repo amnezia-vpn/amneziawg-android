@@ -15,4 +15,6 @@ public class GoBackend {
     public static native int awgTurnOn(String ifName, int tunFd, String settings);
 
     public static native String awgVersion();
+
+    public static native void setSocketDirectory(String directory);
 }

@@ -224,4 +224,9 @@ func awgVersion() *C.char {
 	return C.CString("unknown")
 }
 
+//export setSocketDirectory
+func setSocketDirectory(directory string){
+	ipc.SetSocketDirectory(strings.Clone(directory))
+}
+
 func main() {}

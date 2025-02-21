@@ -60,6 +60,8 @@ public final class GoBackend implements Backend {
     public GoBackend(final Context context) {
         SharedLibraryLoader.loadSharedLibrary(context, "wg-go");
         this.context = context;
+        String socketDir = context.getCacheDir().getAbsolutePath() + "/amneziawg";
+        setSocketDirectory(socketDir);
     }
 
     /**

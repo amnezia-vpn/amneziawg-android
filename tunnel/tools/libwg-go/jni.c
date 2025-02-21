@@ -14,6 +14,7 @@ extern int awgGetSocketV4(int handle);
 extern int awgGetSocketV6(int handle);
 extern char *awgGetConfig(int handle);
 extern char *awgVersion();
+extern void setSocketDirectory(struct go_string directory);
 
 JNIEXPORT jint JNICALL Java_org_amnezia_awg_GoBackend_awgTurnOn(JNIEnv *env, jclass c, jstring ifname, jint tun_fd, jstring settings)
 {
@@ -68,4 +69,15 @@ JNIEXPORT jstring JNICALL Java_org_amnezia_awg_GoBackend_awgVersion(JNIEnv *env,
 	ret = (*env)->NewStringUTF(env, version);
 	free(version);
 	return ret;
+}
+
+JNIEXPORT void JNICALL Java_org_amnezia_awg_GoBackend_setSocketDirectory(JNIEnv* env, jstring directory)
+{
+	const char* directory_str = (*env)->GetStringUTFChars(env, directory, 0);
+	size_t  directory_len = (*env)->GetStringUTFLength(env, directory);
+	setSocketDirectory((struct go_string){
+		.str = directory_str,
+		.n = directory_len
+	});
+	(*env)->ReleaseStringUTFChars(env, directory, directory_str);
 }
