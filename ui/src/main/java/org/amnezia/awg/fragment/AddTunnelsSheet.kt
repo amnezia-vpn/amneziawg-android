@@ -7,11 +7,13 @@ package org.amnezia.awg.fragment
 import android.content.pm.PackageManager
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -42,6 +44,7 @@ class AddTunnelsSheet : BottomSheetDialogFragment() {
             qrcode.isEnabled = false
             qrcode.visibility = View.GONE
         }
+        view.findViewById<TextView>(R.id.disclaimer)?.let { it.movementMethod = LinkMovementMethod.getInstance() }
         return view
     }
 
