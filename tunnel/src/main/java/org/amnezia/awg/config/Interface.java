@@ -88,6 +88,8 @@ public final class Interface {
             throws BadConfigException {
         final Builder builder = new Builder();
         for (final CharSequence line : lines) {
+            if (line.toString().trim().startsWith("#")) continue;
+
             final Attribute attribute = Attribute.parse(line).orElseThrow(() ->
                     new BadConfigException(Section.INTERFACE, Location.TOP_LEVEL,
                             Reason.SYNTAX_ERROR, line));
