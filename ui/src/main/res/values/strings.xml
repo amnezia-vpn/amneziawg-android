@@ -254,4 +254,17 @@
     <string name="biometric_auth_error">Authentication failure</string>
     <string name="biometric_auth_error_reason">Authentication failure: %s</string>
     <string name="import_disclaimer">Ensure that you obtained the configuration file from a trusted source.\n\nOfficial Amnezia services are available only at <a href="https://amnezia.org">amnezia.org</a>\n</string>
+    <string name="notification_channel_name">Connection status</string>
+    <string name="notification_title_connecting">Connecting…</string>
+    <string name="notification_title_connected">Connected</string>
+    <string name="notification_title_connected_to">Connected to %s</string>
+    <string name="notification_title_disconnecting">Disconnecting…</string>
+    <string name="notification_title_disconnected">Disconnected</string>
+    <string name="notification_text_rx_tx">%1$s↓ %2$s↑</string>
+    <string name="notification_text_tunnels_count">Active tunnels count: %d</string>
+    <string name="notification_text_peers_count">Peers count: %d</string>
+    <string name="notification_action_disconnect">Disconnect</string>
+    <string name="enable_notification_title">Notification</string>
+    <string name="enable_notification_summary_off">Connection status notification is disabled</string>
+    <string name="enable_notification_summary_on">Connection status notification is enabled</string>
 </resources>

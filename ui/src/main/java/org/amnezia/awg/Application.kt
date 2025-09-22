@@ -12,6 +12,7 @@ import android.os.StrictMode.ThreadPolicy
 import android.os.StrictMode.VmPolicy
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
@@ -31,11 +32,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import java.lang.ref.WeakReference
 import java.util.Locale
 
@@ -43,6 +46,8 @@ class Application : android.app.Application() {
     private val futureBackend = CompletableDeferred<Backend>()
     private val coroutineScope = CoroutineScope(Job() + Dispatchers.Main.immediate)
     private var backend: Backend? = null
+    private var isConnectionStatusServiceStarted = false;
+    private var isServiceMonitoringActive = true;
     private lateinit var rootShell: RootShell
     private lateinit var preferencesDataStore: DataStore<Preferences>
     private lateinit var toolsInstaller: ToolsInstaller
@@ -79,6 +84,26 @@ class Application : android.app.Application() {
             GoBackend.setAlwaysOnCallback { get().applicationScope.launch { get().tunnelManager.restoreState(true) } }
         }
         return backend
+    }
+
+    private suspend fun processNotification() {
+        val intent = Intent(this@Application, ConnectionStatusService::class.java)
+        while (isServiceMonitoringActive) {
+            if (UserKnobs.enableNotification.first()) {
+                val hasRunningTunnels = withContext(Dispatchers.IO) { getBackend().runningTunnelNames }.isNotEmpty()
+                if (isConnectionStatusServiceStarted && !hasRunningTunnels) {
+                    isConnectionStatusServiceStarted = false
+                    stopService(intent)
+                } else if (!isConnectionStatusServiceStarted && hasRunningTunnels) {
+                    isConnectionStatusServiceStarted = true
+                    ContextCompat.startForegroundService(this@Application, intent)
+                }
+            } else if (isConnectionStatusServiceStarted) {
+                isConnectionStatusServiceStarted = false
+                stopService(intent)
+            }
+            delay(100)
+        }
     }
 
     override fun onCreate() {
@@ -120,9 +145,15 @@ class Application : android.app.Application() {
             StrictMode.setVmPolicy(VmPolicy.Builder().detectAll().penaltyLog().build())
             StrictMode.setThreadPolicy(ThreadPolicy.Builder().detectAll().penaltyLog().build())
         }
+
+        applicationScope.launch {
+            processNotification()
+        }
     }
 
     override fun onTerminate() {
+        isServiceMonitoringActive = false
+        stopService(Intent(this, ConnectionStatusService::class.java))
         coroutineScope.cancel()
         super.onTerminate()
     }
