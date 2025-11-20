@@ -165,10 +165,17 @@
     <string name="junk_packet_max_size">Junk packet maximum size</string>
     <string name="init_packet_junk_size">Init packet junk size</string>
     <string name="response_packet_junk_size">Response packet junk size</string>
+    <string name="cookie_reply_packet_junk_size">Cookie reply packet junk size</string>
+    <string name="transport_packet_junk_size">Transport packet junk size</string>
     <string name="init_packet_magic_header">Init packet magic header</string>
     <string name="response_packet_magic_header">Response packet magic header</string>
     <string name="underload_packet_magic_header">Underload packet magic header</string>
     <string name="transport_packet_magic_header">Transport packet magic header</string>
+    <string name="special_junk_i1">Special junk I1</string>
+    <string name="special_junk_i2">Special junk I2</string>
+    <string name="special_junk_i3">Special junk I3</string>
+    <string name="special_junk_i4">Special junk I4</string>
+    <string name="special_junk_i5">Special junk I5</string>
     <string name="multiple_tunnels_summary_off">Turning on one tunnel will turn off others</string>
     <string name="multiple_tunnels_summary_on">Multiple tunnels may be turned on simultaneously</string>
     <string name="multiple_tunnels_title">Allow multiple simultaneous tunnels</string>
