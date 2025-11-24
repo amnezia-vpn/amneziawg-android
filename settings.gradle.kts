@@ -27,8 +27,8 @@ include(":tunnel")
 include(":ui")
 
 configure<SettingsExtension> {
-    buildToolsVersion = "34.0.0"
-    compileSdk = 34
+    buildToolsVersion = "35.0.0"
+    compileSdk = 35
     minSdk = 24
     ndkVersion = "26.1.10909125"
 }
