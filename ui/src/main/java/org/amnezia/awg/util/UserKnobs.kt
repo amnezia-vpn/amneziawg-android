@@ -53,6 +53,12 @@ object UserKnobs {
             it[ALLOW_REMOTE_CONTROL_INTENTS] ?: false
         }
 
+    private val ENABLE_NOTIFICATION = booleanPreferencesKey("enable_notification")
+    val enableNotification: Flow<Boolean>
+        get() = Application.getPreferencesDataStore().data.map {
+            it[ENABLE_NOTIFICATION] ?: false
+        }
+
     private val RESTORE_ON_BOOT = booleanPreferencesKey("restore_on_boot")
     val restoreOnBoot: Flow<Boolean>
         get() = Application.getPreferencesDataStore().data.map {

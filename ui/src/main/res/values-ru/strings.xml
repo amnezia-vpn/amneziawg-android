@@ -270,4 +270,16 @@
     <string name="biometric_auth_error">Ошибка аутентификации</string>
     <string name="biometric_auth_error_reason">Ошибка аутентификации: %s</string>
     <string name="import_disclaimer">Убедитесь, что вы получили файл конфигурации в надёжном источнике.\n\nОфициальные сервисы Amnezia доступны только на сайте <a href="https://storage.googleapis.com/amnezia/amnezia.org">amnezia.org</a>\n</string>
+    <string name="notification_channel_name">Статус соединения</string>
+    <string name="notification_title_connecting">Подключение…</string>
+    <string name="notification_title_connected">Подключено</string>
+    <string name="notification_title_connected_to">Подключено к %s</string>
+    <string name="notification_title_disconnecting">Отключение…</string>
+    <string name="notification_title_disconnected">Отключено</string>
+    <string name="notification_text_tunnels_count">Количество активных туннелей: %d</string>
+    <string name="notification_text_peers_count">Количество пиров: %d</string>
+    <string name="notification_action_disconnect">Отключить</string>
+    <string name="enable_notification_title">Уведомление</string>
+    <string name="enable_notification_summary_off">Уведомление о состоянии соединения отключено</string>
+    <string name="enable_notification_summary_on">Уведомление о состоянии соединения включено</string>
 </resources>

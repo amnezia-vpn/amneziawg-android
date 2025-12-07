@@ -4,7 +4,10 @@
     android:installLocation="internalOnly">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission
         android:name="android.permission.SYSTEM_ALERT_WINDOW"
@@ -123,6 +126,14 @@
                 <action android:name="org.amnezia.awg.action.SET_TUNNEL_DOWN" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".DisconnectTunnelsReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="org.amnezia.awg.action.SET_ALL_TUNNELS_DOWN" />
+            </intent-filter>
+        </receiver>
 
         <service
             android:name=".QuickTileService"
@@ -141,6 +152,12 @@
             <meta-data
                 android:name="android.service.quicksettings.TOGGLEABLE_TILE"
                 android:value="true" />
+        </service>
+
+        <service
+            android:name=".ConnectionStatusService"
+            android:foregroundServiceType="specialUse">
+            <meta-data android:name="android.app.background_running" android:value="true" />
         </service>
 
         <meta-data
