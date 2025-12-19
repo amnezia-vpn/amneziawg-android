@@ -59,7 +59,7 @@ class QuickTileService : TileService() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                     startActivityAndCollapse(PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE))
                 } else {
-                    @Suppress("DEPRECATION")
+                    @Suppress("DEPRECATION", "StartActivityAndCollapseDeprecated")
                     startActivityAndCollapse(intent)
                 }
             }

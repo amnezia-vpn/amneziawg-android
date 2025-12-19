@@ -35,6 +35,15 @@ public interface Backend {
     Tunnel.State getState(Tunnel tunnel) throws Exception;
 
     /**
+     * Get the last handshake time for a tunnel.
+     *
+     * @param tunnel The tunnel to examine.
+     * @return Last handshake time in seconds, 0 if tunnel not active, -1 if no handshake, -2 on error.
+     * @throws Exception Exception raised when retrieving handshake time.
+     */
+    long getLastHandshake(Tunnel tunnel) throws Exception;
+
+    /**
      * Get statistics about traffic and errors on this tunnel. If the tunnel is not running, the
      * statistics object will be filled with zero values.
      *
