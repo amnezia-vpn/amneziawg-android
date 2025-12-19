@@ -142,7 +142,6 @@ public final class AwgQuickBackend implements Backend {
         statusThread = new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
                 final long lastHandshake = getLastHandshake(currentTunnel);
-                Log.v(TAG, "lastHandshake=" + lastHandshake);
 
                 if (lastHandshake == 0L) {
                     try {

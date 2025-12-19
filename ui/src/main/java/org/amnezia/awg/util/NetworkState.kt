@@ -136,10 +136,8 @@ class NetworkState(
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 connectivityManager.registerBestMatchingNetworkCallback(networkRequest, networkCallback, handler)
-                Log.i(TAG, "Network listener bound using registerBestMatchingNetworkCallback")
             } else {
                 connectivityManager.registerNetworkCallback(networkRequest, networkCallback, handler)
-                Log.i(TAG, "Network listener bound using registerNetworkCallback")
             }
             isListenerBound = true
         } catch (e: Exception) {

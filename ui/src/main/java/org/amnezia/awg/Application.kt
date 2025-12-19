@@ -122,8 +122,6 @@ class Application : android.app.Application() {
             try {
                 backend = determineBackend()
                 futureBackend.complete(backend!!)
-                // Start network monitoring after backend is ready
-                Log.i(TAG, "Backend ready, starting network monitoring")
                 networkState.bindNetworkListener()
             } catch (e: Throwable) {
                 Log.e(TAG, Log.getStackTraceString(e))
