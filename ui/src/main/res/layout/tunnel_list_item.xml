@@ -7,6 +7,8 @@
 
         <import type="org.amnezia.awg.model.ObservableTunnel" />
 
+        <import type="org.amnezia.awg.model.ObservableTunnel.ConnectionStatus" />
+
         <import type="org.amnezia.awg.backend.Tunnel.State" />
 
         <variable
@@ -37,17 +39,37 @@
         android:paddingHorizontal="16dp"
         android:paddingVertical="8dp">
 
-        <TextView
-            android:id="@+id/tunnel_name"
+        <LinearLayout
+            android:id="@+id/tunnel_info_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@{key}"
-            android:textAppearance="?attr/textAppearanceBodyLarge"
-            tools:text="@sample/interface_names.json/names/names/name" />
+            android:layout_toStartOf="@+id/tunnel_switch"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tunnel_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{key}"
+                android:textAppearance="?attr/textAppearanceBodyLarge"
+                tools:text="@sample/interface_names.json/names/names/name" />
+
+            <TextView
+                android:id="@+id/tunnel_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@{item.connectionStatus == ConnectionStatus.CONNECTED ? @string/tunnel_status_connected : @string/tunnel_status_connecting}"
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="@{item.connectionStatus == ConnectionStatus.CONNECTED ? @color/tunnel_status_connected : @color/tunnel_status_connecting}"
+                android:visibility="@{item.connectionStatus == ConnectionStatus.DISCONNECTED ? android.view.View.GONE : android.view.View.VISIBLE}"
+                tools:text="Подключено"
+                tools:textColor="@color/tunnel_status_connected" />
+        </LinearLayout>
 
         <org.amnezia.awg.widget.ToggleSwitch
             android:id="@+id/tunnel_switch"

@@ -84,7 +84,7 @@ public final class AwgQuickBackend implements Backend {
     @Override
     public long getLastHandshake(final Tunnel tunnel) {
         if (getState(tunnel) != State.UP) {
-            return 0;
+            return -3; // Tunnel not active
         }
         final Collection<String> output = new ArrayList<>();
         try {
@@ -112,18 +112,6 @@ public final class AwgQuickBackend implements Backend {
     }
 
     /**
-     * Callback for status changes detected by the status polling job.
-     */
-    public interface StatusCallback {
-        /**
-         * Called when connection status is determined.
-         *
-         * @param connected true if handshake was successful (connected), false if disconnected
-         */
-        void onStatusChanged(boolean connected);
-    }
-
-    /**
      * Set a callback to be notified when connection status changes.
      *
      * @param callback The callback to invoke on status change
@@ -143,6 +131,13 @@ public final class AwgQuickBackend implements Backend {
             while (!Thread.currentThread().isInterrupted()) {
                 final long lastHandshake = getLastHandshake(currentTunnel);
 
+                // Check if tunnel is no longer active (race condition protection)
+                if (lastHandshake == -3L) {
+                    Log.d(TAG, "Tunnel is no longer active, stopping status job");
+                    break;
+                }
+
+                // 0 means no handshake yet, wait and retry
                 if (lastHandshake == 0L) {
                     try {
                         Thread.sleep(1000);
@@ -153,16 +148,23 @@ public final class AwgQuickBackend implements Backend {
                     continue;
                 }
 
-                if (lastHandshake == -2L || lastHandshake > 0L) {
+                // Only positive handshake time indicates successful connection
+                // -1 may be returned if unable to parse output (doesn't mean no connection)
+                // -2 indicates command execution error (also doesn't mean no connection)
+                if (lastHandshake > 0L) {
                     if (statusCallback != null) {
                         statusCallback.onStatusChanged(true);
                     }
-                } else if (lastHandshake == -1L) {
-                    if (statusCallback != null) {
-                        statusCallback.onStatusChanged(false);
-                    }
+                    break;
                 }
-                break;
+
+                // For -1 or -2, retry after delay instead of reporting disconnected
+                try {
+                    Thread.sleep(1000);
+                } catch (final InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
             }
             statusThread = null;
         }, "StatusJob");

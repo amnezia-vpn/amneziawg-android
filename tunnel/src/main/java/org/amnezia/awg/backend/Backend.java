@@ -38,7 +38,8 @@ public interface Backend {
      * Get the last handshake time for a tunnel.
      *
      * @param tunnel The tunnel to examine.
-     * @return Last handshake time in seconds, 0 if tunnel not active, -1 if no handshake, -2 on error.
+     * @return Last handshake time in seconds (>=0 means valid handshake time, 0 means no handshake yet),
+     *         -1 if parsing failed, -2 on command execution error, -3 if tunnel not active.
      * @throws Exception Exception raised when retrieving handshake time.
      */
     long getLastHandshake(Tunnel tunnel) throws Exception;

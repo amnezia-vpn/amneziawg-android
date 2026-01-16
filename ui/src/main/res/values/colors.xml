@@ -60,4 +60,7 @@
     <color name="md_theme_dark_surfaceTint">#ADC7FF</color>
     <color name="md_theme_dark_outlineVariant">#44474F</color>
     <color name="md_theme_dark_scrim">#000000</color>
+    <color name="tunnel_status_connected">#4CAF50</color>
+    <color name="tunnel_status_connecting">#FF9800</color>
+    <color name="tunnel_status_disconnected">#F44336</color>
 </resources>

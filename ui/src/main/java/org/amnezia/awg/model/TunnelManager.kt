@@ -17,7 +17,10 @@ import org.amnezia.awg.Application.Companion.getBackend
 import org.amnezia.awg.Application.Companion.getTunnelManager
 import org.amnezia.awg.BR
 import org.amnezia.awg.R
+import org.amnezia.awg.backend.AwgQuickBackend
+import org.amnezia.awg.backend.GoBackend
 import org.amnezia.awg.backend.Statistics
+import org.amnezia.awg.backend.StatusCallback
 import org.amnezia.awg.backend.Tunnel
 import org.amnezia.awg.configStore.ConfigStore
 import org.amnezia.awg.databinding.ObservableSortedKeyedArrayList
@@ -102,8 +105,40 @@ class TunnelManager(private val configStore: ConfigStore) : BaseObservable() {
         applicationScope.launch {
             try {
                 onTunnelsLoaded(withContext(Dispatchers.IO) { configStore.enumerate() }, withContext(Dispatchers.IO) { getBackend().runningTunnelNames })
+                setupStatusCallbacks()
             } catch (e: Throwable) {
                 Log.e(TAG, Log.getStackTraceString(e))
+            }
+        }
+    }
+
+    private fun setupStatusCallbacks() {
+        applicationScope.launch {
+            try {
+                val backend = getBackend()
+                val statusCallback = object : StatusCallback {
+                    override fun onStatusChanged(connected: Boolean) {
+                        applicationScope.launch(Dispatchers.Main) {
+                            // Find the currently active tunnel
+                            val activeTunnel = tunnelMap.firstOrNull { it.state == Tunnel.State.UP }
+                            if (activeTunnel != null) {
+                                val newStatus = if (connected) {
+                                    ObservableTunnel.ConnectionStatus.CONNECTED
+                                } else {
+                                    ObservableTunnel.ConnectionStatus.CONNECTING
+                                }
+                                activeTunnel.onConnectionStatusChanged(newStatus)
+                            }
+                        }
+                    }
+                }
+                
+                when (backend) {
+                    is GoBackend -> backend.setStatusCallback(statusCallback)
+                    is AwgQuickBackend -> backend.setStatusCallback(statusCallback)
+                }
+            } catch (e: Throwable) {
+                Log.e(TAG, "Failed to setup status callbacks", e)
             }
         }
     }

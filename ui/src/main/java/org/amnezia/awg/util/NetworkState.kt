@@ -5,7 +5,9 @@
 
 package org.amnezia.awg.util
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.ConnectivityManager.NetworkCallback
 import android.net.Network
@@ -19,6 +21,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 
 private const val TAG = "AmneziaWG/NetworkState"
@@ -131,6 +134,13 @@ class NetworkState(
             Log.d(TAG, "Network listener already bound")
             return
         }
+
+        // Check if we have the required permission
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
+            Log.e(TAG, "ACCESS_NETWORK_STATE permission not granted, cannot bind network listener")
+            return
+        }
+
         Log.i(TAG, "Binding network listener (SDK ${Build.VERSION.SDK_INT})")
 
         try {
@@ -140,17 +150,29 @@ class NetworkState(
                 connectivityManager.registerNetworkCallback(networkRequest, networkCallback, handler)
             }
             isListenerBound = true
+            Log.i(TAG, "Network listener bound successfully")
+        } catch (e: SecurityException) {
+            Log.e(TAG, "SecurityException while binding network listener. Check ACCESS_NETWORK_STATE permission.", e)
         } catch (e: Exception) {
             Log.e(TAG, "Failed to bind network listener", e)
         }
     }
 
     fun unbindNetworkListener() {
-        if (!isListenerBound) return
+        if (!isListenerBound) {
+            Log.d(TAG, "Network listener not bound, nothing to unbind")
+            return
+        }
         Log.d(TAG, "Unbind network listener")
 
         try {
             connectivityManager.unregisterNetworkCallback(networkCallback)
+            Log.d(TAG, "Network listener unbound successfully")
+        } catch (e: SecurityException) {
+            Log.e(TAG, "SecurityException while unbinding network listener", e)
+        } catch (e: IllegalArgumentException) {
+            // Callback was not registered, ignore
+            Log.w(TAG, "Callback was not registered", e)
         } catch (e: Exception) {
             Log.e(TAG, "Failed to unbind network listener", e)
         }
