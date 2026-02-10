@@ -17,8 +17,6 @@ import org.amnezia.awg.Application.Companion.getBackend
 import org.amnezia.awg.Application.Companion.getTunnelManager
 import org.amnezia.awg.BR
 import org.amnezia.awg.R
-import org.amnezia.awg.backend.AwgQuickBackend
-import org.amnezia.awg.backend.GoBackend
 import org.amnezia.awg.backend.Statistics
 import org.amnezia.awg.backend.StatusCallback
 import org.amnezia.awg.backend.Tunnel
@@ -133,10 +131,7 @@ class TunnelManager(private val configStore: ConfigStore) : BaseObservable() {
                     }
                 }
                 
-                when (backend) {
-                    is GoBackend -> backend.setStatusCallback(statusCallback)
-                    is AwgQuickBackend -> backend.setStatusCallback(statusCallback)
-                }
+                backend.setStatusCallback(statusCallback)
             } catch (e: Throwable) {
                 Log.e(TAG, "Failed to setup status callbacks", e)
             }

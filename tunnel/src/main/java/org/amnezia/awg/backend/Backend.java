@@ -74,4 +74,11 @@ public interface Backend {
      * @throws Exception Exception raised while changing state.
      */
     Tunnel.State setState(Tunnel tunnel, Tunnel.State state, @Nullable Config config) throws Exception;
+
+    /**
+     * Set the callback for status changes (e.g. handshake / connection state).
+     *
+     * @param callback The callback to invoke on status changes, or null to clear.
+     */
+    void setStatusCallback(@Nullable StatusCallback callback);
 }

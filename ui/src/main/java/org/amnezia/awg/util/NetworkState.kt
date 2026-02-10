@@ -23,8 +23,10 @@ import android.os.Looper
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
+import kotlinx.coroutines.delay
 
 private const val TAG = "AmneziaWG/NetworkState"
+private const val BIND_NETWORK_RETRY_ATTEMPTS = 5
 
 enum class NetworkType {
     NONE, WIFI, CELLULAR, OTHER
@@ -129,7 +131,7 @@ class NetworkState(
         }
     }
 
-    fun bindNetworkListener() {
+    suspend fun bindNetworkListener() {
         if (isListenerBound) {
             Log.d(TAG, "Network listener already bound")
             return
@@ -143,18 +145,39 @@ class NetworkState(
 
         Log.i(TAG, "Binding network listener (SDK ${Build.VERSION.SDK_INT})")
 
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                connectivityManager.registerBestMatchingNetworkCallback(networkRequest, networkCallback, handler)
-            } else {
-                connectivityManager.registerNetworkCallback(networkRequest, networkCallback, handler)
+        var attemptCount = 0
+        while (true) {
+            try {
+                when {
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+                        connectivityManager.registerBestMatchingNetworkCallback(networkRequest, networkCallback, handler)
+                    }
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
+                        connectivityManager.registerNetworkCallback(networkRequest, networkCallback, handler)
+                    }
+                    else -> {
+                        connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
+                    }
+                }
+                isListenerBound = true
+                Log.i(TAG, "Network listener bound successfully")
+                break
+            } catch (e: SecurityException) {
+                Log.e(TAG, "Failed to bind network listener: $e")
+                // Android 11 bug: https://issuetracker.google.com/issues/175055271
+                if (e.message?.startsWith("Package android does not belong to") == true) {
+                    if (++attemptCount >= BIND_NETWORK_RETRY_ATTEMPTS) {
+                        throw e
+                    }
+                    delay(1000)
+                    continue
+                } else {
+                    throw e
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to bind network listener", e)
+                throw e
             }
-            isListenerBound = true
-            Log.i(TAG, "Network listener bound successfully")
-        } catch (e: SecurityException) {
-            Log.e(TAG, "SecurityException while binding network listener. Check ACCESS_NETWORK_STATE permission.", e)
-        } catch (e: Exception) {
-            Log.e(TAG, "Failed to bind network listener", e)
         }
     }
 
