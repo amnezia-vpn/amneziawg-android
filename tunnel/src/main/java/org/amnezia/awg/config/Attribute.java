@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 
 @NonNullForAll
 public final class Attribute {
-    private static final Pattern LINE_PATTERN = Pattern.compile("(\\w+)\\s*=\\s*([^\\s#][^#]*)");
+    private static final Pattern LINE_PATTERN = Pattern.compile("(\\w+)\\s*=\\s*(.*?)\\s*$");
     private static final Pattern LIST_SEPARATOR = Pattern.compile("\\s*,\\s*");
 
     private final String key;
