@@ -35,6 +35,16 @@ public interface Backend {
     Tunnel.State getState(Tunnel tunnel) throws Exception;
 
     /**
+     * Get the last handshake time for a tunnel.
+     *
+     * @param tunnel The tunnel to examine.
+     * @return Last handshake time in seconds (>=0 means valid handshake time, 0 means no handshake yet),
+     *         -1 if parsing failed, -2 on command execution error, -3 if tunnel not active.
+     * @throws Exception Exception raised when retrieving handshake time.
+     */
+    long getLastHandshake(Tunnel tunnel) throws Exception;
+
+    /**
      * Get statistics about traffic and errors on this tunnel. If the tunnel is not running, the
      * statistics object will be filled with zero values.
      *
@@ -64,4 +74,11 @@ public interface Backend {
      * @throws Exception Exception raised while changing state.
      */
     Tunnel.State setState(Tunnel tunnel, Tunnel.State state, @Nullable Config config) throws Exception;
+
+    /**
+     * Set the callback for status changes (e.g. handshake / connection state).
+     *
+     * @param callback The callback to invoke on status changes, or null to clear.
+     */
+    void setStatusCallback(@Nullable StatusCallback callback);
 }

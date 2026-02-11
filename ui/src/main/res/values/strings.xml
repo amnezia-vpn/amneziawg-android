@@ -261,4 +261,6 @@
     <string name="biometric_auth_error">Authentication failure</string>
     <string name="biometric_auth_error_reason">Authentication failure: %s</string>
     <string name="import_disclaimer">Ensure that you obtained the configuration file from a trusted source.\n\nOfficial Amnezia services are available only at <a href="https://amnezia.org">amnezia.org</a>\n</string>
+    <string name="tunnel_status_connected">Connected</string>
+    <string name="tunnel_status_connecting">Connecting…</string>
 </resources>

@@ -46,6 +46,9 @@ public final class AwgQuickBackend implements Backend {
     private final Map<Tunnel, Config> runningConfigs = new HashMap<>();
     private final ToolsInstaller toolsInstaller;
     private boolean multipleTunnels;
+    @Nullable private Thread statusThread;
+    @Nullable private StatusCallback statusCallback;
+    @Nullable private Tunnel currentTunnel;
 
     public AwgQuickBackend(final Context context, final RootShell rootShell, final ToolsInstaller toolsInstaller) {
         localTemporaryDir = new File(context.getCacheDir(), "tmp");
@@ -76,6 +79,106 @@ public final class AwgQuickBackend implements Backend {
     @Override
     public State getState(final Tunnel tunnel) {
         return getRunningTunnelNames().contains(tunnel.getName()) ? State.UP : State.DOWN;
+    }
+
+    @Override
+    public long getLastHandshake(final Tunnel tunnel) {
+        if (getState(tunnel) != State.UP) {
+            return -3; // Tunnel not active
+        }
+        final Collection<String> output = new ArrayList<>();
+        try {
+            if (rootShell.run(output, String.format("awg show '%s' latest-handshakes", tunnel.getName())) != 0) {
+                Log.e(TAG, "Failed to get latest handshakes");
+                return -2;
+            }
+        } catch (final Exception e) {
+            Log.e(TAG, "Failed to get latest handshakes", e);
+            return -2;
+        }
+        for (final String line : output) {
+            final String[] parts = line.split("\\t");
+            if (parts.length >= 2) {
+                try {
+                    return Long.parseLong(parts[1]);
+                } catch (final NumberFormatException ignored) {
+                    Log.e(TAG, "Failed to parse handshake time");
+                    return -2;
+                }
+            }
+        }
+        Log.e(TAG, "No handshake time found");
+        return -1;
+    }
+
+    /**
+     * Set a callback to be notified when connection status changes.
+     *
+     * @param callback The callback to invoke on status change
+     */
+    public void setStatusCallback(@Nullable final StatusCallback callback) {
+        this.statusCallback = callback;
+    }
+
+    /**
+     * Launch a background thread to poll handshake status and determine connection state.
+     * This is called after tunnel creation to wait for the first successful handshake.
+     */
+    private void launchStatusJob() {
+        stopStatusJob();
+        Log.d(TAG, "Launch status job");
+        statusThread = new Thread(() -> {
+            while (!Thread.currentThread().isInterrupted()) {
+                final long lastHandshake = getLastHandshake(currentTunnel);
+
+                // Check if tunnel is no longer active (race condition protection)
+                if (lastHandshake == -3L) {
+                    Log.d(TAG, "Tunnel is no longer active, stopping status job");
+                    break;
+                }
+
+                // 0 means no handshake yet, wait and retry
+                if (lastHandshake == 0L) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (final InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        break;
+                    }
+                    continue;
+                }
+
+                // Only positive handshake time indicates successful connection
+                // -1 may be returned if unable to parse output (doesn't mean no connection)
+                // -2 indicates command execution error (also doesn't mean no connection)
+                if (lastHandshake > 0L) {
+                    if (statusCallback != null) {
+                        statusCallback.onStatusChanged(true);
+                    }
+                    break;
+                }
+
+                // For -1 or -2, retry after delay instead of reporting disconnected
+                try {
+                    Thread.sleep(1000);
+                } catch (final InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+            }
+            statusThread = null;
+        }, "StatusJob");
+        statusThread.start();
+    }
+
+    /**
+     * Stop the status polling thread if running.
+     */
+    private void stopStatusJob() {
+        if (statusThread != null) {
+            statusThread.interrupt();
+            statusThread = null;
+        }
     }
 
     @Override
@@ -185,10 +288,15 @@ public final class AwgQuickBackend implements Backend {
         if (result != 0)
             throw new BackendException(Reason.AWG_QUICK_CONFIG_ERROR_CODE, result);
 
-        if (state == State.UP)
+        if (state == State.UP) {
             runningConfigs.put(tunnel, config);
-        else
+            currentTunnel = tunnel;
+            launchStatusJob();
+        } else {
+            stopStatusJob();
             runningConfigs.remove(tunnel);
+            currentTunnel = null;
+        }
 
         tunnel.onStateChange(state);
     }

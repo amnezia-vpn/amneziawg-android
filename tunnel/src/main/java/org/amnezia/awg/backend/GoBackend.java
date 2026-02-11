@@ -51,6 +51,8 @@ public final class GoBackend implements Backend {
     @Nullable private Config currentConfig;
     @Nullable private Tunnel currentTunnel;
     private int currentTunnelHandle = -1;
+    @Nullable private Thread statusThread;
+    @Nullable private StatusCallback statusCallback;
 
     /**
      * Public constructor for GoBackend.
@@ -167,6 +169,108 @@ public final class GoBackend implements Backend {
         if (key != null)
             stats.add(key, rx, tx, latestHandshakeMSec);
         return stats;
+    }
+
+
+    /**
+     * Get the last handshake time for a given {@link Tunnel}.
+     *
+     * @param tunnel The tunnel to retrieve the last handshake time for.
+     * @return Last handshake time in seconds (>=0), -1 if no handshake found, -2 on error, -3 if tunnel not active.
+     */
+    @Override
+    public long getLastHandshake(final Tunnel tunnel) {
+        if (tunnel != currentTunnel || currentTunnelHandle == -1)
+            return -3; // Tunnel not active
+        final String config = awgGetConfig(currentTunnelHandle);
+        if (config == null) {
+            Log.e(TAG, "Failed to get tunnel config");
+            return -2;
+        }
+
+        for (final String line : config.split("\\n")) {
+            if (line.startsWith("last_handshake_time_sec=")) {
+                try {
+                    return Long.parseLong(line.substring(24));
+                } catch (final NumberFormatException ignored) {
+                    Log.e(TAG, "Failed to parse last_handshake_time_sec");
+                    return -2;
+                }
+            }
+        }
+
+        Log.e(TAG, "Failed to get last_handshake_time_sec");
+        return -1;
+    }
+
+    /**
+     * Set a callback to be notified when connection status changes.
+     *
+     * @param callback The callback to invoke on status change
+     */
+    public void setStatusCallback(@Nullable final StatusCallback callback) {
+        this.statusCallback = callback;
+    }
+
+    /**
+     * Launch a background thread to poll handshake status and determine connection state.
+     * This is called after tunnel creation to wait for the first successful handshake.
+     */
+    private void launchStatusJob() {
+        stopStatusJob();
+        Log.d(TAG, "Launch status job");
+        statusThread = new Thread(() -> {
+            while (!Thread.currentThread().isInterrupted()) {
+                final long lastHandshake = getLastHandshake(currentTunnel);
+
+                // Check if tunnel is no longer active (race condition protection)
+                if (lastHandshake == -3L) {
+                    Log.d(TAG, "Tunnel is no longer active, stopping status job");
+                    break;
+                }
+
+                // 0 means no handshake yet, wait and retry
+                if (lastHandshake == 0L) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (final InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        break;
+                    }
+                    continue;
+                }
+
+                // Only positive handshake time indicates successful connection
+                // -1 may be returned if unable to parse output (doesn't mean no connection)
+                // -2 indicates command execution error (also doesn't mean no connection)
+                if (lastHandshake > 0L) {
+                    if (statusCallback != null) {
+                        statusCallback.onStatusChanged(true);
+                    }
+                    break;
+                }
+
+                // For -1 or -2, retry after delay instead of reporting disconnected
+                try {
+                    Thread.sleep(1000);
+                } catch (final InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+            }
+            statusThread = null;
+        }, "StatusJob");
+        statusThread.start();
+    }
+
+    /**
+     * Stop the status polling thread if running.
+     */
+    private void stopStatusJob() {
+        if (statusThread != null) {
+            statusThread.interrupt();
+            statusThread = null;
+        }
     }
 
     /**
@@ -324,11 +428,14 @@ public final class GoBackend implements Backend {
 
             service.protect(awgGetSocketV4(currentTunnelHandle));
             service.protect(awgGetSocketV6(currentTunnelHandle));
+
+            launchStatusJob();
         } else {
             if (currentTunnelHandle == -1) {
                 Log.w(TAG, "Tunnel already down");
                 return;
             }
+            stopStatusJob();
             int handleToClose = currentTunnelHandle;
             currentTunnel = null;
             currentTunnelHandle = -1;

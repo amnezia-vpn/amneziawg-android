@@ -50,15 +50,40 @@ class ObservableTunnel internal constructor(
     var state = state
         private set
 
+    @get:Bindable
+    var connectionStatus: ConnectionStatus = ConnectionStatus.DISCONNECTED
+        private set
+
     override fun onStateChange(newState: Tunnel.State) {
         onStateChanged(newState)
     }
 
     fun onStateChanged(state: Tunnel.State): Tunnel.State {
-        if (state != Tunnel.State.UP) onStatisticsChanged(null)
+        if (state != Tunnel.State.UP) {
+            onStatisticsChanged(null)
+            onConnectionStatusChanged(ConnectionStatus.DISCONNECTED)
+        } else if (connectionStatus == ConnectionStatus.DISCONNECTED) {
+            // When state changes to UP, set to CONNECTING until handshake confirms
+            onConnectionStatusChanged(ConnectionStatus.CONNECTING)
+        }
         this.state = state
         notifyPropertyChanged(BR.state)
         return state
+    }
+
+    fun onConnectionStatusChanged(status: ConnectionStatus): ConnectionStatus {
+        if (status != this.connectionStatus) {
+            this.connectionStatus = status
+            notifyPropertyChanged(BR.connectionStatus)
+            Log.d(TAG, "Connection status changed for $name: $status")
+        }
+        return status
+    }
+
+    enum class ConnectionStatus {
+        DISCONNECTED,
+        CONNECTING,
+        CONNECTED
     }
 
     suspend fun setStateAsync(state: Tunnel.State): Tunnel.State = withContext(Dispatchers.Main.immediate) {
