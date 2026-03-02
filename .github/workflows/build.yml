@@ -131,8 +131,6 @@ jobs:
           "${AAB}" \
           "${KEY_ALIAS}"
         
-        jarsigner -verify -verbose -certs "${SIGNED_AAB}"
-        
         echo "final_file=${SIGNED_AAB}" >> "$GITHUB_OUTPUT"
 
     - name: Upload artifact
