@@ -1,0 +1,140 @@
+name: Build signed AAB (Release)
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "What to build"
+        type: choice
+        required: true
+        default: release_aab
+        options:
+        - release_aab
+        - debug_apk
+      ref:
+        description: "Git ref (branch/tag/sha)"
+        required: false
+        default: "master"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.ref }}
+        fetch-depth: 0
+
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: "17"
+
+    - name: Set up Gradle
+      uses: gradle/actions/setup-gradle@v4
+
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Configure build
+      id: cfg
+      shell: bash
+      run: |
+        set -euo pipefail
+        case "${{ inputs.target }}" in
+          release_aab)
+            echo "gradle_task=bundleRelease" >> "$GITHUB_OUTPUT"
+            echo "kind=aab" >> "$GITHUB_OUTPUT"
+            echo "artifact_name=release-aab" >> "$GITHUB_OUTPUT"
+            echo "needs_signing=true" >> "$GITHUB_OUTPUT"
+            ;;
+          debug_apk)
+            echo "gradle_task=assembleDebug" >> "$GITHUB_OUTPUT"
+            echo "kind=apk" >> "$GITHUB_OUTPUT"
+            echo "artifact_name=debug-apk" >> "$GITHUB_OUTPUT"
+            echo "needs_signing=false" >> "$GITHUB_OUTPUT"
+            ;;
+          *)
+            echo "Unknown target: ${{ inputs.target }}" >&2
+            exit 1
+            ;;
+        esac
+
+    - name: Decode keystore from secret
+      if: ${{ steps.cfg.outputs.needs_signing == 'true' }}
+      shell: bash
+      env:
+        KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+      run: |
+        set -euo pipefail
+        if [[ -z "${KEYSTORE_B64}" ]]; then
+          echo "Missing secret ANDROID_KEYSTORE_BASE64" >&2
+          exit 1
+        fi
+        echo "${KEYSTORE_B64}" | base64 --decode > release.keystore.jks
+        echo "KEYSTORE_PATH=${PWD}/release.keystore.jks" >> "$GITHUB_ENV"
+
+    - name: Build
+      shell: bash
+      run: |
+        set -euo pipefail
+        chmod +x ./gradlew
+        ./gradlew --no-daemon --stacktrace ${{ steps.cfg.outputs.gradle_task }}
+
+    - name: Locate built artifact
+      id: locate
+      shell: bash
+      run: |
+        set -euo pipefail
+        
+        if [[ "${{ steps.cfg.outputs.kind }}" == "aab" ]]; then
+          FILE="./ui/build/outputs/bundle/release/ui-release.aab"
+        else
+          FILE="./ui/build/outputs/apk/debug/ui-debug.apk"
+        fi
+        
+        if [[ -z "${FILE}" ]]; then
+          echo "Built file not found" >&2
+          exit 1
+        fi
+        
+        echo "built_file=${FILE}" >> "$GITHUB_OUTPUT"
+
+    - name: Sign AAB
+      if: ${{ steps.cfg.outputs.needs_signing == 'true' }}
+      id: sign
+      shell: bash
+      env:
+        KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+        KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+      run: |
+        set -euo pipefail
+        
+        AAB="${{ steps.locate.outputs.built_file }}"
+        SIGNED_AAB="${AAB%.aab}-signed.aab"
+        
+        if [[ -z "${KEYSTORE_PASSWORD}" || -z "${KEY_ALIAS}" ]]; then
+          echo "Missing one of secrets: ANDROID_KEYSTORE_PASSWORD / ANDROID_KEY_ALIAS" >&2
+          exit 1
+        fi
+        
+        jarsigner \
+          -keystore "${KEYSTORE_PATH}" \
+          -storepass "${KEYSTORE_PASSWORD}" \
+          -signedjar "${SIGNED_AAB}" \
+          "${AAB}" \
+          "${KEY_ALIAS}"
+        
+        jarsigner -verify -verbose -certs "${SIGNED_AAB}"
+        
+        echo "final_file=${SIGNED_AAB}" >> "$GITHUB_OUTPUT"
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ steps.cfg.outputs.artifact_name }}
+        path: ${{ steps.sign.outputs.final_file || steps.locate.outputs.built_file }}
+        if-no-files-found: error
