@@ -39,12 +39,12 @@ import static org.amnezia.awg.GoBackend.*;
 
 /**
  * Implementation of {@link Backend} that uses the amneziawg-go userspace implementation to provide
- * AmneziaWG tunnels.
+ * GoElse tunnels.
  */
 @NonNullForAll
 public final class GoBackend implements Backend {
     private static final int DNS_RESOLUTION_RETRIES = 10;
-    private static final String TAG = "AmneziaWG/GoBackend";
+    private static final String TAG = "GoElse/GoBackend";
     @Nullable private static AlwaysOnCallback alwaysOnCallback;
     private static GhettoCompletableFuture<VpnService> vpnService = new GhettoCompletableFuture<>();
     private final Context context;

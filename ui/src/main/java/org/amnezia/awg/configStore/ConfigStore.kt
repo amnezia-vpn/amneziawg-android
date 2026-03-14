@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017-2023 WireGuard LLC. All Rights Reserved.
+ * Copyright В© 2017-2023 WireGuard LLC. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 package org.amnezia.awg.configStore
@@ -7,7 +7,7 @@ package org.amnezia.awg.configStore
 import org.amnezia.awg.config.Config
 
 /**
- * Interface for persistent storage providers for AmneziaWG configurations.
+ * Interface for persistent storage providers for GoElse configurations.
  */
 interface ConfigStore {
     /**
@@ -66,3 +66,5 @@ interface ConfigStore {
     @Throws(Exception::class)
     fun save(name: String, config: Config): Config
 }
+
+

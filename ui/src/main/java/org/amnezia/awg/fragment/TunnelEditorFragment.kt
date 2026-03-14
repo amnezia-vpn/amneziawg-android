@@ -36,7 +36,7 @@ import org.amnezia.awg.config.Config
 import kotlinx.coroutines.launch
 
 /**
- * Fragment for editing an AmneziaWG configuration.
+ * Fragment for editing a GoElse configuration.
  */
 class TunnelEditorFragment : BaseFragment(), MenuProvider {
     private var haveShownKeys = false
@@ -328,6 +328,6 @@ class TunnelEditorFragment : BaseFragment(), MenuProvider {
     companion object {
         private const val KEY_LOCAL_CONFIG = "local_config"
         private const val KEY_ORIGINAL_NAME = "original_name"
-        private const val TAG = "AmneziaWG/TunnelEditorFragment"
+        private const val TAG = "GoElse/TunnelEditorFragment"
     }
 }
