@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017-2023 WireGuard LLC. All Rights Reserved.
+ * Copyright В© 2017-2023 WireGuard LLC. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -10,7 +10,7 @@ import org.amnezia.awg.util.NonNullForAll;
 import java.util.regex.Pattern;
 
 /**
- * Represents an AmneziaWG tunnel.
+ * Represents an GoElse tunnel.
  */
 
 @NonNullForAll
@@ -55,3 +55,5 @@ public interface Tunnel {
         }
     }
 }
+
+

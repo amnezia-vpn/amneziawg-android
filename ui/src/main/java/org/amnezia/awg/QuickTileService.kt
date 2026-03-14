@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017-2023 WireGuard LLC. All Rights Reserved.
+ * Copyright В© 2017-2023 WireGuard LLC. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 package org.amnezia.awg
@@ -89,11 +89,11 @@ class QuickTileService : TileService() {
     override fun onCreate() {
         isAdded = true
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            iconOn = Icon.createWithResource(this, R.drawable.ic_tile)
+            iconOn = Icon.createWithResource(this, R.drawable.go_else_logo)
             iconOff = iconOn
             return
         }
-        val icon = SlashDrawable(resources.getDrawable(R.drawable.ic_tile, Application.get().theme))
+        val icon = SlashDrawable(resources.getDrawable(R.drawable.go_else_logo, Application.get().theme))
         icon.setAnimationEnabled(false) /* Unfortunately we can't have animations, since Icons are marshaled. */
         icon.setSlashed(false)
         var b = Bitmap.createBitmap(icon.intrinsicWidth, icon.intrinsicHeight, Bitmap.Config.ARGB_8888)
@@ -180,8 +180,10 @@ class QuickTileService : TileService() {
     }
 
     companion object {
-        private const val TAG = "AmneziaWG/QuickTileService"
+        private const val TAG = "GoElse/QuickTileService"
         var isAdded: Boolean = false
             private set
     }
 }
+
+

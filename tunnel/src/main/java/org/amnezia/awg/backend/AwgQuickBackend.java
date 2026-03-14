@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017-2023 WireGuard LLC. All Rights Reserved.
+ * Copyright В© 2017-2023 WireGuard LLC. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -35,12 +35,12 @@ import androidx.annotation.Nullable;
 
 /**
  * Implementation of {@link Backend} that uses the kernel module and {@code awg-quick} to provide
- * AmneziaWG tunnels.
+ * GoElse tunnels.
  */
 
 @NonNullForAll
 public final class AwgQuickBackend implements Backend {
-    private static final String TAG = "AmneziaWG/AwgQuickBackend";
+    private static final String TAG = "GoElse/AwgQuickBackend";
     private final File localTemporaryDir;
     private final RootShell rootShell;
     private final Map<Tunnel, Config> runningConfigs = new HashMap<>();
@@ -57,7 +57,7 @@ public final class AwgQuickBackend implements Backend {
     }
 
     public static boolean hasKernelSupport() {
-        return new File("/sys/module/amneziawg").exists();
+        return new File("/sys/module/GoElse").exists();
     }
 
     @Override
@@ -206,7 +206,7 @@ public final class AwgQuickBackend implements Backend {
     @Override
     public String getVersion() throws Exception {
         final List<String> output = new ArrayList<>();
-        if (rootShell.run(output, "cat /sys/module/amneziawg/version") != 0 || output.isEmpty())
+        if (rootShell.run(output, "cat /sys/module/GoElse/version") != 0 || output.isEmpty())
             throw new BackendException(Reason.UNKNOWN_KERNEL_MODULE_NAME);
         return output.get(0);
     }
@@ -281,7 +281,7 @@ public final class AwgQuickBackend implements Backend {
         String command = String.format("awg-quick %s '%s'",
                 state.toString().toLowerCase(Locale.ENGLISH), tempFile.getAbsolutePath());
         if (state == State.UP)
-            command = "cat /sys/module/amneziawg/version && " + command;
+            command = "cat /sys/module/GoElse/version && " + command;
         final int result = rootShell.run(null, command);
         // noinspection ResultOfMethodCallIgnored
         tempFile.delete();
@@ -301,3 +301,5 @@ public final class AwgQuickBackend implements Backend {
         tunnel.onStateChange(state);
     }
 }
+
+

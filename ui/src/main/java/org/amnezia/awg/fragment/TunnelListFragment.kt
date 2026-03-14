@@ -43,7 +43,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 
 /**
- * Fragment containing a list of known AmneziaWG tunnels. It allows creating and deleting tunnels.
+ * Fragment containing a list of known GoElse tunnels. It allows creating and deleting tunnels.
  */
 class TunnelListFragment : BaseFragment() {
     private val actionModeListener = ActionModeListener()
@@ -333,6 +333,6 @@ class TunnelListFragment : BaseFragment() {
 
     companion object {
         private const val CHECKED_ITEMS = "CHECKED_ITEMS"
-        private const val TAG = "AmneziaWG/TunnelListFragment"
+        private const val TAG = "GoElse/TunnelListFragment"
     }
 }

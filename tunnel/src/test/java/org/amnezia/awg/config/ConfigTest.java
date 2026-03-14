@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017-2023 WireGuard LLC. All Rights Reserved.
+ * Copyright В© 2017-2023 WireGuard LLC. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -47,3 +47,5 @@ public class ConfigTest {
         assertEquals("Test config has one DNS server", 1, config.getInterface().getDnsServers().size());
     }
 }
+
+

@@ -13,7 +13,7 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 
 /**
- * Represents an AmneziaWG public or private key. This class uses specialized constant-time base64
+ * Represents a GoElse public or private key. This class uses specialized constant-time base64
  * and hexadecimal codec implementations that resist side-channel attacks.
  * <p>
  * Instances of this class are immutable.
@@ -83,10 +83,10 @@ public final class Key {
     }
 
     /**
-     * Decodes an AmneziaWG public or private key from its base64 string representation. This
+     * Decodes a GoElse public or private key from its base64 string representation. This
      * function throws a {@link KeyFormatException} if the source string is not well-formed.
      *
-     * @param str the base64 string representation of an AmneziaWG key
+     * @param str the base64 string representation of a GoElse key
      * @return the decoded key encapsulated in an immutable container
      */
     public static Key fromBase64(final String str) throws KeyFormatException {
@@ -120,10 +120,10 @@ public final class Key {
     }
 
     /**
-     * Wraps an AmneziaWG public or private key in an immutable container. This function throws a
+     * Wraps a GoElse public or private key in an immutable container. This function throws a
      * {@link KeyFormatException} if the source data is not the correct length.
      *
-     * @param bytes an array of bytes containing an AmneziaWG key in binary format
+     * @param bytes an array of bytes containing a GoElse key in binary format
      * @return the key encapsulated in an immutable container
      */
     public static Key fromBytes(final byte[] bytes) throws KeyFormatException {
@@ -133,10 +133,10 @@ public final class Key {
     }
 
     /**
-     * Decodes an AmneziaWG public or private key from its hexadecimal string representation. This
+     * Decodes a GoElse public or private key from its hexadecimal string representation. This
      * function throws a {@link KeyFormatException} if the source string is not well-formed.
      *
-     * @param str the hexadecimal string representation of an AmneziaWG key
+     * @param str the hexadecimal string representation of a GoElse key
      * @return the decoded key encapsulated in an immutable container
      */
     public static Key fromHex(final String str) throws KeyFormatException {
@@ -269,7 +269,7 @@ public final class Key {
     }
 
     /**
-     * The supported formats for encoding an AmneziaWG key.
+     * The supported formats for encoding a GoElse key.
      */
     public enum Format {
         BASE64(44),

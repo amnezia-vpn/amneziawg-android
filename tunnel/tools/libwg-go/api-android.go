@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: Apache-2.0
  *
- * Copyright © 2017-2022 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
+ * Copyright В© 2017-2022 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
  */
 
 package main
@@ -66,7 +66,7 @@ func init() {
 					n--
 				}
 				buf[n] = 0
-				C.__android_log_write(C.ANDROID_LOG_ERROR, cstring("AmneziaWG/Stacktrace"), (*C.char)(unsafe.Pointer(&buf[0])))
+				C.__android_log_write(C.ANDROID_LOG_ERROR, cstring("GoElse/Stacktrace"), (*C.char)(unsafe.Pointer(&buf[0])))
 			}
 		}
 	}()
@@ -74,7 +74,7 @@ func init() {
 
 //export awgTurnOn
 func awgTurnOn(interfaceName string, tunFd int32, settings string) int32 {
-	tag := cstring("AmneziaWG/" + interfaceName)
+	tag := cstring("GoElse/" + interfaceName)
 	logger := &device.Logger{
 		Verbosef: AndroidLogger{level: C.ANDROID_LOG_DEBUG, tag: tag}.Printf,
 		Errorf:   AndroidLogger{level: C.ANDROID_LOG_ERROR, tag: tag}.Printf,
@@ -225,3 +225,4 @@ func awgVersion() *C.char {
 }
 
 func main() {}
+
