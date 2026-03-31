@@ -160,6 +160,7 @@
     <string name="module_installer_working">Downloading and installing…</string>
     <string name="module_version_error">Unable to determine kernel module version</string>
     <string name="mtu">MTU</string>
+    <string name="prefer_ipv6">Prefer IPv6 for endpoint resolution</string>
     <string name="junk_packet_count">Junk packet count</string>
     <string name="junk_packet_min_size">Junk packet minimum size</string>
     <string name="junk_packet_max_size">Junk packet maximum size</string>

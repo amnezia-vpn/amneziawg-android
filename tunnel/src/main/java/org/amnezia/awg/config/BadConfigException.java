@@ -75,6 +75,7 @@ public class BadConfigException extends Exception {
         INCLUDED_APPLICATIONS("IncludedApplications"),
         LISTEN_PORT("ListenPort"),
         MTU("MTU"),
+        PREFER_IPV6("PreferIpv6"),
         PERSISTENT_KEEPALIVE("PersistentKeepalive"),
         PRE_SHARED_KEY("PresharedKey"),
         PRIVATE_KEY("PrivateKey"),

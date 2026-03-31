@@ -351,13 +351,14 @@ public final class GoBackend implements Backend {
             }
 
 
+            final boolean preferIpv6 = config.getInterface().getPreferIpv6().orElse(false);
             dnsRetry: for (int i = 0; i < DNS_RESOLUTION_RETRIES; ++i) {
                 // Pre-resolve IPs so they're cached when building the userspace string
                 for (final Peer peer : config.getPeers()) {
                     final InetEndpoint ep = peer.getEndpoint().orElse(null);
                     if (ep == null)
                         continue;
-                    if (ep.getResolved().orElse(null) == null) {
+                    if (ep.getResolved(preferIpv6).orElse(null) == null) {
                         if (i < DNS_RESOLUTION_RETRIES - 1) {
                             Log.w(TAG, "DNS host \"" + ep.getHost() + "\" failed to resolve; trying again");
                             Thread.sleep(1000);
