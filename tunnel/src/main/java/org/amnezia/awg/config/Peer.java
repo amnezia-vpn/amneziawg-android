@@ -191,12 +191,23 @@ public final class Peer {
      * @return the {@code Peer} represented as a series of "key=value" lines
      */
     public String toAwgUserspaceString() {
+        return toAwgUserspaceString(false);
+    }
+
+    /**
+     * Serializes the {@code Peer} for use with the AmneziaWG cross-platform userspace API. Note
+     * that not all attributes are included in this representation.
+     *
+     * @param preferIpv6 when true, prefer IPv6 addresses for endpoint resolution
+     * @return the {@code Peer} represented as a series of "key=value" lines
+     */
+    public String toAwgUserspaceString(final boolean preferIpv6) {
         final StringBuilder sb = new StringBuilder();
         // The order here is important: public_key signifies the beginning of a new peer.
         sb.append("public_key=").append(publicKey.toHex()).append('\n');
         for (final InetNetwork allowedIp : allowedIps)
             sb.append("allowed_ip=").append(allowedIp).append('\n');
-        endpoint.flatMap(InetEndpoint::getResolved).ifPresent(ep -> sb.append("endpoint=").append(ep).append('\n'));
+        endpoint.flatMap(ep -> ep.getResolved(preferIpv6)).ifPresent(ep -> sb.append("endpoint=").append(ep).append('\n'));
         persistentKeepalive.ifPresent(pk -> sb.append("persistent_keepalive_interval=").append(pk).append('\n'));
         preSharedKey.ifPresent(psk -> sb.append("preshared_key=").append(psk.toHex()).append('\n'));
         return sb.toString();

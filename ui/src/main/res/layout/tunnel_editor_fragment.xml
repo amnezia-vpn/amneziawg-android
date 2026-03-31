@@ -241,6 +241,18 @@
                                 android:textAlignment="center" />
                         </com.google.android.material.textfield.TextInputLayout>
 
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/prefer_ipv6_switch"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:padding="4dp"
+                            android:text="@string/prefer_ipv6"
+                            android:checked="@={config.interface.preferIpv6}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/dns_servers_label_layout" />
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/junk_packet_count_layout"
                             android:layout_width="0dp"
@@ -249,7 +261,7 @@
                             android:hint="@string/junk_packet_count"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/dns_servers_label_layout">
+                            app:layout_constraintTop_toBottomOf="@id/prefer_ipv6_switch">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/junk_packet_count_text"
