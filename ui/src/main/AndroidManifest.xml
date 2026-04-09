@@ -116,8 +116,7 @@
 
         <receiver
             android:name=".model.TunnelManager$IntentReceiver"
-            android:exported="true"
-            android:permission="${applicationId}.permission.CONTROL_TUNNELS">
+            android:exported="true">
             <intent-filter>
                 <action android:name="org.amnezia.awg.action.REFRESH_TUNNEL_STATES" />
                 <action android:name="org.amnezia.awg.action.SET_TUNNEL_UP" />
