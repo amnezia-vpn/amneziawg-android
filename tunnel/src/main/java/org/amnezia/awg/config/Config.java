@@ -177,8 +177,9 @@ public final class Config {
         final StringBuilder sb = new StringBuilder();
         sb.append(interfaze.toAwgUserspaceString());
         sb.append("replace_peers=true\n");
+        final boolean preferIpv6 = interfaze.getPreferIpv6().orElse(false);
         for (final Peer peer : peers)
-            sb.append(peer.toAwgUserspaceString());
+            sb.append(peer.toAwgUserspaceString(preferIpv6));
         return sb.toString();
     }
 

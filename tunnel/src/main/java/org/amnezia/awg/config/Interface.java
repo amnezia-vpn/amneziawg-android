@@ -62,6 +62,7 @@ public final class Interface {
     private final Optional<String> specialJunkI3;
     private final Optional<String> specialJunkI4;
     private final Optional<String> specialJunkI5;
+    private final Optional<Boolean> preferIpv6;
 
     private Interface(final Builder builder) {
         // Defensively copy to ensure immutability even if the Builder is reused.
@@ -89,6 +90,7 @@ public final class Interface {
         specialJunkI3 = builder.specialJunkI3;
         specialJunkI4 = builder.specialJunkI4;
         specialJunkI5 = builder.specialJunkI5;
+        preferIpv6 = builder.preferIpv6;
     }
 
     /**
@@ -123,6 +125,9 @@ public final class Interface {
                     break;
                 case "mtu":
                     builder.parseMtu(attribute.getValue());
+                    break;
+                case "preferipv6":
+                    builder.parsePreferIpv6(attribute.getValue());
                     break;
                 case "privatekey":
                     builder.parsePrivateKey(attribute.getValue());
@@ -211,7 +216,8 @@ public final class Interface {
                 && specialJunkI2.equals(other.specialJunkI2)
                 && specialJunkI3.equals(other.specialJunkI3)
                 && specialJunkI4.equals(other.specialJunkI4)
-                && specialJunkI5.equals(other.specialJunkI5);
+                && specialJunkI5.equals(other.specialJunkI5)
+                && preferIpv6.equals(other.preferIpv6);
     }
 
     /**
@@ -435,6 +441,14 @@ public final class Interface {
         return specialJunkI5;
     }
 
+    /**
+     * Returns whether IPv6 is preferred for endpoint resolution.
+     *
+     * @return the preferIpv6 flag, or {@code Optional.empty()} if none is configured
+     */
+    public Optional<Boolean> getPreferIpv6() {
+        return preferIpv6;
+    }
 
     @Override
     public int hashCode() {
@@ -462,6 +476,7 @@ public final class Interface {
         hash = 31 * hash + specialJunkI3.hashCode();
         hash = 31 * hash + specialJunkI4.hashCode();
         hash = 31 * hash + specialJunkI5.hashCode();
+        hash = 31 * hash + preferIpv6.hashCode();
         return hash;
     }
 
@@ -501,6 +516,7 @@ public final class Interface {
             sb.append("IncludedApplications = ").append(Attribute.join(includedApplications)).append('\n');
         listenPort.ifPresent(lp -> sb.append("ListenPort = ").append(lp).append('\n'));
         mtu.ifPresent(m -> sb.append("MTU = ").append(m).append('\n'));
+        preferIpv6.ifPresent(v -> sb.append("PreferIpv6 = ").append(v).append('\n'));
         junkPacketCount.ifPresent(jc -> sb.append("Jc = ").append(jc).append('\n'));
         junkPacketMinSize.ifPresent(jmin -> sb.append("Jmin = ").append(jmin).append('\n'));
         junkPacketMaxSize.ifPresent(jmax -> sb.append("Jmax = ").append(jmax).append('\n'));
@@ -600,6 +616,8 @@ public final class Interface {
         private Optional<String> specialJunkI4 = Optional.empty();
         // Defaults to not present.
         private Optional<String> specialJunkI5 = Optional.empty();
+        // Defaults to not present.
+        private Optional<Boolean> preferIpv6 = Optional.empty();
 
 
         public Builder addAddress(final InetNetwork address) {
@@ -711,6 +729,23 @@ public final class Interface {
             } catch (final NumberFormatException e) {
                 throw new BadConfigException(Section.INTERFACE, Location.MTU, mtu, e);
             }
+        }
+
+        public Builder parsePreferIpv6(final String preferIpv6) throws BadConfigException {
+            switch (preferIpv6.toLowerCase(Locale.ENGLISH)) {
+                case "true":
+                    return setPreferIpv6(true);
+                case "false":
+                    return setPreferIpv6(false);
+                default:
+                    throw new BadConfigException(Section.INTERFACE, Location.PREFER_IPV6,
+                            Reason.INVALID_VALUE, preferIpv6);
+            }
+        }
+
+        public Builder setPreferIpv6(final boolean preferIpv6) {
+            this.preferIpv6 = Optional.of(preferIpv6);
+            return this;
         }
 
         public Builder parseJunkPacketCount(final String junkPacketCount) throws BadConfigException {
