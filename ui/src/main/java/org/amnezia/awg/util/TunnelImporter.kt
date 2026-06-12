@@ -148,5 +148,5 @@ object TunnelImporter {
         messageCallback(message)
     }
 
-    private const val TAG = "AmneziaWG/TunnelImporter"
+    private const val TAG = "GoElse/TunnelImporter"
 }

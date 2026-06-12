@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017-2023 WireGuard LLC. All Rights Reserved.
+ * Copyright В© 2017-2023 WireGuard LLC. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 package org.amnezia.awg.widget
@@ -10,7 +10,7 @@ import android.text.Spanned
 import org.amnezia.awg.crypto.Key
 
 /**
- * InputFilter for entering AmneziaWG private/public keys encoded with base64.
+ * InputFilter for entering GoElse private/public keys encoded with base64.
  */
 class KeyInputFilter : InputFilter {
     override fun filter(
@@ -47,3 +47,5 @@ class KeyInputFilter : InputFilter {
         fun newInstance() = KeyInputFilter()
     }
 }
+
+

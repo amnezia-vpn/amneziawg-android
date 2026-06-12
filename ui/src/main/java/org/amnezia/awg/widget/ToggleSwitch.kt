@@ -1,6 +1,6 @@
 /*
- * Copyright © 2013 The Android Open Source Project
- * Copyright © 2017-2023 WireGuard LLC. All Rights Reserved.
+ * Copyright В© 2013 The Android Open Source Project
+ * Copyright В© 2017-2023 WireGuard LLC. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 package org.amnezia.awg.widget
@@ -42,3 +42,5 @@ class ToggleSwitch @JvmOverloads constructor(context: Context, attrs: AttributeS
         fun onBeforeCheckedChanged(toggleSwitch: ToggleSwitch?, checked: Boolean)
     }
 }
+
+

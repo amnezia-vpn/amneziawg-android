@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017-2023 WireGuard LLC. All Rights Reserved.
+ * Copyright В© 2017-2023 WireGuard LLC. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 package org.amnezia.awg.model
@@ -20,3 +20,5 @@ class ApplicationData(val icon: Drawable, val name: String, val packageName: Str
             notifyPropertyChanged(BR.selected)
         }
 }
+
+

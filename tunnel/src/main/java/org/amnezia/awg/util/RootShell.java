@@ -29,7 +29,7 @@ import androidx.annotation.Nullable;
 @NonNullForAll
 public class RootShell {
     private static final String SU = "su";
-    private static final String TAG = "AmneziaWG/RootShell";
+    private static final String TAG = "GoElse/RootShell";
 
     private final File localBinaryDir;
     private final File localTemporaryDir;

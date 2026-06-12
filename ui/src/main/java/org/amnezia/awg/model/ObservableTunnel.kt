@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017-2023 WireGuard LLC. All Rights Reserved.
+ * Copyright В© 2017-2023 WireGuard LLC. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 package org.amnezia.awg.model
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
- * Encapsulates the volatile and nonvolatile state of an AmneziaWG tunnel.
+ * Encapsulates the volatile and nonvolatile state of an GoElse tunnel.
  */
 class ObservableTunnel internal constructor(
     private val manager: TunnelManager,
@@ -166,6 +166,8 @@ class ObservableTunnel internal constructor(
 
 
     companion object {
-        private const val TAG = "AmneziaWG/ObservableTunnel"
+        private const val TAG = "GoElse/ObservableTunnel"
     }
 }
+
+

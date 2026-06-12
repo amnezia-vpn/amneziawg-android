@@ -1,29 +1,34 @@
 /*
- * Copyright © 2017-2023 WireGuard LLC. All Rights Reserved.
+ * Copyright В© 2017-2023 WireGuard LLC. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 package org.amnezia.awg.activity
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
+import androidx.lifecycle.lifecycleScope
 import org.amnezia.awg.R
 import org.amnezia.awg.fragment.TunnelDetailFragment
 import org.amnezia.awg.fragment.TunnelEditorFragment
 import org.amnezia.awg.model.ObservableTunnel
+import org.amnezia.awg.util.TunnelImporter
+import kotlinx.coroutines.launch
 
 /**
- * CRUD interface for AmneziaWG tunnels. This activity serves as the main entry point to the
- * AmneziaWG application, and contains several fragments for listing, viewing details of, and
- * editing the configuration and interface state of AmneziaWG tunnels.
+ * CRUD interface for GoElse tunnels. This activity serves as the main entry point to the
+ * GoElse application, and contains several fragments for listing, viewing details of, and
+ * editing the configuration and interface state of GoElse tunnels.
  */
 class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener {
     private var actionBar: ActionBar? = null
@@ -63,6 +68,15 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
         supportFragmentManager.addOnBackStackChangedListener(this)
         backPressedCallback = onBackPressedDispatcher.addCallback(this) { handleBackPressed() }
         onBackStackChanged()
+        if (savedInstanceState == null) {
+            handleExternalImportIntent(intent)
+        }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleExternalImportIntent(intent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -125,5 +139,23 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
             }
         }
         return true
+    }
+
+    private fun handleExternalImportIntent(intent: Intent?) {
+        val data: Uri = when (intent?.action) {
+            Intent.ACTION_VIEW -> intent.data
+                ?: intent.getParcelableExtra(Intent.EXTRA_STREAM)
+                ?: intent.clipData?.takeIf { it.itemCount > 0 }?.getItemAt(0)?.uri
+            Intent.ACTION_SEND -> intent.getParcelableExtra(Intent.EXTRA_STREAM)
+                ?: intent.clipData?.takeIf { it.itemCount > 0 }?.getItemAt(0)?.uri
+            else -> null
+        } ?: return
+        lifecycleScope.launch {
+            TunnelImporter.importTunnel(contentResolver, data) { message ->
+                if (message.isNotBlank()) {
+                    Toast.makeText(this@MainActivity, message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 }

@@ -2,7 +2,7 @@
 
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
-val pkg: String = providers.gradleProperty("amneziawgPackageName").get()
+val pkg: String = providers.gradleProperty("amneziawgPackageName").getOrElse("org.amnezia.awg")
 val cmakeAndroidPackageName: String = providers.environmentVariable("ANDROID_PACKAGE_NAME").getOrElse(pkg)
 
 plugins {
@@ -59,3 +59,4 @@ dependencies {
     compileOnly(libs.jsr305)
     testImplementation(libs.junit)
 }
+

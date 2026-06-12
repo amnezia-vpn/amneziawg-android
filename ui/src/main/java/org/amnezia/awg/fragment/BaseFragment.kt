@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017-2023 WireGuard LLC. All Rights Reserved.
+ * Copyright В© 2017-2023 WireGuard LLC. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 package org.amnezia.awg.fragment
@@ -109,6 +109,8 @@ abstract class BaseFragment : Fragment(), OnSelectedTunnelChangedListener {
     }
 
     companion object {
-        private const val TAG = "AmneziaWG/BaseFragment"
+        private const val TAG = "GoElse/BaseFragment"
     }
 }
+
+

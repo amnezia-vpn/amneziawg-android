@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017-2023 WireGuard LLC. All Rights Reserved.
+ * Copyright В© 2017-2023 WireGuard LLC. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 import androidx.annotation.Nullable;
 
 /**
- * Represents the configuration for an AmneziaWG interface (an [Interface] block). Interfaces must
+ * Represents the configuration for an GoElse interface (an [Interface] block). Interfaces must
  * have a private key (used to initialize a {@code KeyPair}), and may optionally have several other
  * attributes.
  * <p>
@@ -274,7 +274,7 @@ public final class Interface {
     }
 
     /**
-     * Returns the UDP port number that the AmneziaWG interface will listen on.
+     * Returns the UDP port number that the GoElse interface will listen on.
      *
      * @return a UDP port number, or {@code Optional.empty()} if none is configured
      */
@@ -283,7 +283,7 @@ public final class Interface {
     }
 
     /**
-     * Returns the MTU used for the AmneziaWG interface.
+     * Returns the MTU used for the GoElse interface.
      *
      * @return the MTU, or {@code Optional.empty()} if none is configured
      */
@@ -292,7 +292,7 @@ public final class Interface {
     }
 
     /**
-     * Returns the junkPacketCount used for the AmneziaWG interface.
+     * Returns the junkPacketCount used for the GoElse interface.
      *
      * @return the junkPacketCount, or {@code Optional.empty()} if none is configured
      */
@@ -301,7 +301,7 @@ public final class Interface {
     }
 
     /**
-     * Returns the junkPacketMinSize used for the AmneziaWG interface.
+     * Returns the junkPacketMinSize used for the GoElse interface.
      *
      * @return the junkPacketMinSize, or {@code Optional.empty()} if none is configured
      */
@@ -310,7 +310,7 @@ public final class Interface {
     }
 
     /**
-     * Returns the junkPacketMaxSize used for the AmneziaWG interface.
+     * Returns the junkPacketMaxSize used for the GoElse interface.
      *
      * @return the junkPacketMaxSize, or {@code Optional.empty()} if none is configured
      */
@@ -319,7 +319,7 @@ public final class Interface {
     }
 
     /**
-     * Returns the initPacketJunkSize used for the AmneziaWG interface.
+     * Returns the initPacketJunkSize used for the GoElse interface.
      *
      * @return the initPacketJunkSize, or {@code Optional.empty()} if none is configured
      */
@@ -328,7 +328,7 @@ public final class Interface {
     }
 
     /**
-     * Returns the responsePacketJunkSize used for the AmneziaWG interface.
+     * Returns the responsePacketJunkSize used for the GoElse interface.
      *
      * @return the responsePacketJunkSize, or {@code Optional.empty()} if none is configured
      */
@@ -337,7 +337,7 @@ public final class Interface {
     }
 
     /**
-     * Returns the cookieReplyPacketJunkSize used for the AmneziaWG interface.
+     * Returns the cookieReplyPacketJunkSize used for the GoElse interface.
      *
      * @return the cookieReplyPacketJunkSize, or {@code Optional.empty()} if none is configured
      */
@@ -346,7 +346,7 @@ public final class Interface {
     }
 
     /**
-     * Returns the transportPacketJunkSize used for the AmneziaWG interface.
+     * Returns the transportPacketJunkSize used for the GoElse interface.
      *
      * @return the transportPacketJunkSize, or {@code Optional.empty()} if none is configured
      */
@@ -355,7 +355,7 @@ public final class Interface {
     }
 
     /**
-     * Returns the initPacketMagicHeader used for the AmneziaWG interface.
+     * Returns the initPacketMagicHeader used for the GoElse interface.
      *
      * @return the initPacketMagicHeader, or {@code Optional.empty()} if none is configured
      */
@@ -364,7 +364,7 @@ public final class Interface {
     }
 
     /**
-     * Returns the responsePacketMagicHeader used for the AmneziaWG interface.
+     * Returns the responsePacketMagicHeader used for the GoElse interface.
      *
      * @return the responsePacketMagicHeader, or {@code Optional.empty()} if none is configured
      */
@@ -373,7 +373,7 @@ public final class Interface {
     }
 
     /**
-     * Returns the underloadPacketMagicHeader used for the AmneziaWG interface.
+     * Returns the underloadPacketMagicHeader used for the GoElse interface.
      *
      * @return the underloadPacketMagicHeader, or {@code Optional.empty()} if none is configured
      */
@@ -382,7 +382,7 @@ public final class Interface {
     }
 
     /**
-     * Returns the transportPacketMagicHeader used for the AmneziaWG interface.
+     * Returns the transportPacketMagicHeader used for the GoElse interface.
      *
      * @return the transportPacketMagicHeader, or {@code Optional.empty()} if none is configured
      */
@@ -391,7 +391,7 @@ public final class Interface {
     }
 
     /**
-     * Returns the specialJunkI1 used for the AmneziaWG interface.
+     * Returns the specialJunkI1 used for the GoElse interface.
      *
      * @return the specialJunkI1, or {@code Optional.empty()} if none is configured
      */
@@ -400,7 +400,7 @@ public final class Interface {
     }
 
     /**
-     * Returns the specialJunkI2 used for the AmneziaWG interface.
+     * Returns the specialJunkI2 used for the GoElse interface.
      *
      * @return the specialJunkI2, or {@code Optional.empty()} if none is configured
      */
@@ -409,7 +409,7 @@ public final class Interface {
     }
 
     /**
-     * Returns the specialJunkI3 used for the AmneziaWG interface.
+     * Returns the specialJunkI3 used for the GoElse interface.
      *
      * @return the specialJunkI3, or {@code Optional.empty()} if none is configured
      */
@@ -418,7 +418,7 @@ public final class Interface {
     }
 
     /**
-     * Returns the specialJunkI4 used for the AmneziaWG interface.
+     * Returns the specialJunkI4 used for the GoElse interface.
      *
      * @return the specialJunkI4, or {@code Optional.empty()} if none is configured
      */
@@ -427,7 +427,7 @@ public final class Interface {
     }
 
     /**
-     * Returns the specialJunkI5 used for the AmneziaWG interface.
+     * Returns the specialJunkI5 used for the GoElse interface.
      *
      * @return the specialJunkI5, or {@code Optional.empty()} if none is configured
      */
@@ -522,7 +522,7 @@ public final class Interface {
     }
 
     /**
-     * Serializes the {@code Interface} for use with the AmneziaWG cross-platform userspace API.
+     * Serializes the {@code Interface} for use with the GoElse cross-platform userspace API.
      * Note that not all attributes are included in this representation.
      *
      * @return the {@code Interface} represented as a series of "KEY=VALUE" lines
@@ -1017,3 +1017,5 @@ public final class Interface {
         }
     }
 }
+
+

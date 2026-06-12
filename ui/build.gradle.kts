@@ -3,7 +3,9 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val pkg: String = providers.gradleProperty("amneziawgPackageName").get()
+val pkg: String = providers.gradleProperty("amneziawgPackageName").getOrElse("org.amnezia.awg")
+val appVersionCode: Int = providers.gradleProperty("amneziawgVersionCode").getOrElse("1").toInt()
+val appVersionName: String = providers.gradleProperty("amneziawgVersionName").getOrElse("1.0.0")
 
 plugins {
     alias(libs.plugins.android.application)
@@ -21,8 +23,8 @@ android {
     defaultConfig {
         applicationId = pkg
         targetSdk = 35
-        versionCode = providers.gradleProperty("amneziawgVersionCode").get().toInt()
-        versionName = providers.gradleProperty("amneziawgVersionName").get()
+        versionCode = appVersionCode
+        versionName = appVersionName
         buildConfigField("int", "MIN_SDK_VERSION", minSdk.toString())
     }
     compileOptions {
@@ -89,3 +91,5 @@ tasks.withType<JavaCompile>().configureEach {
 tasks.withType<KotlinCompile>().configureEach {
     compilerOptions.jvmTarget.set(JvmTarget.JVM_17)
 }
+
+

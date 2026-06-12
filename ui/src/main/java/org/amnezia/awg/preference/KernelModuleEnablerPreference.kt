@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017-2023 WireGuard LLC. All Rights Reserved.
+ * Copyright В© 2017-2023 WireGuard LLC. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 package org.amnezia.awg.preference
@@ -83,6 +83,8 @@ class KernelModuleEnablerPreference(context: Context, attrs: AttributeSet?) : Pr
     }
 
     companion object {
-        private const val TAG = "AmneziaWG/KernelModuleEnablerPreference"
+        private const val TAG = "GoElse/KernelModuleEnablerPreference"
     }
 }
+
+

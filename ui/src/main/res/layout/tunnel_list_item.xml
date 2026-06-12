@@ -67,7 +67,7 @@
                 android:textAppearance="?attr/textAppearanceBodySmall"
                 android:textColor="@{item.connectionStatus == ConnectionStatus.CONNECTED ? @color/tunnel_status_connected : @color/tunnel_status_connecting}"
                 android:visibility="@{item.connectionStatus == ConnectionStatus.DISCONNECTED ? android.view.View.GONE : android.view.View.VISIBLE}"
-                tools:text="Подключено"
+                tools:text="РџРѕРґРєР»СЋС‡РµРЅРѕ"
                 tools:textColor="@color/tunnel_status_connected" />
         </LinearLayout>
 
@@ -83,3 +83,5 @@
             tools:checked="@sample/interface_names.json/names/checked/checked" />
     </org.amnezia.awg.widget.MultiselectableRelativeLayout>
 </layout>
+
+

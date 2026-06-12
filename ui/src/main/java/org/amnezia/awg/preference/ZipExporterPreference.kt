@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017-2023 WireGuard LLC. All Rights Reserved.
+ * Copyright В© 2017-2023 WireGuard LLC. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 package org.amnezia.awg.preference
@@ -43,7 +43,7 @@ class ZipExporterPreference(context: Context, attrs: AttributeSet?) : Preference
                     if (configs.isEmpty()) {
                         throw IllegalArgumentException(context.getString(R.string.no_tunnels_error))
                     }
-                    val outputFile = downloadsFileSaver.save("amneziawg-export.zip", "application/zip", true)
+                    val outputFile = downloadsFileSaver.save("GoElse-export.zip", "application/zip", true)
                     if (outputFile == null) {
                         withContext(Dispatchers.Main.immediate) {
                             isEnabled = true
@@ -108,6 +108,8 @@ class ZipExporterPreference(context: Context, attrs: AttributeSet?) : Preference
     }
 
     companion object {
-        private const val TAG = "AmneziaWG/ZipExporterPreference"
+        private const val TAG = "GoElse/ZipExporterPreference"
     }
 }
+
+

@@ -13,7 +13,7 @@ import java.util.Set;
 import androidx.annotation.Nullable;
 
 /**
- * Interface for implementations of the AmneziaWG secure network tunnel.
+ * Interface for implementations of the GoElse secure network tunnel.
  */
 
 @NonNullForAll

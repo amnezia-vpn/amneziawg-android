@@ -88,6 +88,7 @@
     <string name="allow_remote_control_intents_summary_off">Внешние приложения не могут переключать туннели (рекомендуется)</string>
     <string name="allow_remote_control_intents_summary_on">Внешние приложения могут переключать туннели (продвинутые)</string>
     <string name="allow_remote_control_intents_title">Разрешить управление через внешние приложения</string>
+    <string name="app_name">GoElse VPN</string>
     <string name="allowed_ips">Разрешенные IP</string>
     <string name="bad_config_context">%1$s из %2$s</string>
     <string name="bad_config_context_top_level">%s</string>
@@ -115,7 +116,7 @@
     <string name="config_rename_error">Не удалось переименовать файл конфигурации “%s”</string>
     <string name="config_save_error">Не удалось сохранить конфигурацию для “%1$s”: %2$s</string>
     <string name="config_save_success">Конфигурация для “%s” успешно сохранена</string>
-    <string name="create_activity_title">Создать туннель AmneziaWG</string>
+    <string name="create_activity_title">Создать туннель GoElse</string>
     <string name="create_bin_dir_error">Не удалось создать локальный бинарный каталог</string>
     <string name="create_downloads_file_error">Не удалось создать файл в каталоге загрузок</string>
     <string name="create_empty">Создать с нуля</string>
@@ -159,14 +160,14 @@
     <string name="interface_title">Интерфейс</string>
     <string name="key_contents_error">Плохие символы в ключе</string>
     <string name="key_length_error">Неправильная длина ключа</string>
-    <string name="key_length_explanation_base64">: ключи AmneziaWG base64 должны содержать 44 символа (32 байта)</string>
-    <string name="key_length_explanation_binary">: ключи AmneziaWG должны быть 32 байта</string>
-    <string name="key_length_explanation_hex">: HEX-ключи AmneziaWG должны содержать 64 символа (32 байта)</string>
+    <string name="key_length_explanation_base64">: ключи GoElse base64 должны содержать 44 символа (32 байта)</string>
+    <string name="key_length_explanation_binary">: ключи GoElse должны быть 32 байта</string>
+    <string name="key_length_explanation_hex">: HEX-ключи GoElse должны содержать 64 символа (32 байта)</string>
     <string name="latest_handshake">Последнее рукопожатие</string>
     <string name="latest_handshake_ago">%s назад</string>
     <string name="listen_port">Порт</string>
     <string name="log_export_error">Не удалось экспортировать журнал: %s</string>
-    <string name="log_export_subject">Файл журнала AmneziaWG Android</string>
+    <string name="log_export_subject">Файл журнала GoElse Android</string>
     <string name="log_export_success">Сохранено в “%s”</string>
     <string name="log_export_title">Экспорт журнала в файл</string>
     <string name="log_saver_activity_label">Сохранить журнал</string>
@@ -199,8 +200,8 @@
     <string name="parse_error_integer">число</string>
     <string name="parse_error_reason">Невозможно разобрать %1$s “%2$s”</string>
     <string name="peer">Пир</string>
-    <string name="permission_description">контроль над туннелями AmneziaWG, включение и отключение туннелей по своему усмотрению, возможность неправильного управления сетевым трафиком</string>
-    <string name="permission_label">управлять туннелями AmneziaWG</string>
+    <string name="permission_description">контроль над туннелями GoElse, включение и отключение туннелей по своему усмотрению, возможность неправильного управления сетевым трафиком</string>
+    <string name="permission_label">управлять туннелями GoElse</string>
     <string name="persistent_keepalive">Постоянное соединение</string>
     <string name="pre_shared_key">Общий ключ</string>
     <string name="pre_shared_key_enabled">включено</string>
@@ -222,7 +223,7 @@
     <string name="shell_start_error">Не удалось запустить Shell: %d</string>
     <string name="success_application_will_restart">Успешно. Приложение будет перезапущено…</string>
     <string name="toggle_all">Инвертировать все</string>
-    <string name="toggle_error">Ошибка переключения туннеля AmneziaWG: %s</string>
+    <string name="toggle_error">Ошибка переключения туннеля GoElse: %s</string>
     <string name="tools_installer_already">awg и awg-quick уже установлены</string>
     <string name="tools_installer_failure">Не удалось установить инструменты командной строки (нет root?)</string>
     <string name="tools_installer_initial">Установить дополнительные инструменты для сценариев</string>
@@ -246,7 +247,7 @@
     <string name="tunnel_create_success">Успешно создан туннель “%s”</string>
     <string name="tunnel_error_already_exists">Туннель “%s” уже существует</string>
     <string name="tunnel_error_invalid_name">Неправильное имя</string>
-    <string name="tunnel_list_placeholder">Добавьте туннель с помощью кнопки ниже</string>
+    <string name="tunnel_list_placeholder">Добавьте туннель с помощью кнопки ниже. Если у вас нет тунеля, то вы можете получить его в Telegram @GoElseBot</string>
     <string name="tunnel_name">Название туннеля</string>
     <string name="tunnel_on_error">Не удалось включить туннель (wgTurnOn вернул %d)</string>
     <string name="tunnel_dns_failure">Не удалось определить DNS имя: “%s”</string>
@@ -258,7 +259,7 @@
     <string name="version_summary">Бэкенд: %1$s %2$s</string>
     <string name="version_summary_checking">Проверка версии бэкэнда %s</string>
     <string name="version_summary_unknown">Неизвестная версия %s</string>
-    <string name="version_title">AmneziaWG для Android v%s</string>
+    <string name="version_title">GoElse VPN для Android v%s</string>
     <string name="vpn_not_authorized_error">Сервис VPN не авторизован пользователем</string>
     <string name="vpn_start_error">Не удалось запустить службу Android VPN</string>
     <string name="zip_export_error">Не удалось экспортировать туннели: %s</string>
@@ -269,7 +270,7 @@
     <string name="biometric_prompt_private_key_title">Аутентификация для просмотра приватного ключа</string>
     <string name="biometric_auth_error">Ошибка аутентификации</string>
     <string name="biometric_auth_error_reason">Ошибка аутентификации: %s</string>
-    <string name="import_disclaimer">Убедитесь, что вы получили файл конфигурации в надёжном источнике.\n\nОфициальные сервисы Amnezia доступны только на сайте <a href="https://storage.googleapis.com/amnezia/amnezia.org">amnezia.org</a>\n</string>
+    <string name="import_disclaimer">Убедитесь, что вы получили файл конфигурации в надёжном источнике.\n\nОфициальные сервисы GoElse доступны только на сайте <a href="https://t.me/GoElse/">@GoElse</a>\n</string>
     <string name="tunnel_status_connected">Подключено</string>
     <string name="tunnel_status_connecting">Подключение…</string>
 </resources>

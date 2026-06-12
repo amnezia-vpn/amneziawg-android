@@ -17,7 +17,7 @@ import org.amnezia.awg.R
 
 
 object BiometricAuthenticator {
-    private const val TAG = "AmneziaWG/BiometricAuthenticator"
+    private const val TAG = "GoElse/BiometricAuthenticator"
 
     // Not all devices support strong biometric auth so we're allowing both device credentials as
     // well as weak biometrics.

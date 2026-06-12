@@ -30,7 +30,7 @@ public class Statistics {
     /**
      * Add a peer and its current stats to the internal map.
      *
-     * @param key               An AmneziaWG public key bound to a particular peer
+     * @param key               A GoElse public key bound to a particular peer
      * @param rxBytes           The received traffic for the {@link org.amnezia.config.Peer} referenced by
      *                          the provided {@link Key}. This value is in bytes
      * @param txBytes           The transmitted traffic for the {@link org.amnezia.config.Peer} referenced by
@@ -66,7 +66,7 @@ public class Statistics {
     /**
      * Get the list of peers being tracked by this instance.
      *
-     * @return An array of {@link Key} instances representing AmneziaWG
+     * @return An array of {@link Key} instances representing GoElse
      * {@link org.amnezia.config.Peer}s
      */
     public Key[] peers() {

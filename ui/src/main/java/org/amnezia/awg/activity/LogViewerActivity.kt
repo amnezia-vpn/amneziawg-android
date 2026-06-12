@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017-2023 WireGuard LLC. All Rights Reserved.
+ * Copyright В© 2017-2023 WireGuard LLC. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -171,7 +171,7 @@ class LogViewerActivity : AppCompatActivity() {
         var outputFile: DownloadsFileSaver.DownloadsFile? = null
         withContext(Dispatchers.IO) {
             try {
-                outputFile = downloadsFileSaver.save("amneziawg-log.txt", "text/plain", true)
+                outputFile = downloadsFileSaver.save("GoElse-log.txt", "text/plain", true)
                 outputFile?.outputStream?.write(rawLogBytes())
             } catch (e: Throwable) {
                 outputFile?.delete()
@@ -294,7 +294,7 @@ class LogViewerActivity : AppCompatActivity() {
         private val THREADTIME_LINE: Pattern =
             Pattern.compile("^(\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}.\\d{3})(?:\\s+[0-9A-Za-z]+)?\\s+(\\d+)\\s+(\\d+)\\s+([A-Z])\\s+(.+?)\\s*: (.*)$")
         private val LOGS: MutableMap<String, ByteArray> = ConcurrentHashMap()
-        private const val TAG = "AmneziaWG/LogViewerActivity"
+        private const val TAG = "GoElse/LogViewerActivity"
     }
 
     private inner class LogEntryAdapter : RecyclerView.Adapter<LogEntryAdapter.ViewHolder>() {
@@ -353,7 +353,7 @@ class LogViewerActivity : AppCompatActivity() {
         override fun query(uri: Uri, projection: Array<out String>?, selection: String?, selectionArgs: Array<out String>?, sortOrder: String?): Cursor? =
             logForUri(uri)?.let {
                 val m = MatrixCursor(arrayOf(android.provider.OpenableColumns.DISPLAY_NAME, android.provider.OpenableColumns.SIZE), 1)
-                m.addRow(arrayOf("amneziawg-log.txt", it.size.toLong()))
+                m.addRow(arrayOf("GoElse-log.txt", it.size.toLong()))
                 m
             }
 
@@ -380,3 +380,5 @@ class LogViewerActivity : AppCompatActivity() {
         }
     }
 }
+
+

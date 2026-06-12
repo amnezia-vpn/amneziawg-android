@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017-2023 WireGuard LLC. All Rights Reserved.
+ * Copyright В© 2017-2023 WireGuard LLC. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 package org.amnezia.awg.widget
@@ -10,7 +10,7 @@ import android.text.Spanned
 import org.amnezia.awg.backend.Tunnel
 
 /**
- * InputFilter for entering AmneziaWG configuration names (Linux interface names).
+ * InputFilter for entering GoElse configuration names (Linux interface names).
  */
 class NameInputFilter : InputFilter {
     override fun filter(
@@ -46,3 +46,5 @@ class NameInputFilter : InputFilter {
         fun newInstance() = NameInputFilter()
     }
 }
+
+

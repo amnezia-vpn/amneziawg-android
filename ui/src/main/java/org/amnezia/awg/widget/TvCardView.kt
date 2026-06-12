@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017-2023 WireGuard LLC. All Rights Reserved.
+ * Copyright В© 2017-2023 WireGuard LLC. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -42,3 +42,4 @@ class TvCardView(context: Context?, attrs: AttributeSet?) : MaterialCardView(con
         private val STATE_IS_DELETING = intArrayOf(R.attr.state_isDeleting)
     }
 }
+

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017-2023 WireGuard LLC. All Rights Reserved.
+ * Copyright В© 2017-2023 WireGuard LLC. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -23,7 +23,7 @@ import java.util.Set;
 import androidx.annotation.Nullable;
 
 /**
- * Represents the configuration for an AmneziaWG peer (a [Peer] block). Peers must have a public key,
+ * Represents the configuration for an GoElse peer (a [Peer] block). Peers must have a public key,
  * and may optionally have several other attributes.
  * <p>
  * Instances of this class are immutable.
@@ -185,7 +185,7 @@ public final class Peer {
     }
 
     /**
-     * Serializes the {@code Peer} for use with the AmneziaWG cross-platform userspace API. Note
+     * Serializes the {@code Peer} for use with the GoElse cross-platform userspace API. Note
      * that not all attributes are included in this representation.
      *
      * @return the {@code Peer} represented as a series of "key=value" lines
@@ -305,3 +305,5 @@ public final class Peer {
         }
     }
 }
+
+

@@ -8,7 +8,7 @@ package org.amnezia.awg.crypto;
 import org.amnezia.awg.util.NonNullForAll;
 
 /**
- * Represents a Curve25519 key pair as used by AmneziaWG.
+ * Represents a Curve25519 key pair as used by GoElse.
  * <p>
  * Instances of this class are immutable.
  */

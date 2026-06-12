@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017-2023 WireGuard LLC. All Rights Reserved.
+ * Copyright В© 2017-2023 WireGuard LLC. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -21,7 +21,7 @@ import androidx.annotation.Nullable;
 
 
 /**
- * An external endpoint (host and port) used to connect to an AmneziaWG {@link Peer}.
+ * An external endpoint (host and port) used to connect to an GoElse {@link Peer}.
  * <p>
  * Instances of this class are externally immutable.
  */
@@ -124,3 +124,5 @@ public final class InetEndpoint {
         return (isBareIpv6 ? '[' + host + ']' : host) + ':' + port;
     }
 }
+
+

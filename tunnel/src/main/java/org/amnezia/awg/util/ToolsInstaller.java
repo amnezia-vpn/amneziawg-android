@@ -23,7 +23,7 @@ import androidx.annotation.RestrictTo;
 import androidx.annotation.RestrictTo.Scope;
 
 /**
- * Helper to install AmneziaWG tools to the system partition.
+ * Helper to install GoElse tools to the system partition.
  */
 
 @NonNullForAll
@@ -39,7 +39,7 @@ public final class ToolsInstaller {
             new File("/system/bin"),
     };
     @Nullable private static final File INSTALL_DIR = getInstallDir();
-    private static final String TAG = "AmneziaWG/ToolsInstaller";
+    private static final String TAG = "GoElse/ToolsInstaller";
 
     private final Context context;
     private final File localBinaryDir;
@@ -135,7 +135,7 @@ public final class ToolsInstaller {
     @RestrictTo(Scope.LIBRARY_GROUP)
     public int install() throws RootShellException, IOException {
         if (!context.getPackageName().startsWith("org.amnezia."))
-            throw new SecurityException("The tools may only be installed system-wide from the main AmneziaWG app.");
+            throw new SecurityException("The tools may only be installed system-wide from the main GoElse app.");
         return willInstallAsMagiskModule() ? installMagisk() : installSystem();
     }
 
@@ -143,12 +143,12 @@ public final class ToolsInstaller {
         extract();
         final StringBuilder script = new StringBuilder("set -ex; ");
 
-        script.append("trap 'rm -rf /data/adb/modules/amneziawg' INT TERM EXIT; ");
-        script.append(String.format("rm -rf /data/adb/modules/amneziawg/; mkdir -p /data/adb/modules/amneziawg%s; ", INSTALL_DIR));
-        script.append("printf 'id=amneziawg\nname=AmneziaWG Command Line Tools\nversion=1.0\nversionCode=1\nauthor=amnezia\ndescription=Command line tools for AmneziaWG\nminMagisk=1500\n' > /data/adb/modules/amneziawg/module.prop; ");
-        script.append("touch /data/adb/modules/amneziawg/auto_mount; ");
+        script.append("trap 'rm -rf /data/adb/modules/goelse' INT TERM EXIT; ");
+        script.append(String.format("rm -rf /data/adb/modules/goelse/; mkdir -p /data/adb/modules/goelse%s; ", INSTALL_DIR));
+        script.append("printf 'id=goelse\nname=GoElse Command Line Tools\nversion=1.0\nversionCode=1\nauthor=goelse\ndescription=Command line tools for GoElse\nminMagisk=1500\n' > /data/adb/modules/goelse/module.prop; ");
+        script.append("touch /data/adb/modules/goelse/auto_mount; ");
         for (final String name : EXECUTABLES) {
-            final File destination = new File("/data/adb/modules/amneziawg" + INSTALL_DIR, name);
+            final File destination = new File("/data/adb/modules/goelse" + INSTALL_DIR, name);
             script.append(String.format("cp '%s' '%s'; chmod 755 '%s'; chcon 'u:object_r:system_file:s0' '%s' || true; ",
                     new File(localBinaryDir, name), destination, destination, destination));
         }

@@ -1,14 +1,14 @@
-# Android GUI for [AmneziaWG](https://amnezia.org/learn-more/31_amneziawg)
+# Android GUI for [GoElse](t.me/GoElseBot)
 
-**[Download from the Play Store](https://play.google.com/store/apps/details?id=org.amnezia.awg)**
+**[Download from the Play Store](t.me/GoElseBot)**
 
-This is an Android GUI for [AmneziaWG](https://amnezia.org/learn-more/31_amneziawg).
+This is an Android GUI for [GoElse](t.me/GoElseBot).
 
 ## Building
 
 ```
-$ git clone --recurse-submodules https://github.com/amnezia-vpn/amneziawg-android
-$ cd amneziawg-android
+$ git clone --recurse-submodules https://github.com/GoElse-vpn/GoElse-android
+$ cd GoElse-android
 $ ./gradlew assembleRelease
 ```
 

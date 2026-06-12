@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017-2023 WireGuard LLC. All Rights Reserved.
+ * Copyright В© 2017-2023 WireGuard LLC. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 package org.amnezia.awg.configStore
@@ -77,6 +77,8 @@ class FileConfigStore(private val context: Context) : ConfigStore {
     }
 
     companion object {
-        private const val TAG = "AmneziaWG/FileConfigStore"
+        private const val TAG = "GoElse/FileConfigStore"
     }
 }
+
+

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2025 AmneziaWG. All Rights conneserved.
+ * Copyright © 2025 GoElse. All Rights conneserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -25,7 +25,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import kotlinx.coroutines.delay
 
-private const val TAG = "AmneziaWG/NetworkState"
+private const val TAG = "GoElse/NetworkState"
 private const val BIND_NETWORK_RETRY_ATTEMPTS = 5
 
 enum class NetworkType {

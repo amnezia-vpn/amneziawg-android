@@ -28,7 +28,7 @@ class QuickTilePreference(context: Context, attrs: AttributeSet?) : Preference(c
         statusBarManager.requestAddTileService(
             ComponentName(context, QuickTileService::class.java),
             context.getString(R.string.quick_settings_tile_action),
-            Icon.createWithResource(context, R.drawable.ic_tile),
+            Icon.createWithResource(context, R.drawable.go_else_logo),
             context.mainExecutor
         ) {
             when (it) {
