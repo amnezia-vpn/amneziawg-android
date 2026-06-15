@@ -63,11 +63,11 @@ class PeerProxy : BaseObservable, Parcelable {
 
     @get:Bindable
     val isAbleToExcludePrivateIps: Boolean
-        get() = allowedIpsState == AllowedIpsState.CONTAINS_IPV4_PUBLIC_NETWORKS || allowedIpsState == AllowedIpsState.CONTAINS_IPV4_WILDCARD
+        get() = allowedIpsState == AllowedIpsState.CONTAINS_PUBLIC_NETWORKS || allowedIpsState == AllowedIpsState.CONTAINS_WILDCARD
 
     @get:Bindable
     val isExcludingPrivateIps: Boolean
-        get() = allowedIpsState == AllowedIpsState.CONTAINS_IPV4_PUBLIC_NETWORKS
+        get() = allowedIpsState == AllowedIpsState.CONTAINS_PUBLIC_NETWORKS
 
     private constructor(parcel: Parcel) {
         allowedIps = parcel.readString() ?: ""
@@ -106,12 +106,11 @@ class PeerProxy : BaseObservable, Parcelable {
             // the above sets of (valid) *networks*. We are not checking for a superset based on
             // the individual addresses in each set.
             val networkStrings: Collection<String> = getAllowedIpsSet()
-            // If allowedIps contains both the wildcard and the public networks, then private
-            // networks aren't excluded!
-            if (networkStrings.containsAll(IPV4_WILDCARD))
-                AllowedIpsState.CONTAINS_IPV4_WILDCARD
-            else if (networkStrings.containsAll(IPV4_PUBLIC_NETWORKS))
-                AllowedIpsState.CONTAINS_IPV4_PUBLIC_NETWORKS
+            // A wildcard in either family means private IPs can still be excluded.
+            if (networkStrings.containsAll(IPV4_WILDCARD) || networkStrings.containsAll(IPV6_WILDCARD))
+                AllowedIpsState.CONTAINS_WILDCARD
+            else if (networkStrings.containsAll(IPV4_PUBLIC_NETWORKS) || networkStrings.containsAll(IPV6_PUBLIC_NETWORKS))
+                AllowedIpsState.CONTAINS_PUBLIC_NETWORKS
             else
                 AllowedIpsState.OTHER
         } else {
@@ -128,31 +127,29 @@ class PeerProxy : BaseObservable, Parcelable {
 
     private fun getAllowedIpsSet() = setOf(*Attribute.split(allowedIps))
 
-    // Replace the first instance of the wildcard with the public network list, or vice versa.
-    // DNS servers only need to handled specially when we're excluding private IPs.
+    // For each family, replace the first instance of the wildcard with its public network list, or vice versa.
     fun setExcludingPrivateIps(excludingPrivateIps: Boolean) {
         if (!isAbleToExcludePrivateIps || isExcludingPrivateIps == excludingPrivateIps) return
-        val oldNetworks = if (excludingPrivateIps) IPV4_WILDCARD else IPV4_PUBLIC_NETWORKS
-        val newNetworks = if (excludingPrivateIps) IPV4_PUBLIC_NETWORKS else IPV4_WILDCARD
+        val replacements = listOf(IPV4_WILDCARD to IPV4_PUBLIC_NETWORKS, IPV6_WILDCARD to IPV6_PUBLIC_NETWORKS)
+            .map { (wildcard, public) -> if (excludingPrivateIps) wildcard to public else public to wildcard }
         val input: Collection<String> = getAllowedIpsSet()
-        val outputSize = input.size - oldNetworks.size + newNetworks.size
-        val output: MutableCollection<String?> = LinkedHashSet(outputSize)
-        var replaced = false
-        // Replace the first instance of the wildcard with the public network list, or vice versa.
+        val output: MutableCollection<String?> = LinkedHashSet(input.size)
+        val replaced = BooleanArray(replacements.size)
         for (network in input) {
-            if (oldNetworks.contains(network)) {
-                if (!replaced) {
-                    for (replacement in newNetworks) if (!output.contains(replacement)) output.add(replacement)
-                    replaced = true
+            val family = replacements.indexOfFirst { it.first.contains(network) }
+            if (family >= 0) {
+                if (!replaced[family]) {
+                    for (replacement in replacements[family].second) if (!output.contains(replacement)) output.add(replacement)
+                    replaced[family] = true
                 }
             } else if (!output.contains(network)) {
                 output.add(network)
             }
         }
-        // DNS servers only need to handled specially when we're excluding private IPs.
+        // DNS servers only need to be handled specially when we're excluding private IPs.
         if (excludingPrivateIps) output.addAll(dnsRoutes) else output.removeAll(dnsRoutes)
         allowedIps = Attribute.join(output)
-        allowedIpsState = if (excludingPrivateIps) AllowedIpsState.CONTAINS_IPV4_PUBLIC_NETWORKS else AllowedIpsState.CONTAINS_IPV4_WILDCARD
+        allowedIpsState = if (excludingPrivateIps) AllowedIpsState.CONTAINS_PUBLIC_NETWORKS else AllowedIpsState.CONTAINS_WILDCARD
         notifyPropertyChanged(BR.allowedIps)
         notifyPropertyChanged(BR.excludingPrivateIps)
     }
@@ -169,8 +166,10 @@ class PeerProxy : BaseObservable, Parcelable {
     }
 
     private fun setInterfaceDns(dnsServers: CharSequence) {
-        val newDnsRoutes = Attribute.split(dnsServers).filter { !it.contains(":") }.map { "$it/32" }
-        if (allowedIpsState == AllowedIpsState.CONTAINS_IPV4_PUBLIC_NETWORKS) {
+        val newDnsRoutes = Attribute.split(dnsServers)
+            .filter { it.contains(":") || it.matches(Regex("""^\d{1,3}(\.\d{1,3}){3}$""")) }
+            .map { if (it.contains(":")) "$it/128" else "$it/32" }
+        if (allowedIpsState == AllowedIpsState.CONTAINS_PUBLIC_NETWORKS) {
             val input = getAllowedIpsSet()
             // Yes, this is quadratic in the number of DNS servers, but most users have 1 or 2.
             val output = input.filter { !dnsRoutes.contains(it) || newDnsRoutes.contains(it) }.plus(newDnsRoutes).distinct()
@@ -209,7 +208,7 @@ class PeerProxy : BaseObservable, Parcelable {
     }
 
     private enum class AllowedIpsState {
-        CONTAINS_IPV4_PUBLIC_NETWORKS, CONTAINS_IPV4_WILDCARD, INVALID, OTHER
+        CONTAINS_PUBLIC_NETWORKS, CONTAINS_WILDCARD, INVALID, OTHER
     }
 
     private class InterfaceDnsListener constructor(peerProxy: PeerProxy) : OnPropertyChangedCallback() {
@@ -290,5 +289,11 @@ class PeerProxy : BaseObservable, Parcelable {
             "193.0.0.0/8", "194.0.0.0/7", "196.0.0.0/6", "200.0.0.0/5", "208.0.0.0/4"
         )
         private val IPV4_WILDCARD = setOf("0.0.0.0/0")
+        // ::/0 minus the private ranges fc00::/7 (unique local) and fe80::/10 (link-local).
+        private val IPV6_PUBLIC_NETWORKS = setOf(
+            "::/1", "8000::/2", "c000::/3", "e000::/4", "f000::/5", "f800::/6",
+            "fe00::/9", "fec0::/10", "ff00::/8"
+        )
+        private val IPV6_WILDCARD = setOf("::/0")
     }
 }
