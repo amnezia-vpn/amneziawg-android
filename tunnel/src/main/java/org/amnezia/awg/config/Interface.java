@@ -43,6 +43,7 @@ public final class Interface {
     private final Set<String> dnsSearchDomains;
     private final Set<String> excludedApplications;
     private final Set<String> includedApplications;
+    private final Set<String> excludedDomains;
     private final KeyPair keyPair;
     private final Optional<Integer> listenPort;
     private final Optional<Integer> mtu;
@@ -70,6 +71,7 @@ public final class Interface {
         dnsSearchDomains = Collections.unmodifiableSet(new LinkedHashSet<>(builder.dnsSearchDomains));
         excludedApplications = Collections.unmodifiableSet(new LinkedHashSet<>(builder.excludedApplications));
         includedApplications = Collections.unmodifiableSet(new LinkedHashSet<>(builder.includedApplications));
+        excludedDomains = Collections.unmodifiableSet(new LinkedHashSet<>(builder.excludedDomains));
         keyPair = Objects.requireNonNull(builder.keyPair, "Interfaces must have a private key");
         listenPort = builder.listenPort;
         mtu = builder.mtu;
@@ -117,6 +119,9 @@ public final class Interface {
                     break;
                 case "includedapplications":
                     builder.parseIncludedApplications(attribute.getValue());
+                    break;
+                case "excludeddomains":
+                    builder.parseExcludedDomains(attribute.getValue());
                     break;
                 case "listenport":
                     builder.parseListenPort(attribute.getValue());
@@ -193,6 +198,7 @@ public final class Interface {
                 && dnsSearchDomains.equals(other.dnsSearchDomains)
                 && excludedApplications.equals(other.excludedApplications)
                 && includedApplications.equals(other.includedApplications)
+                && excludedDomains.equals(other.excludedDomains)
                 && keyPair.equals(other.keyPair)
                 && listenPort.equals(other.listenPort)
                 && mtu.equals(other.mtu)
@@ -242,6 +248,15 @@ public final class Interface {
     public Set<String> getDnsSearchDomains() {
         // The collection is already immutable.
         return dnsSearchDomains;
+    }
+
+    /**
+     * Returns the set of domains excluded from using the interface (bypassed via real network).
+     *
+     * @return a set of domain names (e.g. "example.com", "*.youtube.com")
+     */
+    public Set<String> getExcludedDomains() {
+        return excludedDomains;
     }
 
     /**
@@ -443,6 +458,7 @@ public final class Interface {
         hash = 31 * hash + dnsServers.hashCode();
         hash = 31 * hash + excludedApplications.hashCode();
         hash = 31 * hash + includedApplications.hashCode();
+        hash = 31 * hash + excludedDomains.hashCode();
         hash = 31 * hash + keyPair.hashCode();
         hash = 31 * hash + listenPort.hashCode();
         hash = 31 * hash + mtu.hashCode();
@@ -499,6 +515,8 @@ public final class Interface {
             sb.append("ExcludedApplications = ").append(Attribute.join(excludedApplications)).append('\n');
         if (!includedApplications.isEmpty())
             sb.append("IncludedApplications = ").append(Attribute.join(includedApplications)).append('\n');
+        if (!excludedDomains.isEmpty())
+            sb.append("ExcludedDomains = ").append(Attribute.join(excludedDomains)).append('\n');
         listenPort.ifPresent(lp -> sb.append("ListenPort = ").append(lp).append('\n'));
         mtu.ifPresent(m -> sb.append("MTU = ").append(m).append('\n'));
         junkPacketCount.ifPresent(jc -> sb.append("Jc = ").append(jc).append('\n'));
@@ -562,6 +580,8 @@ public final class Interface {
         private final Set<String> excludedApplications = new LinkedHashSet<>();
         // Defaults to an empty set.
         private final Set<String> includedApplications = new LinkedHashSet<>();
+        // Defaults to an empty set.
+        private final Set<String> excludedDomains = new LinkedHashSet<>();
         // No default; must be provided before building.
         @Nullable private KeyPair keyPair;
         // Defaults to not present.
@@ -695,6 +715,20 @@ public final class Interface {
 
         public Builder parseIncludedApplications(final CharSequence apps) {
             return includeApplications(List.of(Attribute.split(apps)));
+        }
+
+        public Builder parseExcludedDomains(final CharSequence domains) {
+            return excludeDomains(List.of(Attribute.split(domains)));
+        }
+
+        public Builder excludeDomain(final String domain) {
+            excludedDomains.add(domain);
+            return this;
+        }
+
+        public Builder excludeDomains(final Collection<String> domains) {
+            excludedDomains.addAll(domains);
+            return this;
         }
 
         public Builder parseListenPort(final String listenPort) throws BadConfigException {

@@ -24,6 +24,10 @@
         <item quantity="one">%d Excluded Application</item>
         <item quantity="other">%d Excluded Applications</item>
     </plurals>
+    <plurals name="set_excluded_domains">
+        <item quantity="one">%d Excluded Domain</item>
+        <item quantity="other">%d Excluded Domains</item>
+    </plurals>
     <plurals name="set_included_applications">
         <item quantity="one">%d Included Application</item>
         <item quantity="other">%d Included Applications</item>
@@ -37,6 +41,12 @@
         <item quantity="other">%d included</item>
     </plurals>
     <string name="all_applications">All Applications</string>
+    <string name="no_excluded_domains">Bypass Domains (none)</string>
+    <string name="excluded_domains_title">Domains bypassing VPN</string>
+    <string name="domain_hint">Add domain (e.g. example.com or *.example.com)</string>
+    <string name="domain_invalid">Invalid domain: %s</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
     <string name="exclude_from_tunnel">Exclude</string>
     <string name="include_in_tunnel">Include only</string>
     <plurals name="include_n_applications">

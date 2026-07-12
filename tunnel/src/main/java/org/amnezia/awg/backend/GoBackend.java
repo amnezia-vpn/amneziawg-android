@@ -21,10 +21,14 @@ import org.amnezia.awg.config.InetNetwork;
 import org.amnezia.awg.config.Peer;
 import org.amnezia.awg.crypto.Key;
 import org.amnezia.awg.crypto.KeyFormatException;
+import org.amnezia.awg.util.IpSubtractor;
 import org.amnezia.awg.util.NonNullForAll;
 
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
@@ -391,9 +395,19 @@ public final class GoBackend implements Backend {
             for (final String dnsSearchDomain : config.getInterface().getDnsSearchDomains())
                 builder.addSearchDomain(dnsSearchDomain);
 
+            // Resolve excluded domains to IPs for domain-based split tunneling
+            final List<InetAddress> excludedDomainIps = resolveExcludedDomains(
+                    config.getInterface().getExcludedDomains());
+
             boolean sawDefaultRoute = false;
             for (final Peer peer : config.getPeers()) {
-                for (final InetNetwork addr : peer.getAllowedIps()) {
+                final Collection<InetNetwork> allowedIps;
+                if (!excludedDomainIps.isEmpty()) {
+                    allowedIps = IpSubtractor.subtract(peer.getAllowedIps(), excludedDomainIps);
+                } else {
+                    allowedIps = peer.getAllowedIps();
+                }
+                for (final InetNetwork addr : allowedIps) {
                     if (addr.getMask() == 0)
                         sawDefaultRoute = true;
                     builder.addRoute(addr.getAddress(), addr.getMask());
@@ -447,6 +461,27 @@ public final class GoBackend implements Backend {
         }
 
         tunnel.onStateChange(state);
+    }
+
+    /**
+     * Resolves each domain in {@code domains} to all of its IP addresses using the real network.
+     * Wildcards (e.g. *.example.com) are resolved by stripping the leading "*." prefix.
+     * Addresses that fail to resolve are silently skipped.
+     */
+    private static List<InetAddress> resolveExcludedDomains(final Set<String> domains) {
+        final List<InetAddress> result = new ArrayList<>();
+        for (final String domain : domains) {
+            final String host = domain.startsWith("*.") ? domain.substring(2) : domain;
+            try {
+                final InetAddress[] addrs = InetAddress.getAllByName(host);
+                for (final InetAddress addr : addrs) {
+                    result.add(addr);
+                }
+            } catch (final Exception e) {
+                Log.w(TAG, "Failed to resolve excluded domain: " + host + " (" + e.getMessage() + ")");
+            }
+        }
+        return result;
     }
 
     /**

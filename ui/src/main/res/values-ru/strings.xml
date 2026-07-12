@@ -36,6 +36,12 @@
         <item quantity="many">%d исключенных приложений</item>
         <item quantity="other">%d исключенных приложений</item>
     </plurals>
+    <plurals name="set_excluded_domains">
+        <item quantity="one">%d исключенный домен</item>
+        <item quantity="few">%d исключенных домена</item>
+        <item quantity="many">%d исключенных доменов</item>
+        <item quantity="other">%d исключенных доменов</item>
+    </plurals>
     <plurals name="set_included_applications">
         <item quantity="one">%d включенное приложение</item>
         <item quantity="few">%d включенных приложения</item>
@@ -55,6 +61,12 @@
         <item quantity="other">%d включено</item>
     </plurals>
     <string name="all_applications">Все приложения</string>
+    <string name="no_excluded_domains">Обход доменов (не задано)</string>
+    <string name="excluded_domains_title">Домены в обход VPN</string>
+    <string name="domain_hint">Добавить домен (например: example.com или *.example.com)</string>
+    <string name="domain_invalid">Неверный домен: %s</string>
+    <string name="save">Сохранить</string>
+    <string name="delete">Удалить</string>
     <string name="exclude_from_tunnel">Исключить для</string>
     <string name="include_in_tunnel">Включить для</string>
     <plurals name="include_n_applications">

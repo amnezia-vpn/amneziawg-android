@@ -26,6 +26,9 @@ class InterfaceProxy : BaseObservable, Parcelable {
     val includedApplications: ObservableList<String> = ObservableArrayList()
 
     @get:Bindable
+    val excludedDomains: ObservableList<String> = ObservableArrayList()
+
+    @get:Bindable
     var addresses: String = ""
         set(value) {
             field = value
@@ -186,6 +189,7 @@ class InterfaceProxy : BaseObservable, Parcelable {
         dnsServers = parcel.readString() ?: ""
         parcel.readStringList(excludedApplications)
         parcel.readStringList(includedApplications)
+        parcel.readStringList(excludedDomains)
         listenPort = parcel.readString() ?: ""
         mtu = parcel.readString() ?: ""
         junkPacketCount = parcel.readString() ?: ""
@@ -213,6 +217,7 @@ class InterfaceProxy : BaseObservable, Parcelable {
         dnsServers = Attribute.join(dnsServerStrings)
         excludedApplications.addAll(other.excludedApplications)
         includedApplications.addAll(other.includedApplications)
+        excludedDomains.addAll(other.excludedDomains)
         listenPort = other.listenPort.map { it.toString() }.orElse("")
         mtu = other.mtu.map { it.toString() }.orElse("")
         junkPacketCount = other.junkPacketCount.map { it.toString() }.orElse("")
@@ -253,6 +258,7 @@ class InterfaceProxy : BaseObservable, Parcelable {
         if (dnsServers.isNotEmpty()) builder.parseDnsServers(dnsServers)
         if (excludedApplications.isNotEmpty()) builder.excludeApplications(excludedApplications)
         if (includedApplications.isNotEmpty()) builder.includeApplications(includedApplications)
+        if (excludedDomains.isNotEmpty()) builder.excludeDomains(excludedDomains)
         if (listenPort.isNotEmpty()) builder.parseListenPort(listenPort)
         if (mtu.isNotEmpty()) builder.parseMtu(mtu)
         if (junkPacketCount.isNotEmpty()) builder.parseJunkPacketCount(junkPacketCount)
@@ -280,6 +286,7 @@ class InterfaceProxy : BaseObservable, Parcelable {
         dest.writeString(dnsServers)
         dest.writeStringList(excludedApplications)
         dest.writeStringList(includedApplications)
+        dest.writeStringList(excludedDomains)
         dest.writeString(listenPort)
         dest.writeString(mtu)
         dest.writeString(junkPacketCount)

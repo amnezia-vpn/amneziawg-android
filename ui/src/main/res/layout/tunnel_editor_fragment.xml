@@ -601,17 +601,35 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
                             android:nextFocusUp="@id/special_junk_i5_text"
-                            android:nextFocusDown="@id/peers_layout"
-                            android:nextFocusForward="@id/peers_layout"
+                            android:nextFocusDown="@id/set_excluded_domains"
+                            android:nextFocusForward="@id/set_excluded_domains"
                             android:onClick="@{fragment::onRequestSetExcludedIncludedApplications}"
                             android:text="@{config.interface.includedApplications.size > 0 ? @plurals/set_included_applications(config.interface.includedApplications.size, config.interface.includedApplications.size) : config.interface.excludedApplications.size > 0 ? @plurals/set_excluded_applications(config.interface.excludedApplications.size, config.interface.excludedApplications.size) : @string/all_applications}"
                             android:textColor="?attr/colorSecondary"
-                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/special_junk_i5_layout"
                             app:rippleColor="?attr/colorSecondary"
                             tools:text="4 excluded applications" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/set_excluded_domains"
+                            style="@style/Widget.Material3.Button.TextButton"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:nextFocusUp="@id/set_excluded_applications"
+                            android:nextFocusDown="@id/peers_layout"
+                            android:nextFocusForward="@id/peers_layout"
+                            android:onClick="@{fragment::onRequestSetExcludedDomains}"
+                            android:text="@{config.interface.excludedDomains.size > 0 ? @plurals/set_excluded_domains(config.interface.excludedDomains.size, config.interface.excludedDomains.size) : @string/no_excluded_domains}"
+                            android:textColor="?attr/colorSecondary"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/set_excluded_applications"
+                            app:rippleColor="?attr/colorSecondary"
+                            tools:text="No excluded domains" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </com.google.android.material.card.MaterialCardView>
 

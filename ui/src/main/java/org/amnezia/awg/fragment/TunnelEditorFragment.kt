@@ -165,6 +165,25 @@ class TunnelEditorFragment : BaseFragment(), MenuProvider {
     }
 
     @Suppress("UNUSED_PARAMETER")
+    fun onRequestSetExcludedDomains(view: View?) {
+        if (binding != null) {
+            val current = ArrayList(binding!!.config!!.`interface`.excludedDomains)
+            val fragment = DomainListDialogFragment.newInstance(current)
+            childFragmentManager.setFragmentResultListener(
+                DomainListDialogFragment.REQUEST_DOMAINS, viewLifecycleOwner
+            ) { _, bundle ->
+                requireNotNull(binding) { "Tried to set excluded domains while no view was loaded" }
+                val newDomains = requireNotNull(bundle.getStringArray(DomainListDialogFragment.KEY_DOMAINS))
+                binding!!.config!!.`interface`.excludedDomains.apply {
+                    clear()
+                    addAll(newDomains)
+                }
+            }
+            fragment.show(childFragmentManager, null)
+        }
+    }
+
+    @Suppress("UNUSED_PARAMETER")
     fun onRequestSetExcludedIncludedApplications(view: View?) {
         if (binding != null) {
             var isExcluded = true

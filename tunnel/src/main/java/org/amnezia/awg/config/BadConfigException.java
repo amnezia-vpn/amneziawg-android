@@ -73,6 +73,7 @@ public class BadConfigException extends Exception {
         ENDPOINT("Endpoint"),
         EXCLUDED_APPLICATIONS("ExcludedApplications"),
         INCLUDED_APPLICATIONS("IncludedApplications"),
+        EXCLUDED_DOMAINS("ExcludedDomains"),
         LISTEN_PORT("ListenPort"),
         MTU("MTU"),
         PERSISTENT_KEEPALIVE("PersistentKeepalive"),
