@@ -65,8 +65,6 @@
     <string name="excluded_domains_title">Домены в обход VPN</string>
     <string name="domain_hint">Добавить домен (например: example.com или *.example.com)</string>
     <string name="domain_invalid">Неверный домен: %s</string>
-    <string name="save">Сохранить</string>
-    <string name="delete">Удалить</string>
     <string name="exclude_from_tunnel">Исключить для</string>
     <string name="include_in_tunnel">Включить для</string>
     <plurals name="include_n_applications">

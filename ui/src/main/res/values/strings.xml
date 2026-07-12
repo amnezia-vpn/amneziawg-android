@@ -45,8 +45,6 @@
     <string name="excluded_domains_title">Domains bypassing VPN</string>
     <string name="domain_hint">Add domain (e.g. example.com or *.example.com)</string>
     <string name="domain_invalid">Invalid domain: %s</string>
-    <string name="save">Save</string>
-    <string name="delete">Delete</string>
     <string name="exclude_from_tunnel">Exclude</string>
     <string name="include_in_tunnel">Include only</string>
     <plurals name="include_n_applications">
