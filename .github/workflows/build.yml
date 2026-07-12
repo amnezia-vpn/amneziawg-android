@@ -2,31 +2,34 @@ name: Android build (signed AAB / debug APK)
 run-name: "Android • ${{ inputs.target }} • ${{ inputs.ref || github.ref_name }}"
 
 on:
+  push:
+    branches:
+      - feature/domain-split-tunneling
   workflow_dispatch:
     inputs:
       target:
         description: "What to build"
         type: choice
         required: true
-        default: release_aab
+        default: debug_apk
         options:
         - release_aab
         - debug_apk
       ref:
         description: "Git ref (branch/tag/sha)"
         required: false
-        default: "master"
+        default: "feature/domain-split-tunneling"
 
 jobs:
   build:
-    name: "Build (${{ inputs.target }})"
+    name: "Build (${{ inputs.target || 'debug_apk' }})"
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
       uses: actions/checkout@v4
       with:
-        ref: ${{ inputs.ref }}
+        ref: ${{ inputs.ref || github.ref }}
         submodules: recursive
         fetch-depth: 0
 
@@ -47,7 +50,9 @@ jobs:
       shell: bash
       run: |
         set -euo pipefail
-        case "${{ inputs.target }}" in
+        TARGET="${{ inputs.target }}"
+        TARGET="${TARGET:-debug_apk}"
+        case "$TARGET" in
           release_aab)
             echo "gradle_task=bundleRelease" >> "$GITHUB_OUTPUT"
             echo "kind=aab" >> "$GITHUB_OUTPUT"
@@ -61,7 +66,7 @@ jobs:
             echo "needs_signing=false" >> "$GITHUB_OUTPUT"
             ;;
           *)
-            echo "Unknown target: ${{ inputs.target }}" >&2
+            echo "Unknown target: $TARGET" >&2
             exit 1
             ;;
         esac
