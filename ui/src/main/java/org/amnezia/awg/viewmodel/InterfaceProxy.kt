@@ -166,6 +166,13 @@ class InterfaceProxy : BaseObservable, Parcelable {
         }
 
     @get:Bindable
+    var preferIpv6: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.preferIpv6)
+        }
+
+    @get:Bindable
     var privateKey: String = ""
         set(value) {
             field = value
@@ -205,6 +212,7 @@ class InterfaceProxy : BaseObservable, Parcelable {
         specialJunkI4 = parcel.readString() ?: ""
         specialJunkI5 = parcel.readString() ?: ""
         privateKey = parcel.readString() ?: ""
+        preferIpv6 = parcel.readInt() != 0
     }
 
     constructor(other: Interface) {
@@ -231,6 +239,7 @@ class InterfaceProxy : BaseObservable, Parcelable {
         specialJunkI3 = other.specialJunkI3.orElse("")
         specialJunkI4 = other.specialJunkI4.orElse("")
         specialJunkI5 = other.specialJunkI5.orElse("")
+        preferIpv6 = other.preferIpv6.orElse(false)
         val keyPair = other.keyPair
         privateKey = keyPair.privateKey.toBase64()
     }
@@ -271,6 +280,7 @@ class InterfaceProxy : BaseObservable, Parcelable {
         if (specialJunkI3.isNotEmpty()) builder.parseSpecialJunkI3(specialJunkI3)
         if (specialJunkI4.isNotEmpty()) builder.parseSpecialJunkI4(specialJunkI4)
         if (specialJunkI5.isNotEmpty()) builder.parseSpecialJunkI5(specialJunkI5)
+        if (preferIpv6) builder.setPreferIpv6(true)
         if (privateKey.isNotEmpty()) builder.parsePrivateKey(privateKey)
         return builder.build()
     }
@@ -299,6 +309,7 @@ class InterfaceProxy : BaseObservable, Parcelable {
         dest.writeString(specialJunkI4)
         dest.writeString(specialJunkI5)
         dest.writeString(privateKey)
+        dest.writeInt(if (preferIpv6) 1 else 0)
     }
 
     private class InterfaceProxyCreator : Parcelable.Creator<InterfaceProxy> {
