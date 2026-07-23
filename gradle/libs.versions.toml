@@ -1,6 +1,6 @@
 [versions]
-agp = "8.3.0"
-kotlin = "1.9.20"
+agp = "8.13.0"
+kotlin = "2.2.20"
 
 [libraries]
 androidx-activity-ktx = "androidx.activity:activity-ktx:1.8.2"
