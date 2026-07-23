@@ -29,9 +29,12 @@ import kotlinx.coroutines.withContext
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (supportFragmentManager.findFragmentById(android.R.id.content) == null) {
+        setContentView(R.layout.activity_settings)
+        setSupportActionBar(findViewById(R.id.toolbar))
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        if (supportFragmentManager.findFragmentById(R.id.settings_container) == null) {
             supportFragmentManager.commit {
-                add(android.R.id.content, SettingsFragment())
+                add(R.id.settings_container, SettingsFragment())
             }
         }
     }
