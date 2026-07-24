@@ -32,7 +32,7 @@ import androidx.annotation.Nullable;
 public final class Peer {
     private final Set<InetNetwork> allowedIps;
     private final Optional<InetEndpoint> endpoint;
-    private final Optional<Integer> persistentKeepalive;
+    private final Optional<String> persistentKeepalive;
     private final Optional<Key> preSharedKey;
     private final Key publicKey;
 
@@ -115,11 +115,12 @@ public final class Peer {
     }
 
     /**
-     * Returns the peer's persistent keepalive.
+     * Returns the peer's persistent keepalive. This may be a single value (e.g. {@code "25"}) or
+     * a range (e.g. {@code "22-30"}).
      *
      * @return the persistent keepalive, or {@code Optional.empty()} if none is configured
      */
-    public Optional<Integer> getPersistentKeepalive() {
+    public Optional<String> getPersistentKeepalive() {
         return persistentKeepalive;
     }
 
@@ -204,15 +205,12 @@ public final class Peer {
 
     @SuppressWarnings("UnusedReturnValue")
     public static final class Builder {
-        // See awg(8)
-        private static final int MAX_PERSISTENT_KEEPALIVE = 65535;
-
         // Defaults to an empty set.
         private final Set<InetNetwork> allowedIps = new LinkedHashSet<>();
         // Defaults to not present.
         private Optional<InetEndpoint> endpoint = Optional.empty();
         // Defaults to not present.
-        private Optional<Integer> persistentKeepalive = Optional.empty();
+        private Optional<String> persistentKeepalive = Optional.empty();
         // Defaults to not present.
         private Optional<Key> preSharedKey = Optional.empty();
         // No default; must be provided before building.
@@ -255,12 +253,7 @@ public final class Peer {
 
         public Builder parsePersistentKeepalive(final String persistentKeepalive)
                 throws BadConfigException {
-            try {
-                return setPersistentKeepalive(Integer.parseInt(persistentKeepalive));
-            } catch (final NumberFormatException e) {
-                throw new BadConfigException(Section.PEER, Location.PERSISTENT_KEEPALIVE,
-                        persistentKeepalive, e);
-            }
+            return setPersistentKeepalive(persistentKeepalive);
         }
 
         public Builder parsePreSharedKey(final String preSharedKey) throws BadConfigException {
@@ -286,11 +279,24 @@ public final class Peer {
 
         public Builder setPersistentKeepalive(final int persistentKeepalive)
                 throws BadConfigException {
-            if (persistentKeepalive < 0 || persistentKeepalive > MAX_PERSISTENT_KEEPALIVE)
+            if (persistentKeepalive < 0)
                 throw new BadConfigException(Section.PEER, Location.PERSISTENT_KEEPALIVE,
                         Reason.INVALID_VALUE, String.valueOf(persistentKeepalive));
-            this.persistentKeepalive = persistentKeepalive == 0 ?
-                    Optional.empty() : Optional.of(persistentKeepalive);
+            return setPersistentKeepalive(String.valueOf(persistentKeepalive));
+        }
+
+        /**
+         * Sets the persistent keepalive from a string. Empty or {@code "off"} disables it
+         * (WireGuard compatibility); otherwise the trimmed value is stored as-is.
+         */
+        public Builder setPersistentKeepalive(final String persistentKeepalive)
+                throws BadConfigException {
+            final String trimmed = persistentKeepalive.trim();
+            if (trimmed.isEmpty() || trimmed.equalsIgnoreCase("off")) {
+                this.persistentKeepalive = Optional.empty();
+            } else {
+                this.persistentKeepalive = Optional.of(trimmed);
+            }
             return this;
         }
 

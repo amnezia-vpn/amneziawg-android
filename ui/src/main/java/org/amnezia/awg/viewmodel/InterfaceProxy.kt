@@ -166,6 +166,55 @@ class InterfaceProxy : BaseObservable, Parcelable {
         }
 
     @get:Bindable
+    var headerProtectionKey: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.headerProtectionKey)
+        }
+
+    @get:Bindable
+    var contentPaddingAddition: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.contentPaddingAddition)
+        }
+
+    @get:Bindable
+    var rekeyAfterTime: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.rekeyAfterTime)
+        }
+
+    @get:Bindable
+    var rekeyTimeout: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.rekeyTimeout)
+        }
+
+    @get:Bindable
+    var rejectAfterTime: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.rejectAfterTime)
+        }
+
+    @get:Bindable
+    var keepaliveTimeout: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.keepaliveTimeout)
+        }
+
+    @get:Bindable
+    var maxHandshakeAttempts: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.maxHandshakeAttempts)
+        }
+
+    @get:Bindable
     var privateKey: String = ""
         set(value) {
             field = value
@@ -204,6 +253,13 @@ class InterfaceProxy : BaseObservable, Parcelable {
         specialJunkI3 = parcel.readString() ?: ""
         specialJunkI4 = parcel.readString() ?: ""
         specialJunkI5 = parcel.readString() ?: ""
+        headerProtectionKey = parcel.readString() ?: ""
+        contentPaddingAddition = parcel.readString() ?: ""
+        rekeyAfterTime = parcel.readString() ?: ""
+        rekeyTimeout = parcel.readString() ?: ""
+        rejectAfterTime = parcel.readString() ?: ""
+        keepaliveTimeout = parcel.readString() ?: ""
+        maxHandshakeAttempts = parcel.readString() ?: ""
         privateKey = parcel.readString() ?: ""
     }
 
@@ -231,6 +287,13 @@ class InterfaceProxy : BaseObservable, Parcelable {
         specialJunkI3 = other.specialJunkI3.orElse("")
         specialJunkI4 = other.specialJunkI4.orElse("")
         specialJunkI5 = other.specialJunkI5.orElse("")
+        headerProtectionKey = other.headerProtectionKey.map { it.toBase64() }.orElse("")
+        contentPaddingAddition = other.contentPaddingAddition.orElse("")
+        rekeyAfterTime = other.rekeyAfterTime.orElse("")
+        rekeyTimeout = other.rekeyTimeout.orElse("")
+        rejectAfterTime = other.rejectAfterTime.orElse("")
+        keepaliveTimeout = other.keepaliveTimeout.orElse("")
+        maxHandshakeAttempts = other.maxHandshakeAttempts.orElse("")
         val keyPair = other.keyPair
         privateKey = keyPair.privateKey.toBase64()
     }
@@ -271,6 +334,13 @@ class InterfaceProxy : BaseObservable, Parcelable {
         if (specialJunkI3.isNotEmpty()) builder.parseSpecialJunkI3(specialJunkI3)
         if (specialJunkI4.isNotEmpty()) builder.parseSpecialJunkI4(specialJunkI4)
         if (specialJunkI5.isNotEmpty()) builder.parseSpecialJunkI5(specialJunkI5)
+        if (headerProtectionKey.isNotEmpty()) builder.parseHeaderProtectionKey(headerProtectionKey)
+        if (contentPaddingAddition.isNotEmpty()) builder.parseContentPaddingAddition(contentPaddingAddition)
+        if (rekeyAfterTime.isNotEmpty()) builder.parseRekeyAfterTime(rekeyAfterTime)
+        if (rekeyTimeout.isNotEmpty()) builder.parseRekeyTimeout(rekeyTimeout)
+        if (rejectAfterTime.isNotEmpty()) builder.parseRejectAfterTime(rejectAfterTime)
+        if (keepaliveTimeout.isNotEmpty()) builder.parseKeepaliveTimeout(keepaliveTimeout)
+        if (maxHandshakeAttempts.isNotEmpty()) builder.parseMaxHandshakeAttempts(maxHandshakeAttempts)
         if (privateKey.isNotEmpty()) builder.parsePrivateKey(privateKey)
         return builder.build()
     }
@@ -298,6 +368,13 @@ class InterfaceProxy : BaseObservable, Parcelable {
         dest.writeString(specialJunkI3)
         dest.writeString(specialJunkI4)
         dest.writeString(specialJunkI5)
+        dest.writeString(headerProtectionKey)
+        dest.writeString(contentPaddingAddition)
+        dest.writeString(rekeyAfterTime)
+        dest.writeString(rekeyTimeout)
+        dest.writeString(rejectAfterTime)
+        dest.writeString(keepaliveTimeout)
+        dest.writeString(maxHandshakeAttempts)
         dest.writeString(privateKey)
     }
 

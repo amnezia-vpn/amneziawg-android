@@ -160,7 +160,7 @@
                 android:nextFocusDown="@id/transfer_text"
                 android:nextFocusForward="@id/transfer_text"
                 android:onClick="@{ClipboardUtils::copyTextView}"
-                android:text="@{@plurals/persistent_keepalive_seconds_unit(item.persistentKeepalive.orElse(0), item.persistentKeepalive.orElse(0))}"
+                android:text="@{item.persistentKeepalive}"
                 android:textAppearance="?attr/textAppearanceBodyLarge"
                 android:visibility="@{!item.persistentKeepalive.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
                 app:layout_constraintStart_toStartOf="parent"
