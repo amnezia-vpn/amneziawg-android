@@ -658,8 +658,8 @@
                         android:layout_marginTop="8dp"
                         android:contentDescription="@string/special_junk_i5"
                         android:nextFocusUp="@id/special_junk_i4_text"
-                        android:nextFocusDown="@id/applications_text"
-                        android:nextFocusForward="@id/applications_text"
+                        android:nextFocusDown="@id/header_protection_key_text"
+                        android:nextFocusForward="@id/header_protection_key_text"
                         android:onClick="@{ClipboardUtils::copyTextView}"
                         android:text="@{config.interface.specialJunkI5}"
                         android:textAppearance="?attr/textAppearanceBodyLarge"
@@ -668,12 +668,188 @@
                         app:layout_constraintTop_toBottomOf="@+id/special_junk_i5_label"
                         tools:text="&lt;rc 12&gt;&lt;t&gt;&lt;rd 18&gt;" />
 
+
+                    <TextView
+                        android:id="@+id/header_protection_key_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:labelFor="@+id/header_protection_key_text"
+                        android:text="@string/header_protection_key"
+                        android:visibility="@{!config.interface.headerProtectionKey.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/special_junk_i5_text" />
+
+                    <TextView
+                        android:id="@+id/header_protection_key_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:contentDescription="@string/header_protection_key"
+                        android:onClick="@{ClipboardUtils::copyTextView}"
+                        android:text="@{config.interface.headerProtectionKey.isPresent() ? config.interface.headerProtectionKey.get().toBase64() : ``}"
+                        android:textAppearance="?attr/textAppearanceBodyLarge"
+                        android:visibility="@{!config.interface.headerProtectionKey.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/header_protection_key_label"
+                        tools:text="base64key=" />
+
+                    <TextView
+                        android:id="@+id/content_padding_addition_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:labelFor="@+id/content_padding_addition_text"
+                        android:text="@string/content_padding_addition"
+                        android:visibility="@{!config.interface.contentPaddingAddition.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/header_protection_key_text" />
+
+                    <TextView
+                        android:id="@+id/content_padding_addition_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:contentDescription="@string/content_padding_addition"
+                        android:onClick="@{ClipboardUtils::copyTextView}"
+                        android:text="@{config.interface.contentPaddingAddition}"
+                        android:textAppearance="?attr/textAppearanceBodyLarge"
+                        android:visibility="@{!config.interface.contentPaddingAddition.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/content_padding_addition_label"
+                        tools:text="16-32" />
+
+                    <TextView
+                        android:id="@+id/rekey_after_time_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:labelFor="@+id/rekey_after_time_text"
+                        android:text="@string/rekey_after_time"
+                        android:visibility="@{!config.interface.rekeyAfterTime.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/content_padding_addition_text" />
+
+                    <TextView
+                        android:id="@+id/rekey_after_time_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:contentDescription="@string/rekey_after_time"
+                        android:onClick="@{ClipboardUtils::copyTextView}"
+                        android:text="@{config.interface.rekeyAfterTime}"
+                        android:textAppearance="?attr/textAppearanceBodyLarge"
+                        android:visibility="@{!config.interface.rekeyAfterTime.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/rekey_after_time_label"
+                        tools:text="120" />
+
+                    <TextView
+                        android:id="@+id/rekey_timeout_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:labelFor="@+id/rekey_timeout_text"
+                        android:text="@string/rekey_timeout"
+                        android:visibility="@{!config.interface.rekeyTimeout.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/rekey_after_time_text" />
+
+                    <TextView
+                        android:id="@+id/rekey_timeout_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:contentDescription="@string/rekey_timeout"
+                        android:onClick="@{ClipboardUtils::copyTextView}"
+                        android:text="@{config.interface.rekeyTimeout}"
+                        android:textAppearance="?attr/textAppearanceBodyLarge"
+                        android:visibility="@{!config.interface.rekeyTimeout.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/rekey_timeout_label"
+                        tools:text="5" />
+
+                    <TextView
+                        android:id="@+id/reject_after_time_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:labelFor="@+id/reject_after_time_text"
+                        android:text="@string/reject_after_time"
+                        android:visibility="@{!config.interface.rejectAfterTime.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/rekey_timeout_text" />
+
+                    <TextView
+                        android:id="@+id/reject_after_time_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:contentDescription="@string/reject_after_time"
+                        android:onClick="@{ClipboardUtils::copyTextView}"
+                        android:text="@{config.interface.rejectAfterTime}"
+                        android:textAppearance="?attr/textAppearanceBodyLarge"
+                        android:visibility="@{!config.interface.rejectAfterTime.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/reject_after_time_label"
+                        tools:text="180" />
+
+                    <TextView
+                        android:id="@+id/keepalive_timeout_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:labelFor="@+id/keepalive_timeout_text"
+                        android:text="@string/keepalive_timeout"
+                        android:visibility="@{!config.interface.keepaliveTimeout.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/reject_after_time_text" />
+
+                    <TextView
+                        android:id="@+id/keepalive_timeout_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:contentDescription="@string/keepalive_timeout"
+                        android:onClick="@{ClipboardUtils::copyTextView}"
+                        android:text="@{config.interface.keepaliveTimeout}"
+                        android:textAppearance="?attr/textAppearanceBodyLarge"
+                        android:visibility="@{!config.interface.keepaliveTimeout.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/keepalive_timeout_label"
+                        tools:text="10" />
+
+                    <TextView
+                        android:id="@+id/max_handshake_attempts_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:labelFor="@+id/max_handshake_attempts_text"
+                        android:text="@string/max_handshake_attempts"
+                        android:visibility="@{!config.interface.maxHandshakeAttempts.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/keepalive_timeout_text" />
+
+                    <TextView
+                        android:id="@+id/max_handshake_attempts_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:contentDescription="@string/max_handshake_attempts"
+                        android:onClick="@{ClipboardUtils::copyTextView}"
+                        android:text="@{config.interface.maxHandshakeAttempts}"
+                        android:textAppearance="?attr/textAppearanceBodyLarge"
+                        android:visibility="@{!config.interface.maxHandshakeAttempts.isPresent() ? android.view.View.GONE : android.view.View.VISIBLE}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/max_handshake_attempts_label"
+                        tools:text="18" />
+
                     <androidx.constraintlayout.widget.Barrier
                         android:id="@+id/amnezia_barrier"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:barrierDirection="bottom"
-                        app:constraint_referenced_ids="transport_packet_magic_header_text,special_junk_i1_text,special_junk_i2_text,special_junk_i3_text,special_junk_i4_text,special_junk_i5_text" />
+                        app:constraint_referenced_ids="transport_packet_magic_header_text,special_junk_i1_text,special_junk_i2_text,special_junk_i3_text,special_junk_i4_text,special_junk_i5_text,header_protection_key_text,content_padding_addition_text,rekey_after_time_text,rekey_timeout_text,reject_after_time_text,keepalive_timeout_text,max_handshake_attempts_text" />
 
                     <TextView
                         android:id="@+id/applications_label"
@@ -690,7 +866,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/applications"
-                        android:nextFocusUp="@id/special_junk_i5_text"
+                        android:nextFocusUp="@id/max_handshake_attempts_text"
                         android:nextFocusDown="@id/peers_layout"
                         android:nextFocusForward="@id/peers_layout"
                         android:onClick="@{ClipboardUtils::copyTextView}"

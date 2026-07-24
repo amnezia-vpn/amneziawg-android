@@ -586,12 +586,167 @@
                                 android:id="@+id/special_junk_i5_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:imeOptions="actionDone"
+                                android:imeOptions="actionNext"
                                 android:inputType="textNoSuggestions"
                                 android:nextFocusUp="@id/special_junk_i4_text"
+                                android:nextFocusDown="@id/header_protection_key_text"
+                                android:nextFocusForward="@id/header_protection_key_text"
+                                android:text="@={config.interface.specialJunkI5}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/header_protection_key_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:hint="@string/header_protection_key"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/special_junk_i5_layout">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/header_protection_key_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionNext"
+                                android:inputType="textNoSuggestions"
+                                android:nextFocusUp="@id/special_junk_i5_text"
+                                android:nextFocusDown="@id/content_padding_addition_text"
+                                android:nextFocusForward="@id/content_padding_addition_text"
+                                android:text="@={config.interface.headerProtectionKey}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/content_padding_addition_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:hint="@string/content_padding_addition"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/header_protection_key_layout">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/content_padding_addition_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionNext"
+                                android:inputType="textNoSuggestions"
+                                android:nextFocusUp="@id/header_protection_key_text"
+                                android:nextFocusDown="@id/rekey_after_time_text"
+                                android:nextFocusForward="@id/rekey_after_time_text"
+                                android:text="@={config.interface.contentPaddingAddition}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/rekey_after_time_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:hint="@string/rekey_after_time"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/content_padding_addition_layout">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/rekey_after_time_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionNext"
+                                android:inputType="textNoSuggestions"
+                                android:nextFocusUp="@id/content_padding_addition_text"
+                                android:nextFocusDown="@id/rekey_timeout_text"
+                                android:nextFocusForward="@id/rekey_timeout_text"
+                                android:text="@={config.interface.rekeyAfterTime}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/rekey_timeout_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:hint="@string/rekey_timeout"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/rekey_after_time_layout">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/rekey_timeout_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionNext"
+                                android:inputType="textNoSuggestions"
+                                android:nextFocusUp="@id/rekey_after_time_text"
+                                android:nextFocusDown="@id/reject_after_time_text"
+                                android:nextFocusForward="@id/reject_after_time_text"
+                                android:text="@={config.interface.rekeyTimeout}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/reject_after_time_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:hint="@string/reject_after_time"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/rekey_timeout_layout">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/reject_after_time_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionNext"
+                                android:inputType="textNoSuggestions"
+                                android:nextFocusUp="@id/rekey_timeout_text"
+                                android:nextFocusDown="@id/keepalive_timeout_text"
+                                android:nextFocusForward="@id/keepalive_timeout_text"
+                                android:text="@={config.interface.rejectAfterTime}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/keepalive_timeout_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:hint="@string/keepalive_timeout"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/reject_after_time_layout">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/keepalive_timeout_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionNext"
+                                android:inputType="textNoSuggestions"
+                                android:nextFocusUp="@id/reject_after_time_text"
+                                android:nextFocusDown="@id/max_handshake_attempts_text"
+                                android:nextFocusForward="@id/max_handshake_attempts_text"
+                                android:text="@={config.interface.keepaliveTimeout}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/max_handshake_attempts_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:hint="@string/max_handshake_attempts"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/keepalive_timeout_layout">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/max_handshake_attempts_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionDone"
+                                android:inputType="textNoSuggestions"
+                                android:nextFocusUp="@id/keepalive_timeout_text"
                                 android:nextFocusDown="@id/set_excluded_applications"
                                 android:nextFocusForward="@id/set_excluded_applications"
-                                android:text="@={config.interface.specialJunkI5}" />
+                                android:text="@={config.interface.maxHandshakeAttempts}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.button.MaterialButton
@@ -600,7 +755,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
-                            android:nextFocusUp="@id/special_junk_i5_text"
+                            android:nextFocusUp="@id/max_handshake_attempts_text"
                             android:nextFocusDown="@id/peers_layout"
                             android:nextFocusForward="@id/peers_layout"
                             android:onClick="@{fragment::onRequestSetExcludedIncludedApplications}"
@@ -609,7 +764,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/special_junk_i5_layout"
+                            app:layout_constraintTop_toBottomOf="@id/max_handshake_attempts_layout"
                             app:rippleColor="?attr/colorSecondary"
                             tools:text="4 excluded applications" />
                     </androidx.constraintlayout.widget.ConstraintLayout>

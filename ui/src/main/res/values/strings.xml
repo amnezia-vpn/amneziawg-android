@@ -176,6 +176,13 @@
     <string name="special_junk_i3">Special junk I3</string>
     <string name="special_junk_i4">Special junk I4</string>
     <string name="special_junk_i5">Special junk I5</string>
+    <string name="header_protection_key">Header protection key</string>
+    <string name="content_padding_addition">Content padding addition</string>
+    <string name="rekey_after_time">Rekey after time</string>
+    <string name="rekey_timeout">Rekey timeout</string>
+    <string name="reject_after_time">Reject after time</string>
+    <string name="keepalive_timeout">Keepalive timeout</string>
+    <string name="max_handshake_attempts">Max handshake attempts</string>
     <string name="multiple_tunnels_summary_off">Turning on one tunnel will turn off others</string>
     <string name="multiple_tunnels_summary_on">Multiple tunnels may be turned on simultaneously</string>
     <string name="multiple_tunnels_title">Allow multiple simultaneous tunnels</string>
