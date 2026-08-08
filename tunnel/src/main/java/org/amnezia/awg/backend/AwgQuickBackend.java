@@ -48,7 +48,6 @@ public final class AwgQuickBackend implements Backend {
     private boolean multipleTunnels;
     @Nullable private Thread statusThread;
     @Nullable private StatusCallback statusCallback;
-    @Nullable private Tunnel currentTunnel;
 
     public AwgQuickBackend(final Context context, final RootShell rootShell, final ToolsInstaller toolsInstaller) {
         localTemporaryDir = new File(context.getCacheDir(), "tmp");
@@ -121,44 +120,59 @@ public final class AwgQuickBackend implements Backend {
     }
 
     /**
-     * Launch a background thread to poll handshake status and determine connection state.
-     * This is called after tunnel creation to wait for the first successful handshake.
+     * Launch a background thread to poll handshake status for all running tunnels and determine
+     * connection state of each one. A tunnel is considered connected when its latest handshake is
+     * fresh; when the handshake goes stale it is reported as reconnecting (connected == false).
      */
     private void launchStatusJob() {
         stopStatusJob();
         Log.d(TAG, "Launch status job");
         statusThread = new Thread(() -> {
+            final Map<Tunnel, Long> lastHandshakeTime = new HashMap<>();
             while (!Thread.currentThread().isInterrupted()) {
-                final long lastHandshake = getLastHandshake(currentTunnel);
-
-                // Check if tunnel is no longer active (race condition protection)
-                if (lastHandshake == -3L) {
-                    Log.d(TAG, "Tunnel is no longer active, stopping status job");
+                final Collection<Tunnel> tunnels;
+                synchronized (runningConfigs) {
+                    tunnels = new ArrayList<>(runningConfigs.keySet());
+                }
+                if (tunnels.isEmpty()) {
                     break;
                 }
-
-                // 0 means no handshake yet, wait and retry
-                if (lastHandshake == 0L) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (final InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                        break;
+                final long now = System.currentTimeMillis() / 1000;
+                for (final Tunnel tunnel : tunnels) {
+                    final long lastHandshake = getLastHandshake(tunnel);
+                    if (lastHandshake == -3L) {
+                        // Tunnel is no longer active
+                        lastHandshakeTime.remove(tunnel);
+                        if (statusCallback != null)
+                            statusCallback.onStatusChanged(tunnel, false);
+                        continue;
                     }
-                    continue;
-                }
-
-                // Only positive handshake time indicates successful connection
-                // -1 may be returned if unable to parse output (doesn't mean no connection)
-                // -2 indicates command execution error (also doesn't mean no connection)
-                if (lastHandshake > 0L) {
-                    if (statusCallback != null) {
-                        statusCallback.onStatusChanged(true);
+                    if (lastHandshake == 0L) {
+                        // No handshake yet
+                        lastHandshakeTime.remove(tunnel);
+                        continue;
                     }
-                    break;
+                    if (lastHandshake > 0L) {
+                        final Long previous = lastHandshakeTime.put(tunnel, lastHandshake);
+                        // Fresh handshake (within reconnect timeout): connected.
+                        // Report CONNECTED only on transition, to avoid spamming the callback.
+                        if (previous == null && statusCallback != null)
+                            statusCallback.onStatusChanged(tunnel, true);
+                        continue;
+                    }
+                    // -1 / -2: command error, don't change anything
                 }
-
-                // For -1 or -2, retry after delay instead of reporting disconnected
+                // Mark tunnels whose handshake went stale as reconnecting.
+                final List<Tunnel> stale = new ArrayList<>();
+                for (final Map.Entry<Tunnel, Long> entry : lastHandshakeTime.entrySet()) {
+                    if (now - entry.getValue() > 180)
+                        stale.add(entry.getKey());
+                }
+                for (final Tunnel tunnel : stale) {
+                    lastHandshakeTime.remove(tunnel);
+                    if (statusCallback != null)
+                        statusCallback.onStatusChanged(tunnel, false);
+                }
                 try {
                     Thread.sleep(1000);
                 } catch (final InterruptedException e) {
@@ -290,12 +304,13 @@ public final class AwgQuickBackend implements Backend {
 
         if (state == State.UP) {
             runningConfigs.put(tunnel, config);
-            currentTunnel = tunnel;
             launchStatusJob();
         } else {
-            stopStatusJob();
-            runningConfigs.remove(tunnel);
-            currentTunnel = null;
+            synchronized (runningConfigs) {
+                runningConfigs.remove(tunnel);
+                if (runningConfigs.isEmpty())
+                    stopStatusJob();
+            }
         }
 
         tunnel.onStateChange(state);
