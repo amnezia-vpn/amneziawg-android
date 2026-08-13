@@ -69,6 +69,8 @@ public final class Interface {
     private final Optional<String> rejectAfterTime;
     private final Optional<String> keepaliveTimeout;
     private final Optional<String> maxHandshakeAttempts;
+    private final Optional<String> randomTrailers;
+    private final Optional<String> disableCookies;
 
     private Interface(final Builder builder) {
         // Defensively copy to ensure immutability even if the Builder is reused.
@@ -103,6 +105,8 @@ public final class Interface {
         rejectAfterTime = builder.rejectAfterTime;
         keepaliveTimeout = builder.keepaliveTimeout;
         maxHandshakeAttempts = builder.maxHandshakeAttempts;
+        randomTrailers = builder.randomTrailers;
+        disableCookies = builder.disableCookies;
     }
 
     /**
@@ -210,6 +214,12 @@ public final class Interface {
                 case "maxhandshakeattempts":
                     builder.parseMaxHandshakeAttempts(attribute.getValue());
                     break;
+                case "randomtrailers":
+                    builder.parseRandomTrailers(attribute.getValue());
+                    break;
+                case "disablecookies":
+                    builder.parseDisableCookies(attribute.getValue());
+                    break;
                 default:
                     throw new BadConfigException(Section.INTERFACE, Location.TOP_LEVEL,
                             Reason.UNKNOWN_ATTRIBUTE, attribute.getKey());
@@ -253,7 +263,9 @@ public final class Interface {
                 && rekeyTimeout.equals(other.rekeyTimeout)
                 && rejectAfterTime.equals(other.rejectAfterTime)
                 && keepaliveTimeout.equals(other.keepaliveTimeout)
-                && maxHandshakeAttempts.equals(other.maxHandshakeAttempts);
+                && maxHandshakeAttempts.equals(other.maxHandshakeAttempts)
+                && randomTrailers.equals(other.randomTrailers)
+                && disableCookies.equals(other.disableCookies);
     }
 
     /**
@@ -540,6 +552,24 @@ public final class Interface {
         return maxHandshakeAttempts;
     }
 
+    /**
+     * Returns whether random trailers are enabled for the AmneziaWG interface.
+     *
+     * @return the randomTrailers value, or {@code Optional.empty()} if none is configured
+     */
+    public Optional<String> getRandomTrailers() {
+        return randomTrailers;
+    }
+
+    /**
+     * Returns whether cookies are disabled for the AmneziaWG interface.
+     *
+     * @return the disableCookies value, or {@code Optional.empty()} if none is configured
+     */
+    public Optional<String> getDisableCookies() {
+        return disableCookies;
+    }
+
     @Override
     public int hashCode() {
         int hash = 1;
@@ -573,6 +603,8 @@ public final class Interface {
         hash = 31 * hash + rejectAfterTime.hashCode();
         hash = 31 * hash + keepaliveTimeout.hashCode();
         hash = 31 * hash + maxHandshakeAttempts.hashCode();
+        hash = 31 * hash + randomTrailers.hashCode();
+        hash = 31 * hash + disableCookies.hashCode();
         return hash;
     }
 
@@ -635,6 +667,8 @@ public final class Interface {
         rejectAfterTime.ifPresent(rjat -> sb.append("RejectAfterTime = ").append(rjat).append('\n'));
         keepaliveTimeout.ifPresent(kt -> sb.append("KeepaliveTimeout = ").append(kt).append('\n'));
         maxHandshakeAttempts.ifPresent(mha -> sb.append("MaxHandshakeAttempts = ").append(mha).append('\n'));
+        randomTrailers.ifPresent(rt -> sb.append("RandomTrailers = ").append(rt).append('\n'));
+        disableCookies.ifPresent(dc -> sb.append("DisableCookies = ").append(dc).append('\n'));
         sb.append("PrivateKey = ").append(keyPair.getPrivateKey().toBase64()).append('\n');
         return sb.toString();
     }
@@ -672,7 +706,29 @@ public final class Interface {
         rejectAfterTime.ifPresent(rjat -> sb.append("reject_after_time=").append(rjat).append('\n'));
         keepaliveTimeout.ifPresent(kt -> sb.append("keepalive_timeout=").append(kt).append('\n'));
         maxHandshakeAttempts.ifPresent(mha -> sb.append("max_handshake_attempts=").append(mha).append('\n'));
+        randomTrailers.ifPresent(rt -> sb.append("random_trailers=").append(toUapiBool(rt)).append('\n'));
+        disableCookies.ifPresent(dc -> sb.append("disable_cookies=").append(toUapiBool(dc)).append('\n'));
         return sb.toString();
+    }
+
+    /**
+     * Converts awg-quick on/off (and 0/1/true/false) to UAPI 1/0.
+     * amneziawg-go uses {@code strconv.ParseBool} and rejects "on"/"off".
+     */
+    private static String toUapiBool(final String value) {
+        if (value == null) {
+            return "0";
+        }
+        switch (value.trim().toLowerCase()) {
+            case "on":
+            case "1":
+            case "true":
+            case "t":
+            case "yes":
+                return "1";
+            default:
+                return "0";
+        }
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -739,6 +795,10 @@ public final class Interface {
         private Optional<String> keepaliveTimeout = Optional.empty();
         // Defaults to not present.
         private Optional<String> maxHandshakeAttempts = Optional.empty();
+        // Defaults to not present.
+        private Optional<String> randomTrailers = Optional.empty();
+        // Defaults to not present.
+        private Optional<String> disableCookies = Optional.empty();
 
         public Builder addAddress(final InetNetwork address) {
             addresses.add(address);
@@ -1024,6 +1084,14 @@ public final class Interface {
             return setMaxHandshakeAttempts(maxHandshakeAttempts);
         }
 
+        public Builder parseRandomTrailers(final String randomTrailers) throws BadConfigException {
+            return setRandomTrailers(randomTrailers);
+        }
+
+        public Builder parseDisableCookies(final String disableCookies) throws BadConfigException {
+            return setDisableCookies(disableCookies);
+        }
+
         public Builder parsePrivateKey(final String privateKey) throws BadConfigException {
             try {
                 return setKeyPair(new KeyPair(Key.fromBase64(privateKey)));
@@ -1245,6 +1313,24 @@ public final class Interface {
                 this.maxHandshakeAttempts = Optional.empty();
             } else {
                 this.maxHandshakeAttempts = Optional.of(maxHandshakeAttempts.trim());
+            }
+            return this;
+        }
+
+        public Builder setRandomTrailers(final String randomTrailers) throws BadConfigException {
+            if (randomTrailers == null || randomTrailers.trim().isEmpty()) {
+                this.randomTrailers = Optional.empty();
+            } else {
+                this.randomTrailers = Optional.of(randomTrailers.trim());
+            }
+            return this;
+        }
+
+        public Builder setDisableCookies(final String disableCookies) throws BadConfigException {
+            if (disableCookies == null || disableCookies.trim().isEmpty()) {
+                this.disableCookies = Optional.empty();
+            } else {
+                this.disableCookies = Optional.of(disableCookies.trim());
             }
             return this;
         }

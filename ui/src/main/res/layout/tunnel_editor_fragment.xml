@@ -741,12 +741,56 @@
                                 android:id="@+id/max_handshake_attempts_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:imeOptions="actionDone"
+                                android:imeOptions="actionNext"
                                 android:inputType="textNoSuggestions"
                                 android:nextFocusUp="@id/keepalive_timeout_text"
+                                android:nextFocusDown="@id/random_trailers_text"
+                                android:nextFocusForward="@id/random_trailers_text"
+                                android:text="@={config.interface.maxHandshakeAttempts}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/random_trailers_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:hint="@string/random_trailers"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/max_handshake_attempts_layout">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/random_trailers_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionNext"
+                                android:inputType="textNoSuggestions"
+                                android:nextFocusUp="@id/max_handshake_attempts_text"
+                                android:nextFocusDown="@id/disable_cookies_text"
+                                android:nextFocusForward="@id/disable_cookies_text"
+                                android:text="@={config.interface.randomTrailers}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/disable_cookies_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:hint="@string/disable_cookies"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/random_trailers_layout">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/disable_cookies_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionDone"
+                                android:inputType="textNoSuggestions"
+                                android:nextFocusUp="@id/random_trailers_text"
                                 android:nextFocusDown="@id/set_excluded_applications"
                                 android:nextFocusForward="@id/set_excluded_applications"
-                                android:text="@={config.interface.maxHandshakeAttempts}" />
+                                android:text="@={config.interface.disableCookies}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.button.MaterialButton
@@ -755,7 +799,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
-                            android:nextFocusUp="@id/max_handshake_attempts_text"
+                            android:nextFocusUp="@id/disable_cookies_text"
                             android:nextFocusDown="@id/peers_layout"
                             android:nextFocusForward="@id/peers_layout"
                             android:onClick="@{fragment::onRequestSetExcludedIncludedApplications}"
@@ -764,7 +808,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/max_handshake_attempts_layout"
+                            app:layout_constraintTop_toBottomOf="@id/disable_cookies_layout"
                             app:rippleColor="?attr/colorSecondary"
                             tools:text="4 excluded applications" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
