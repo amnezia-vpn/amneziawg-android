@@ -215,6 +215,20 @@ class InterfaceProxy : BaseObservable, Parcelable {
         }
 
     @get:Bindable
+    var randomTrailers: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.randomTrailers)
+        }
+
+    @get:Bindable
+    var disableCookies: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.disableCookies)
+        }
+
+    @get:Bindable
     var privateKey: String = ""
         set(value) {
             field = value
@@ -260,6 +274,8 @@ class InterfaceProxy : BaseObservable, Parcelable {
         rejectAfterTime = parcel.readString() ?: ""
         keepaliveTimeout = parcel.readString() ?: ""
         maxHandshakeAttempts = parcel.readString() ?: ""
+        randomTrailers = parcel.readString() ?: ""
+        disableCookies = parcel.readString() ?: ""
         privateKey = parcel.readString() ?: ""
     }
 
@@ -294,6 +310,8 @@ class InterfaceProxy : BaseObservable, Parcelable {
         rejectAfterTime = other.rejectAfterTime.orElse("")
         keepaliveTimeout = other.keepaliveTimeout.orElse("")
         maxHandshakeAttempts = other.maxHandshakeAttempts.orElse("")
+        randomTrailers = other.randomTrailers.orElse("")
+        disableCookies = other.disableCookies.orElse("")
         val keyPair = other.keyPair
         privateKey = keyPair.privateKey.toBase64()
     }
@@ -341,6 +359,8 @@ class InterfaceProxy : BaseObservable, Parcelable {
         if (rejectAfterTime.isNotEmpty()) builder.parseRejectAfterTime(rejectAfterTime)
         if (keepaliveTimeout.isNotEmpty()) builder.parseKeepaliveTimeout(keepaliveTimeout)
         if (maxHandshakeAttempts.isNotEmpty()) builder.parseMaxHandshakeAttempts(maxHandshakeAttempts)
+        if (randomTrailers.isNotEmpty()) builder.parseRandomTrailers(randomTrailers)
+        if (disableCookies.isNotEmpty()) builder.parseDisableCookies(disableCookies)
         if (privateKey.isNotEmpty()) builder.parsePrivateKey(privateKey)
         return builder.build()
     }
@@ -375,6 +395,8 @@ class InterfaceProxy : BaseObservable, Parcelable {
         dest.writeString(rejectAfterTime)
         dest.writeString(keepaliveTimeout)
         dest.writeString(maxHandshakeAttempts)
+        dest.writeString(randomTrailers)
+        dest.writeString(disableCookies)
         dest.writeString(privateKey)
     }
 

@@ -101,7 +101,9 @@ public class BadConfigException extends Exception {
         REKEY_TIMEOUT("RekeyTimeout"),
         REJECT_AFTER_TIME("RejectAfterTime"),
         KEEPALIVE_TIMEOUT("KeepaliveTimeout"),
-        MAX_HANDSHAKE_ATTEMPTS("MaxHandshakeAttempts");
+        MAX_HANDSHAKE_ATTEMPTS("MaxHandshakeAttempts"),
+        RANDOM_TRAILERS("RandomTrailers"),
+        DISABLE_COOKIES("DisableCookies");
 
         private final String name;
 

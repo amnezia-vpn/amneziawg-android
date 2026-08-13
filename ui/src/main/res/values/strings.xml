@@ -183,6 +183,8 @@
     <string name="reject_after_time">Reject after time</string>
     <string name="keepalive_timeout">Keepalive timeout</string>
     <string name="max_handshake_attempts">Max handshake attempts</string>
+    <string name="random_trailers">Random trailers</string>
+    <string name="disable_cookies">Disable cookies</string>
     <string name="multiple_tunnels_summary_off">Turning on one tunnel will turn off others</string>
     <string name="multiple_tunnels_summary_on">Multiple tunnels may be turned on simultaneously</string>
     <string name="multiple_tunnels_title">Allow multiple simultaneous tunnels</string>
