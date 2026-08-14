@@ -7,8 +7,10 @@ public interface StatusCallback {
     /**
      * Called when connection status is determined.
      *
-     * @param connected true if handshake was successful (connected), false if disconnected
+     * @param tunnel    The tunnel whose connection status changed.
+     * @param connected true if handshake is fresh (connected), false if the tunnel lost its
+     *                  connection and is reconnecting
      */
-    void onStatusChanged(boolean connected);
+    void onStatusChanged(Tunnel tunnel, boolean connected);
 }
 
