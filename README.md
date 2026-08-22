@@ -1,8 +1,8 @@
-# Android GUI for [AmneziaWG](https://amnezia.org/learn-more/31_amneziawg)
+# Android GUI for [AmneziaWG](https://docs.amnezia.org/documentation/amnezia-wg)
 
 **[Download from the Play Store](https://play.google.com/store/apps/details?id=org.amnezia.awg)**
 
-This is an Android GUI for [AmneziaWG](https://amnezia.org/learn-more/31_amneziawg).
+This is an Android GUI for [AmneziaWG](https://docs.amnezia.org/documentation/amnezia-wg).
 
 ## Building
 
