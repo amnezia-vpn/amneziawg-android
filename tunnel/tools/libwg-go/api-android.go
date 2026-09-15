@@ -72,6 +72,33 @@ func init() {
 	}()
 }
 
+// sendInitialKeepalives queues a keepalive for every configured peer that has an
+// endpoint. With no session established yet, this makes the peer initiate a
+// handshake immediately, as Device.Up already does for peers that have a
+// persistent keepalive interval.
+func sendInitialKeepalives(dev *device.Device, settings string) {
+	var peer *device.Peer
+	for _, line := range strings.Split(settings, "\n") {
+		key, value, ok := strings.Cut(line, "=")
+		if !ok {
+			continue
+		}
+		switch key {
+		case "public_key":
+			peer = nil
+			var publicKey device.NoisePublicKey
+			if publicKey.FromHex(value) == nil {
+				peer = dev.LookupPeer(publicKey)
+			}
+		case "endpoint":
+			if peer != nil {
+				peer.SendKeepalive()
+				peer = nil
+			}
+		}
+	}
+}
+
 //export awgTurnOn
 func awgTurnOn(interfaceName string, tunFd int32, settings string) int32 {
 	tag := cstring("AmneziaWG/" + interfaceName)
@@ -129,6 +156,12 @@ func awgTurnOn(interfaceName string, tunFd int32, settings string) int32 {
 		return -1
 	}
 	logger.Verbosef("Device started")
+
+	// Handshake right away instead of waiting for the first outbound packet.
+	// The tunnel is reported as connected only after a handshake, and when just a
+	// few apps are routed through it and no persistent keepalive is configured,
+	// nothing may enter the tunnel for a long time.
+	sendInitialKeepalives(device, settings)
 
 	var i int32
 	for i = 0; i < math.MaxInt32; i++ {
