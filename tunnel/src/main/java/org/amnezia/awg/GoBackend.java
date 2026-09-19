@@ -15,4 +15,18 @@ public class GoBackend {
     public static native int awgTurnOn(String ifName, int tunFd, String settings);
 
     public static native String awgVersion();
+
+    /**
+     * Installs the Strict Split Tunneling filter, or removes it when null. Returns 0 on
+     * success, -1 if the filter could not be registered.
+     */
+    public static native int awgSetUidFilter(@Nullable UidFilter filter);
+
+    /**
+     * Decides whether a new outbound flow read from the tun device may enter the tunnel.
+     * Called from native code, once per new flow, on a thread the JVM did not start.
+     */
+    public interface UidFilter {
+        boolean allow(String network, String srcIp, int srcPort, String dstIp, int dstPort);
+    }
 }

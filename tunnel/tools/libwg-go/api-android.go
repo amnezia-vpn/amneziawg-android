@@ -7,6 +7,8 @@ package main
 
 // #cgo LDFLAGS: -llog
 // #include <android/log.h>
+// #include <stdlib.h>
+// extern int awgUidFilterAllow(const char *network, const char *src_ip, int src_port, const char *dst_ip, int dst_port);
 import "C"
 
 import (
@@ -24,6 +26,7 @@ import (
 	"github.com/amnezia-vpn/amneziawg-go/v3/device"
 	"github.com/amnezia-vpn/amneziawg-go/v3/ipc"
 	"github.com/amnezia-vpn/amneziawg-go/v3/tun"
+	"github.com/amnezia-vpn/amneziawg-go/v3/uidfilter"
 	"golang.org/x/sys/unix"
 )
 
@@ -222,6 +225,31 @@ func awgVersion() *C.char {
 		}
 	}
 	return C.CString("unknown")
+}
+
+// jniUidFilter forwards Strict Split Tunneling decisions (issue
+// amnezia-client#2457) to the UidFilter registered from Java, which resolves
+// the owning app UID. It is consulted once per new flow; uidfilter caches the
+// verdict.
+type jniUidFilter struct{}
+
+func (jniUidFilter) Allow(network, srcIP string, srcPort int, dstIP string, dstPort int) bool {
+	cNetwork := C.CString(network)
+	defer C.free(unsafe.Pointer(cNetwork))
+	cSrcIP := C.CString(srcIP)
+	defer C.free(unsafe.Pointer(cSrcIP))
+	cDstIP := C.CString(dstIP)
+	defer C.free(unsafe.Pointer(cDstIP))
+	return C.awgUidFilterAllow(cNetwork, cSrcIP, C.int(srcPort), cDstIP, C.int(dstPort)) != 0
+}
+
+//export awgSetUidFilter
+func awgSetUidFilter(enabled int32) {
+	if enabled != 0 {
+		uidfilter.Set(jniUidFilter{})
+	} else {
+		uidfilter.Set(nil)
+	}
 }
 
 func main() {}
