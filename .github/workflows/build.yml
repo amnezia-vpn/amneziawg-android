@@ -41,6 +41,10 @@ jobs:
 
     - name: Set up Android SDK
       uses: android-actions/setup-android@v3
+      with:
+        # The legacy "tools" package (part of the action's default) was removed
+        # from Google's SDK repository; AGP downloads whatever else it needs.
+        packages: platform-tools
 
     - name: Configure build
       id: cfg
