@@ -245,7 +245,7 @@ public final class GoBackend implements Backend {
                 // -2 indicates command execution error (also doesn't mean no connection)
                 if (lastHandshake > 0L) {
                     if (statusCallback != null) {
-                        statusCallback.onStatusChanged(true);
+                        statusCallback.onStatusChanged(currentTunnel, true);
                     }
                     break;
                 }

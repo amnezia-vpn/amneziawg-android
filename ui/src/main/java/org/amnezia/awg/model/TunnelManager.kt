@@ -115,18 +115,18 @@ class TunnelManager(private val configStore: ConfigStore) : BaseObservable() {
             try {
                 val backend = getBackend()
                 val statusCallback = object : StatusCallback {
-                    override fun onStatusChanged(connected: Boolean) {
+                    override fun onStatusChanged(tunnel: Tunnel, connected: Boolean) {
                         applicationScope.launch(Dispatchers.Main) {
-                            // Find the currently active tunnel
-                            val activeTunnel = tunnelMap.firstOrNull { it.state == Tunnel.State.UP }
-                            if (activeTunnel != null) {
-                                val newStatus = if (connected) {
-                                    ObservableTunnel.ConnectionStatus.CONNECTED
-                                } else {
-                                    ObservableTunnel.ConnectionStatus.CONNECTING
-                                }
-                                activeTunnel.onConnectionStatusChanged(newStatus)
+                            // Route the status update to the specific tunnel it belongs to.
+                            val observableTunnel = tunnelMap[tunnel.name] ?: return@launch
+                            if (observableTunnel.state != Tunnel.State.UP)
+                                return@launch
+                            val newStatus = if (connected) {
+                                ObservableTunnel.ConnectionStatus.CONNECTED
+                            } else {
+                                ObservableTunnel.ConnectionStatus.CONNECTING
                             }
+                            observableTunnel.onConnectionStatusChanged(newStatus)
                         }
                     }
                 }
