@@ -54,13 +54,19 @@ public final class InetEndpoint {
         }
         if (uri.getPort() < 0 || uri.getPort() > 65535)
             throw new ParseException(InetEndpoint.class, endpoint, "Missing/invalid port number");
+        String host = uri.getHost();
+        if (host == null)
+            throw new ParseException(InetEndpoint.class, endpoint, "Missing host");
+        // URI.getHost() wraps IPv6 literals in brackets; strip them so the numeric parser accepts it.
+        if (host.length() > 1 && host.charAt(0) == '[' && host.charAt(host.length() - 1) == ']')
+            host = host.substring(1, host.length() - 1);
         try {
-            InetAddresses.parse(uri.getHost());
+            InetAddresses.parse(host);
             // Parsing ths host as a numeric address worked, so we don't need to do DNS lookups.
-            return new InetEndpoint(uri.getHost(), true, uri.getPort());
+            return new InetEndpoint(host, true, uri.getPort());
         } catch (final ParseException ignored) {
             // Failed to parse the host as a numeric address, so it must be a DNS hostname/FQDN.
-            return new InetEndpoint(uri.getHost(), false, uri.getPort());
+            return new InetEndpoint(host, false, uri.getPort());
         }
     }
 
