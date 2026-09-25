@@ -229,8 +229,8 @@ func awgVersion() *C.char {
 
 // jniUidFilter forwards Strict Split Tunneling decisions (issue
 // amnezia-client#2457) to the UidFilter registered from Java, which resolves
-// the owning app UID. It is consulted once per new flow; uidfilter caches the
-// verdict.
+// the owning app UID. It is consulted once per new flow, from uidfilter's worker
+// goroutines, several at a time; uidfilter caches the verdict.
 type jniUidFilter struct{}
 
 func (jniUidFilter) Allow(network, srcIP string, srcPort int, dstIP string, dstPort int) bool {

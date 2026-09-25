@@ -24,7 +24,8 @@ public class GoBackend {
 
     /**
      * Decides whether a new outbound flow read from the tun device may enter the tunnel.
-     * Called from native code, once per new flow, on a thread the JVM did not start.
+     * Called from native code, once per new flow, on threads the JVM did not start,
+     * several at a time: implementations must be thread-safe.
      */
     public interface UidFilter {
         boolean allow(String network, String srcIp, int srcPort, String dstIp, int dstPort);

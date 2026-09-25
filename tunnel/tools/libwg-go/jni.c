@@ -20,9 +20,10 @@ extern void awgSetUidFilter(int enabled);
 /*
  * Strict Split Tunneling (issue amnezia-client#2457): Go asks the UidFilter
  * registered from Java whether a new outbound flow may enter the tunnel. The
- * upcall arrives on a Go thread the JVM does not know, so the thread is attached
- * once and detached by a pthread key destructor when it exits. Any failure on
- * the way denies the flow.
+ * upcall arrives on one of a few Go worker threads the JVM does not know, so each
+ * is attached once and detached by a pthread key destructor when it exits. The
+ * lock guards the registration only, not the call. Any failure on the way denies
+ * the flow.
  */
 static pthread_mutex_t uid_filter_lock = PTHREAD_MUTEX_INITIALIZER;
 static JavaVM *uid_filter_vm;
@@ -57,33 +58,41 @@ static JNIEnv *uid_filter_env(void)
 int awgUidFilterAllow(const char *network, const char *src_ip, int src_port, const char *dst_ip, int dst_port)
 {
 	JNIEnv *env;
+	jobject obj;
+	jmethodID method;
 	jstring network_str, src_ip_str, dst_ip_str;
 	jboolean allow = JNI_FALSE;
 
 	pthread_mutex_lock(&uid_filter_lock);
-	if (!uid_filter_obj)
-		goto out;
-	env = uid_filter_env();
-	if (!env)
-		goto out;
-	/* The thread never returns to Java, so local references must be freed here. */
-	if ((*env)->PushLocalFrame(env, 3) != JNI_OK) {
-		(*env)->ExceptionClear(env);
-		goto out;
+	if (!uid_filter_obj) {
+		pthread_mutex_unlock(&uid_filter_lock);
+		return 0;
 	}
+	env = uid_filter_env();
+	/* The thread never returns to Java, so local references must be freed here. */
+	if (!env || (*env)->PushLocalFrame(env, 4) != JNI_OK) {
+		if (env)
+			(*env)->ExceptionClear(env);
+		pthread_mutex_unlock(&uid_filter_lock);
+		return 0;
+	}
+	/* A local reference keeps the filter alive if it is unregistered meanwhile, so the
+	 * call itself runs unlocked and several threads can wait on the platform at once. */
+	obj = (*env)->NewLocalRef(env, uid_filter_obj);
+	method = uid_filter_allow;
+	pthread_mutex_unlock(&uid_filter_lock);
+
 	network_str = (*env)->NewStringUTF(env, network);
 	src_ip_str = (*env)->NewStringUTF(env, src_ip);
 	dst_ip_str = (*env)->NewStringUTF(env, dst_ip);
-	if (network_str && src_ip_str && dst_ip_str)
-		allow = (*env)->CallBooleanMethod(env, uid_filter_obj, uid_filter_allow, network_str, src_ip_str,
+	if (obj && network_str && src_ip_str && dst_ip_str)
+		allow = (*env)->CallBooleanMethod(env, obj, method, network_str, src_ip_str,
 						  (jint)src_port, dst_ip_str, (jint)dst_port);
 	if ((*env)->ExceptionCheck(env)) {
 		(*env)->ExceptionClear(env);
 		allow = JNI_FALSE;
 	}
 	(*env)->PopLocalFrame(env, NULL);
-out:
-	pthread_mutex_unlock(&uid_filter_lock);
 	return allow == JNI_TRUE;
 }
 
