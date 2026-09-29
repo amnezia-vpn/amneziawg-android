@@ -6,6 +6,7 @@ package org.amnezia.awg.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -15,10 +16,14 @@ import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import org.amnezia.awg.R
 import org.amnezia.awg.fragment.TunnelDetailFragment
 import org.amnezia.awg.fragment.TunnelEditorFragment
+import org.amnezia.awg.fragment.TunnelListFragment
 import org.amnezia.awg.model.ObservableTunnel
+import org.amnezia.awg.subscription.SubscriptionSyncManager
 
 /**
  * CRUD interface for AmneziaWG tunnels. This activity serves as the main entry point to the
@@ -88,12 +93,41 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
             }
             // This menu item is handled by the editor fragment.
             R.id.menu_action_save -> false
+            R.id.menu_action_sync -> {
+                tunnelListFragment()?.syncNow()
+                true
+            }
             R.id.menu_settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
                 true
             }
 
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    /**
+     * The tunnel list fragment, whether this activity is showing one or two panes.
+     */
+    private fun tunnelListFragment(): TunnelListFragment? =
+        supportFragmentManager.fragments.filterIsInstance<TunnelListFragment>().firstOrNull()
+
+    /**
+     * Refreshes any enabled subscription whose cooldown has expired. This is a no-op until the
+     * user has added a subscription, so the app never contacts a provider unprompted.
+     */
+    override fun onStart() {
+        super.onStart()
+        lifecycleScope.launch {
+            try {
+                SubscriptionSyncManager.syncIfDue()
+            } catch (e: Throwable) {
+                Log.w(TAG, "Startup subscription sync failed", e)
+            } finally {
+                // A startup sync can add or remove tunnels, and the list observes its own
+                // filtered copy rather than the tunnel manager, so it needs telling.
+                tunnelListFragment()?.refreshTunnels()
+            }
         }
     }
 
@@ -125,5 +159,9 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
             }
         }
         return true
+    }
+
+    companion object {
+        private const val TAG = "AmneziaWG/MainActivity"
     }
 }

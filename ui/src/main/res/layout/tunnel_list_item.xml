@@ -77,9 +77,19 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:nextFocusLeft="@+id/tunnel_list_item"
+            android:nextFocusLeft="@+id/tunnel_share"
             app:checked="@{item.state == State.UP}"
             app:onBeforeCheckedChanged="@{fragment::setTunnelState}"
             tools:checked="@sample/interface_names.json/names/checked/checked" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/tunnel_share"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/tunnel_switch"
+            android:contentDescription="@string/tunnel_share_description"
+            app:icon="@drawable/ic_action_share_white" />
     </org.amnezia.awg.widget.MultiselectableRelativeLayout>
 </layout>

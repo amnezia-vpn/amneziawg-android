@@ -15,18 +15,42 @@
         android:layout_marginLeft="@dimen/normal_margin"
         android:layout_marginEnd="@dimen/normal_margin"
         android:layout_marginRight="@dimen/normal_margin"
-        android:nextFocusDown="@id/create_from_qrcode"
-        android:nextFocusForward="@id/create_from_qrcode"
+        android:nextFocusDown="@id/create_from_subscription"
+        android:nextFocusForward="@id/create_from_subscription"
         android:text="@string/create_from_file"
         android:textAlignment="viewStart"
         android:textColor="?attr/colorOnSurface"
         app:icon="@drawable/ic_action_open"
         app:iconPadding="@dimen/bottom_sheet_icon_padding"
         app:iconTint="?attr/colorSecondary"
-        app:layout_constraintBottom_toTopOf="@+id/create_from_qrcode"
+        app:layout_constraintBottom_toTopOf="@+id/create_from_subscription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="parent"
+        app:rippleColor="?attr/colorSecondary" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/create_from_subscription"
+        style="@style/Widget.Material3.Button.TextButton.Icon"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_sheet_item_height"
+        android:layout_marginStart="@dimen/normal_margin"
+        android:layout_marginLeft="@dimen/normal_margin"
+        android:layout_marginEnd="@dimen/normal_margin"
+        android:layout_marginRight="@dimen/normal_margin"
+        android:nextFocusUp="@id/create_from_file"
+        android:nextFocusDown="@id/create_from_qrcode"
+        android:nextFocusForward="@id/create_from_qrcode"
+        android:text="@string/subscription_from_url"
+        android:textAlignment="viewStart"
+        android:textColor="?attr/colorOnSurface"
+        app:icon="@drawable/ic_action_subscription"
+        app:iconPadding="@dimen/bottom_sheet_icon_padding"
+        app:iconTint="?attr/colorSecondary"
+        app:layout_constraintBottom_toTopOf="@+id/create_from_qrcode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/create_from_file"
         app:rippleColor="?attr/colorSecondary" />
 
     <com.google.android.material.button.MaterialButton
@@ -38,7 +62,7 @@
         android:layout_marginLeft="@dimen/normal_margin"
         android:layout_marginEnd="@dimen/normal_margin"
         android:layout_marginRight="@dimen/normal_margin"
-        android:nextFocusUp="@id/create_from_file"
+        android:nextFocusUp="@id/create_from_subscription"
         android:nextFocusDown="@id/create_empty"
         android:nextFocusForward="@id/create_empty"
         android:text="@string/create_from_qr_code"
@@ -47,10 +71,10 @@
         app:icon="@drawable/ic_action_scan_qr_code"
         app:iconPadding="@dimen/bottom_sheet_icon_padding"
         app:iconTint="?attr/colorSecondary"
-        app:layout_constraintBottom_toBottomOf="@+id/create_empty"
+        app:layout_constraintBottom_toTopOf="@+id/create_empty"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/create_from_file"
+        app:layout_constraintTop_toBottomOf="@id/create_from_subscription"
         app:rippleColor="?attr/colorSecondary" />
 
     <com.google.android.material.button.MaterialButton
@@ -74,7 +98,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/delimiter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/create_from_qrcode"
+        app:layout_constraintTop_toBottomOf="@id/create_from_qrcode"
         app:rippleColor="?attr/colorSecondary" />
 
     <View
@@ -87,10 +111,10 @@
         android:layout_marginRight="@dimen/medium_margin"
         android:layout_marginBottom="14dp"
         android:background="?attr/colorSecondary"
-        app:layout_constraintBottom_toBottomOf="@+id/disclaimer"
+        app:layout_constraintBottom_toBottomOf="@id/disclaimer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/create_empty" />
+        app:layout_constraintTop_toBottomOf="@id/create_empty" />
 
     <TextView
         android:id="@+id/disclaimer"
@@ -110,6 +134,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/delimiter" />
+        app:layout_constraintTop_toBottomOf="@id/delimiter" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

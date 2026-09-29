@@ -68,6 +68,10 @@ class AddTunnelsSheet : BottomSheetDialogFragment() {
                     dismiss()
                     onRequestImportConfig()
                 }
+                dialog.findViewById<View>(R.id.create_from_subscription)?.setOnClickListener {
+                    dismiss()
+                    onRequestManageSubscriptions()
+                }
                 dialog.findViewById<View>(R.id.create_from_qrcode)?.setOnClickListener {
                     dismiss()
                     onRequestScanQRCode()
@@ -97,11 +101,16 @@ class AddTunnelsSheet : BottomSheetDialogFragment() {
         setFragmentResult(REQUEST_KEY_NEW_TUNNEL, bundleOf(REQUEST_METHOD to REQUEST_SCAN))
     }
 
+    private fun onRequestManageSubscriptions() {
+        setFragmentResult(REQUEST_KEY_NEW_TUNNEL, bundleOf(REQUEST_METHOD to REQUEST_SUBSCRIPTIONS))
+    }
+
     companion object {
         const val REQUEST_KEY_NEW_TUNNEL = "request_new_tunnel"
         const val REQUEST_METHOD = "request_method"
         const val REQUEST_CREATE = "request_create"
         const val REQUEST_IMPORT = "request_import"
         const val REQUEST_SCAN = "request_scan"
+        const val REQUEST_SUBSCRIPTIONS = "request_subscriptions"
     }
 }

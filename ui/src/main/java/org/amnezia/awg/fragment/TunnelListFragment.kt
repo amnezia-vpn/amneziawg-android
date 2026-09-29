@@ -21,8 +21,11 @@ import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayout
 import com.google.zxing.qrcode.QRCodeReader
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
@@ -30,9 +33,15 @@ import org.amnezia.awg.Application
 import org.amnezia.awg.R
 import org.amnezia.awg.activity.TunnelCreatorActivity
 import org.amnezia.awg.databinding.ObservableKeyedRecyclerViewAdapter.RowConfigurationHandler
+import org.amnezia.awg.databinding.ObservableSortedKeyedArrayList
 import org.amnezia.awg.databinding.TunnelListFragmentBinding
 import org.amnezia.awg.databinding.TunnelListItemBinding
 import org.amnezia.awg.model.ObservableTunnel
+import org.amnezia.awg.model.Subscription
+import org.amnezia.awg.model.TunnelComparator
+import org.amnezia.awg.subscription.SubscriptionStore
+import org.amnezia.awg.subscription.SubscriptionSyncManager
+import org.amnezia.awg.subscription.toMessage
 import org.amnezia.awg.util.ErrorMessages
 import org.amnezia.awg.util.QrCodeFromFileScanner
 import org.amnezia.awg.util.TunnelImporter
@@ -40,7 +49,26 @@ import org.amnezia.awg.widget.MultiselectableRelativeLayout
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+
+/**
+ * A grouping of tunnels shown in the list.
+ *
+ * [Default] holds every tunnel the user created or imported themselves — those not claimed by any
+ * subscription. [SubscriptionSpace] holds the tunnels one subscription owns. [All] is the union.
+ */
+sealed interface SpaceFilter {
+    data object All : SpaceFilter
+    data object Default : SpaceFilter
+    data class SubscriptionSpace(val id: String, val name: String) : SpaceFilter
+
+    fun owns(tunnelName: String, subscriptions: List<Subscription>): Boolean = when (this) {
+        All -> true
+        Default -> subscriptions.none { tunnelName in it.managedTunnels }
+        is SubscriptionSpace -> tunnelName in (subscriptions.firstOrNull { it.id == id }?.managedTunnels ?: emptySet())
+    }
+}
 
 /**
  * Fragment containing a list of known AmneziaWG tunnels. It allows creating and deleting tunnels.
@@ -50,6 +78,28 @@ class TunnelListFragment : BaseFragment() {
     private var actionMode: ActionMode? = null
     private var backPressedCallback: OnBackPressedCallback? = null
     private var binding: TunnelListFragmentBinding? = null
+
+    /** The tunnels actually shown, filtered down to the selected space. */
+    private val visibleTunnels = ObservableSortedKeyedArrayList<String, ObservableTunnel>(TunnelComparator)
+    private var subscriptions: List<Subscription> = emptyList()
+    private var selectedSpace: SpaceFilter = SpaceFilter.All
+
+    /** Guards against the programmatic rebuild of the tab strip re-entering the selection listener. */
+    private var updatingTabs = false
+
+    private val tabListener = object : TabLayout.OnTabSelectedListener {
+        override fun onTabSelected(tab: TabLayout.Tab) {
+            if (updatingTabs) return
+            val space = tab.tag as? SpaceFilter ?: return
+            if (space == selectedSpace) return
+            selectedSpace = space
+            refreshVisibleTunnels()
+        }
+
+        override fun onTabUnselected(tab: TabLayout.Tab) = Unit
+        override fun onTabReselected(tab: TabLayout.Tab) = Unit
+    }
+
     private val tunnelFileImportResultLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { data ->
         if (data == null) return@registerForActivityResult
         val activity = activity ?: return@registerForActivityResult
@@ -88,6 +138,16 @@ class TunnelListFragment : BaseFragment() {
                 for (i in checkedItems) actionModeListener.setItemChecked(i, true)
             }
         }
+        // The space strip is derived from the subscription list, so it has to follow it.
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                SubscriptionStore.subscriptions.collectLatest { updated ->
+                    subscriptions = updated
+                    rebuildSpaceTabs()
+                    refreshVisibleTunnels()
+                }
+            }
+        }
     }
 
     override fun onCreateView(
@@ -119,10 +179,18 @@ class TunnelListFragment : BaseFragment() {
                                     .setPrompt(getString(R.string.qr_code_hint))
                             )
                         }
+
+                        AddTunnelsSheet.REQUEST_SUBSCRIPTIONS -> {
+                            SubscriptionDialogFragment().show(childFragmentManager, SubscriptionDialogFragment.TAG)
+                        }
                     }
                 }
                 bottomSheet.showNow(childFragmentManager, "BOTTOM_SHEET")
             }
+            swipeRefresh.setOnRefreshListener { syncNow() }
+            // No explicit colour scheme: SwipeRefreshLayout picks up the themed colorPrimary, which
+            // keeps the spinner correct across the light and dark Material 3 palettes.
+            spaceTabs.addOnTabSelectedListener(tabListener)
             executePendingBindings()
         }
         backPressedCallback = requireActivity().onBackPressedDispatcher.addCallback(this) { actionMode?.finish() }
@@ -132,6 +200,7 @@ class TunnelListFragment : BaseFragment() {
     }
 
     override fun onDestroyView() {
+        binding?.spaceTabs?.removeOnTabSelectedListener(tabListener)
         binding = null
         super.onDestroyView()
     }
@@ -143,11 +212,8 @@ class TunnelListFragment : BaseFragment() {
 
     override fun onSelectedTunnelChanged(oldTunnel: ObservableTunnel?, newTunnel: ObservableTunnel?) {
         binding ?: return
-        lifecycleScope.launch {
-            val tunnels = Application.getTunnelManager().getTunnels()
-            if (newTunnel != null) viewForTunnel(newTunnel, tunnels)?.setSingleSelected(true)
-            if (oldTunnel != null) viewForTunnel(oldTunnel, tunnels)?.setSingleSelected(false)
-        }
+        if (newTunnel != null) viewForTunnel(newTunnel)?.setSingleSelected(true)
+        if (oldTunnel != null) viewForTunnel(oldTunnel)?.setSingleSelected(false)
     }
 
     private fun onTunnelDeletionFinished(count: Int, throwable: Throwable?) {
@@ -167,7 +233,10 @@ class TunnelListFragment : BaseFragment() {
         super.onViewStateRestored(savedInstanceState)
         binding ?: return
         binding!!.fragment = this
-        lifecycleScope.launch { binding!!.tunnels = Application.getTunnelManager().getTunnels() }
+        lifecycleScope.launch {
+            binding!!.tunnels = visibleTunnels
+            refreshVisibleTunnels()
+        }
         binding!!.rowConfigurationHandler = object : RowConfigurationHandler<TunnelListItemBinding, ObservableTunnel> {
             override fun onConfigureRow(binding: TunnelListItemBinding, item: ObservableTunnel, position: Int) {
                 binding.fragment = this@TunnelListFragment
@@ -182,6 +251,13 @@ class TunnelListFragment : BaseFragment() {
                     actionModeListener.toggleItemChecked(position)
                     true
                 }
+                binding.tunnelShare.contentDescription =
+                    getString(R.string.tunnel_share_description, item.name)
+                // A separate click listener rather than a data binding expression: the share menu is
+                // built imperatively and needs the row's anchor view, which the layout cannot pass.
+                binding.tunnelShare.setOnClickListener { anchor ->
+                    showTunnelShareMenu(item, anchor)
+                }
                 if (actionMode != null)
                     (binding.root as MultiselectableRelativeLayout).setMultiSelected(actionModeListener.checkedItems.contains(position))
                 else
@@ -190,7 +266,99 @@ class TunnelListFragment : BaseFragment() {
         }
     }
 
+    /**
+     * Rebuilds the space strip as `All`, `Default`, then one tab per subscription. The selected
+     * space is preserved if it still exists; if its subscription was deleted, fall back to `All`.
+     */
+    private fun rebuildSpaceTabs() {
+        val tabs = binding?.spaceTabs ?: return
+        if (selectedSpace is SpaceFilter.SubscriptionSpace &&
+            subscriptions.none { it.id == (selectedSpace as SpaceFilter.SubscriptionSpace).id }
+        ) {
+            selectedSpace = SpaceFilter.All
+        }
+        val spaces = buildList {
+            add(SpaceFilter.All)
+            add(SpaceFilter.Default)
+            subscriptions.forEach { add(SpaceFilter.SubscriptionSpace(it.id, it.name)) }
+        }
+        updatingTabs = true
+        try {
+            tabs.removeAllTabs()
+            spaces.forEach { space ->
+                tabs.addTab(tabs.newTab().setText(space.label()).setTag(space))
+            }
+            val index = spaces.indexOf(selectedSpace).coerceAtLeast(0)
+            tabs.getTabAt(index)?.select()
+        } finally {
+            updatingTabs = false
+        }
+    }
+
+    private fun SpaceFilter.label(): String = when (this) {
+        SpaceFilter.All -> getString(R.string.space_all)
+        SpaceFilter.Default -> getString(R.string.space_default)
+        is SpaceFilter.SubscriptionSpace -> name
+    }
+
+    /**
+     * Rebuilds [visibleTunnels] from the tunnel manager and the current space selection.
+     *
+     * The bound adapter observes [visibleTunnels], not the tunnel manager, so anything that
+     * creates or deletes tunnels behind the list's back must call this. That includes the
+     * subscription engine: a sync or a subscription removal changes the tunnel set without
+     * touching this fragment.
+     */
+    fun refreshTunnels() {
+        refreshVisibleTunnels()
+    }
+
+    /** Repopulates [visibleTunnels] with whichever tunnels belong to the selected space. */
+    private fun refreshVisibleTunnels() {
+        lifecycleScope.launch {
+            val all = Application.getTunnelManager().getTunnels()
+            val filtered = all.filter { selectedSpace.owns(it.name, subscriptions) }
+            visibleTunnels.clear()
+            visibleTunnels.addAll(filtered)
+            updateEmptyState(filtered.isEmpty())
+        }
+    }
+
+    private fun updateEmptyState(isEmpty: Boolean) {
+        val placeholder = binding?.emptyPlaceholderText ?: return
+        placeholder.text = when {
+            !isEmpty -> ""
+            selectedSpace is SpaceFilter.SubscriptionSpace ->
+                getString(R.string.space_placeholder_subscription, selectedSpace.label())
+            selectedSpace == SpaceFilter.Default -> getString(R.string.space_placeholder_default)
+            else -> getString(R.string.tunnel_list_placeholder)
+        }
+    }
+
+    /**
+     * Runs a manual sync of every enabled subscription, reporting the outcome. Backs both
+     * pull-to-refresh and the toolbar action.
+     */
+    fun syncNow() {
+        val swipeRefresh = binding?.swipeRefresh ?: return
+        lifecycleScope.launch {
+            swipeRefresh.isRefreshing = true
+            val message = try {
+                SubscriptionSyncManager.syncAll().toMessage(requireContext())
+                    ?: getString(R.string.sync_no_subscriptions)
+            } catch (e: Throwable) {
+                Log.e(TAG, "Manual subscription sync failed", e)
+                getString(R.string.sync_failed, ErrorMessages[e])
+            } finally {
+                binding?.swipeRefresh?.isRefreshing = false
+            }
+            refreshVisibleTunnels()
+            showSnackbar(message)
+        }
+    }
+
     private fun showSnackbar(message: CharSequence) {
+        refreshVisibleTunnels()
         val binding = binding
         if (binding != null)
             Snackbar.make(binding.mainContainer, message, Snackbar.LENGTH_LONG)
@@ -200,8 +368,16 @@ class TunnelListFragment : BaseFragment() {
             Toast.makeText(activity ?: Application.get(), message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun viewForTunnel(tunnel: ObservableTunnel, tunnels: List<*>): MultiselectableRelativeLayout? {
-        return binding?.tunnelList?.findViewHolderForAdapterPosition(tunnels.indexOf(tunnel))?.itemView as? MultiselectableRelativeLayout
+    /**
+     * Locates the row for [tunnel] in the *visible* list, since that is what the adapter is
+     * showing and therefore what the adapter positions refer to.
+     */
+    private fun viewForTunnel(tunnel: ObservableTunnel): MultiselectableRelativeLayout? {
+        val position = visibleTunnels.indexOfKey(tunnel.name)
+        if (position < 0) return null
+        return binding?.tunnelList
+            ?.findViewHolderForAdapterPosition(position)?.itemView
+            as? MultiselectableRelativeLayout
     }
 
     private inner class ActionModeListener : ActionMode.Callback {
@@ -224,13 +400,15 @@ class TunnelListFragment : BaseFragment() {
                     }
                     activity.lifecycleScope.launch {
                         try {
-                            val tunnels = Application.getTunnelManager().getTunnels()
+                            val tunnels = visibleTunnels.toList()
                             val tunnelsToDelete = ArrayList<ObservableTunnel>()
                             for (position in copyCheckedItems) tunnelsToDelete.add(tunnels[position])
                             val futures = tunnelsToDelete.map { async(SupervisorJob()) { it.deleteAsync() } }
                             onTunnelDeletionFinished(futures.awaitAll().size, null)
                         } catch (e: Throwable) {
                             onTunnelDeletionFinished(0, e)
+                        } finally {
+                            refreshVisibleTunnels()
                         }
                     }
                     checkedItems.clear()
@@ -239,11 +417,8 @@ class TunnelListFragment : BaseFragment() {
                 }
 
                 R.id.menu_action_select_all -> {
-                    lifecycleScope.launch {
-                        val tunnels = Application.getTunnelManager().getTunnels()
-                        for (i in 0 until tunnels.size) {
-                            setItemChecked(i, true)
-                        }
+                    for (i in 0 until visibleTunnels.size) {
+                        setItemChecked(i, true)
                     }
                     true
                 }

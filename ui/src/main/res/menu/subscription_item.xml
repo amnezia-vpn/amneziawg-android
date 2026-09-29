@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/subscription_menu_edit"
+        android:title="@string/subscription_edit" />
+    <item
+        android:id="@+id/subscription_menu_pause"
+        android:title="@string/subscription_pause" />
+    <item
+        android:id="@+id/subscription_menu_delete"
+        android:title="@string/subscription_delete" />
+</menu>

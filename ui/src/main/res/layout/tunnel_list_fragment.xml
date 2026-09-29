@@ -27,46 +27,78 @@
         android:background="?attr/colorSurface"
         android:clipChildren="false">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/tunnel_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:nextFocusDown="@id/create_fab"
-            android:nextFocusForward="@id/create_fab"
-            android:paddingBottom="@{@dimen/design_fab_size_normal * 1.1f}"
-            android:visibility="@{tunnels.size() > 0 ? android.view.View.VISIBLE : android.view.View.GONE}"
-            app:configurationHandler="@{rowConfigurationHandler}"
-            app:items="@{tunnels}"
-            app:layout="@{@layout/tunnel_list_item}"
-            tools:itemCount="12"
-            tools:listitem="@layout/tunnel_list_item" />
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:visibility="@{tunnels.size() == 0 ? android.view.View.VISIBLE : android.view.View.GONE}"
-            tools:visibility="gone">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/logo_placeholder"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="20dp"
-                android:alpha="0.3333333"
-                android:src="@drawable/ic_icon" />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/space_tabs"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/tunnel_list_placeholder_margin"
-                android:layout_marginEnd="@dimen/tunnel_list_placeholder_margin"
-                android:text="@string/tunnel_list_placeholder"
-                android:textSize="20sp" />
+                android:background="?attr/colorSurface"
+                app:tabGravity="start"
+                app:tabMode="scrollable" />
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_refresh"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/tunnel_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clipToPadding="false"
+                        android:nextFocusDown="@id/create_fab"
+                        android:nextFocusForward="@id/create_fab"
+                        android:paddingBottom="@{@dimen/design_fab_size_normal * 1.1f}"
+                        android:visibility="@{tunnels.size() > 0 ? android.view.View.VISIBLE : android.view.View.GONE}"
+                        app:configurationHandler="@{rowConfigurationHandler}"
+                        app:items="@{tunnels}"
+                        app:layout="@{@layout/tunnel_list_item}"
+                        tools:itemCount="12"
+                        tools:listitem="@layout/tunnel_list_item" />
+
+                    <LinearLayout
+                        android:id="@+id/empty_placeholder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="@{tunnels.size() == 0 ? android.view.View.VISIBLE : android.view.View.GONE}"
+                        tools:visibility="gone">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="140dp"
+                            android:layout_height="140dp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="20dp"
+                            android:alpha="0.3333333"
+                            android:src="@drawable/ic_icon" />
+
+                        <TextView
+                            android:id="@+id/empty_placeholder_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="@dimen/tunnel_list_placeholder_margin"
+                            android:layout_marginEnd="@dimen/tunnel_list_placeholder_margin"
+                            android:gravity="center"
+                            android:text="@string/tunnel_list_placeholder"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
         </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

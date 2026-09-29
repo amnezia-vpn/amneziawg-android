@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Cleartext HTTP is refused by default: a subscription URL carries the user's private
+  keys, so anything that can be reached over the open internet must use HTTPS.
+
+  The exceptions below are the loopback and emulator-host aliases, which by definition
+  never leave the device or the developer's machine. They are allowed so that a
+  self-hosted provider running on the local network can be tested, and so that the
+  test fixtures served from a workstation are reachable from an emulator.
+
+  Android's network security config cannot express CIDR ranges, so arbitrary RFC1918
+  addresses are not covered. A provider reachable only at, say, 192.168.1.10 over HTTP
+  will still be rejected; serve that case over HTTPS, or add the address here if a
+  deployment genuinely requires it.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">localhost</domain>
+        <domain includeSubdomains="true">127.0.0.1</domain>
+        <!-- Standard Android emulator alias for the host machine's loopback. -->
+        <domain includeSubdomains="true">10.0.2.2</domain>
+        <!-- Genymotion's equivalent alias. -->
+        <domain includeSubdomains="true">10.0.3.2</domain>
+    </domain-config>
+</network-security-config>

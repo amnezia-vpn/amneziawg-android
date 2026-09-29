@@ -100,6 +100,8 @@
     <string name="create_temp_dir_error">Cannot create local temporary directory</string>
     <string name="create_tunnel">Create Tunnel</string>
     <string name="copied_to_clipboard">%s copied to clipboard</string>
+    <string name="copy">Copy</string>
+    <string name="share">Share</string>
     <string name="dark_theme_summary_off">Currently using light (day) theme</string>
     <string name="dark_theme_summary_on">Currently using dark (night) theme</string>
     <string name="dark_theme_title">Use dark theme</string>
@@ -266,10 +268,84 @@
     <string name="zip_export_summary">Zip file will be saved to downloads folder</string>
     <string name="zip_export_title">Export tunnels to zip file</string>
     <string name="biometric_prompt_zip_exporter_title">Authenticate to export tunnels</string>
+    <string name="biometric_prompt_share_tunnel_title">Authenticate to share this tunnel</string>
     <string name="biometric_prompt_private_key_title">Authenticate to view private key</string>
     <string name="biometric_auth_error">Authentication failure</string>
     <string name="biometric_auth_error_reason">Authentication failure: %s</string>
     <string name="import_disclaimer">Ensure that you obtained the configuration file from a trusted source.\n\nOfficial Amnezia services are available only at <a href="https://amnezia.org">amnezia.org</a>\n</string>
     <string name="tunnel_status_connected">Connected</string>
     <string name="tunnel_status_connecting">Connecting…</string>
+
+    <!-- Subscriptions -->
+    <string name="subscription_title">Subscriptions</string>
+    <string name="subscription_add">Add subscription</string>
+    <string name="subscription_from_url">From subscription URL</string>
+    <string name="subscription_name_hint">Name</string>
+    <string name="subscription_url_hint">Subscription URL</string>
+    <string name="subscription_empty">No subscriptions yet. Add one to keep your tunnels in sync with your provider.</string>
+    <string name="subscription_sync_now">Sync now</string>
+    <string name="subscription_syncing">Syncing…</string>
+    <string name="subscription_never_synced">Never synced</string>
+    <string name="subscription_last_synced">Last synced %s</string>
+    <string name="subscription_managed_count">%d tunnels</string>
+    <string name="subscription_disabled">Paused</string>
+    <string name="subscription_delete_title">Delete subscription?</string>
+    <string name="subscription_delete_message">This permanently deletes “%1$s” and the %2$d tunnels it created. This cannot be undone.</string>
+    <string name="subscription_delete_none">This permanently deletes “%1$s”.</string>
+    <string name="subscription_url_invalid">Enter a valid http or https URL</string>
+    <string name="subscription_name_required">Enter a name</string>
+    <string name="subscription_saved">Subscription “%s” added</string>
+    <string name="subscription_removed">Subscription removed</string>
+    <string name="subscription_updated">Subscription “%s” updated</string>
+    <string name="subscription_delete">Remove</string>
+    <string name="subscription_edit">Edit</string>
+    <string name="subscription_pause">Pause</string>
+    <string name="subscription_resume">Resume</string>
+    <string name="sync_no_subscriptions">No subscriptions to sync</string>
+    <string name="sync_nothing_to_do">Everything is up to date</string>
+    <string name="sync_summary">Synced: %1$d added, %2$d updated, %3$d removed</string>
+    <string name="sync_partial_failure">Synced with errors: %s</string>
+    <string name="sync_failed">Sync failed: %s</string>
+    <string name="action_sync">Sync subscriptions</string>
+
+    <!-- Spaces -->
+    <string name="space_all">All</string>
+    <string name="space_default">Default</string>
+    <string name="space_all_tab">All spaces</string>
+    <string name="space_default_tab">Default space</string>
+    <string name="space_tab_description">%1$s space</string>
+    <string name="space_placeholder_default">No tunnels in the default space. Add one with the button below, or pull a subscription in.</string>
+    <string name="space_placeholder_subscription">%1$s has no tunnels yet.</string>
+    <string name="space_tab_content_description">Show %s</string>
+
+    <!-- Sharing tunnels and subscriptions -->
+    <string name="tunnel_share_description">Share %1$s</string>
+    <string name="tunnel_share_copy">Copy configuration</string>
+    <string name="tunnel_share_qr">Show QR code</string>
+    <string name="tunnel_share_export">Save as file</string>
+    <string name="tunnel_share_copy_label">AmneziaWG configuration</string>
+    <string name="tunnel_share_read_error">Unable to read the configuration: %s</string>
+    <string name="tunnel_share_subject">AmneziaWG configuration for %1$s</string>
+    <string name="subscription_share_description">Share %1$s</string>
+    <string name="subscription_share_copy">Copy link</string>
+    <string name="subscription_share_qr">Show QR code</string>
+    <string name="subscription_share_export">Save link as file</string>
+    <string name="subscription_share_copy_label">Subscription link</string>
+    <string name="subscription_share_subject">AmneziaWG subscription %1$s</string>
+
+    <string name="share_confirm_title">This is a secret</string>
+    <string name="share_confirm_link">Anyone with this link can download your configurations. Share it only with your provider or your own devices.</string>
+    <string name="share_continue">Continue</string>
+    <string name="share_export_success">Saved to “%s”</string>
+    <string name="share_export_error">Unable to save: %s</string>
+    <string name="share_export_denied">Export is disabled by your administrator</string>
+
+    <!-- QR code -->
+    <string name="qr_code_title">Scan to transfer</string>
+    <string name="qr_code_content_description">QR code containing the shared data</string>
+    <string name="qr_code_contains_private_key">This code contains your private key. Anyone who scans it can use this tunnel as you.</string>
+    <string name="qr_code_contains_link">This code is your subscription link. Anyone who scans it can download your configurations.</string>
+    <string name="qr_code_too_long">Too long to fit in a QR code. Use Copy instead.</string>
+    <string name="qr_code_copy_label">Shared data</string>
+    <string name="qr_code_share_subject">AmneziaWG</string>
 </resources>
